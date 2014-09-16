@@ -31,6 +31,11 @@ public class MainCameraController : MonoBehaviour {
         var posZ = (float)(gridMapScript.blockBreadth * 0.5f);
         var fov = (float)CameraValues.minFOW;
 
+        if(gridMapScript.columns > (gridMapScript.rows * 2))
+            posY = gridMapScript.rows + 2.5f + (gridMapScript.columns - (gridMapScript.rows * 2));
+        else
+            posY = gridMapScript.rows + 2.5f;
+
         _position = new Vector3(posX, posY, posZ);
         transform.position = _position;
         transform.rotation = CameraValues.CameraRotation;
@@ -60,7 +65,8 @@ public class MainCameraController : MonoBehaviour {
         tempLight.AddComponent<Light>();
         Light lightDetails = tempLight.GetComponent<Light>();
         lightDetails.type = LightType.Directional;
-        lightDetails.intensity = 0.85f;
+        lightDetails.intensity = 0.50f;
+        lightDetails.shadows = LightShadows.Soft;
 
         tempCamera.AddComponent<MainCameraController>();
     }
