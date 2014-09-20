@@ -80,6 +80,9 @@
         }
 
         private void CheckCurrentBlock() {
+            if(currentBlock == null)
+                return;
+
             if(currentBlock.GetComponent<Block>().blockState == BlockValues.BlockState.UP)
                 this.transform.position = new Vector3(transform.position.x, 2.75f, transform.position.z);
             else if(currentBlock.GetComponent<Block>().blockState == BlockValues.BlockState.DOWN)
