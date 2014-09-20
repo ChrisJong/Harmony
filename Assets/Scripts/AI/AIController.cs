@@ -46,33 +46,34 @@
         private void GetInput() {
             if(isMoving)
                 return;
-
+            
             GetCurrentBlock();
+            //CheckCurrentBlock();
             AIMovement.instance.verticalVelocity = AIMovement.instance.moveVector.y;
             AIMovement.instance.moveVector = Vector3.zero;
 
             if(Input.GetKeyDown(KeyCode.UpArrow)) {
                 previousDirection = currentDirection;
                 currentDirection = PlayerValues.PlayerDirection.FORWARD;
-                //gridController.ActivateBlocks(currentDirection, previousDirection);
+                gridController.ActivateBlocks(currentDirection, previousDirection);
                 AIMovement.instance.moveVector = new Vector3(0, 0, -1);
                 isMoving = true;
             } else if(Input.GetKeyDown(KeyCode.RightArrow)) {
                 previousDirection = currentDirection;
                 currentDirection = PlayerValues.PlayerDirection.RIGHT;
-                //gridController.ActivateBlocks(currentDirection, previousDirection);
+                gridController.ActivateBlocks(currentDirection, previousDirection);
                 AIMovement.instance.moveVector = new Vector3(-1, 0, 0);
                 isMoving = true;
             } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
                 previousDirection = currentDirection;
                 currentDirection = PlayerValues.PlayerDirection.BACKWARD;
-                //gridController.ActivateBlocks(currentDirection, previousDirection);
+                gridController.ActivateBlocks(currentDirection, previousDirection);
                 AIMovement.instance.moveVector = new Vector3(0, 0, 1);
                 isMoving = true;
             } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
                 previousDirection = currentDirection;
                 currentDirection = PlayerValues.PlayerDirection.LEFT;
-                //gridController.ActivateBlocks(currentDirection, previousDirection);
+                gridController.ActivateBlocks(currentDirection, previousDirection);
                 AIMovement.instance.moveVector = new Vector3(1, 0, 0);
                 isMoving = true;
             }
@@ -83,10 +84,12 @@
             if(currentBlock == null)
                 return;
 
-            if(currentBlock.GetComponent<Block>().blockState == BlockValues.BlockState.UP)
+            if(this.currentBlock.GetComponent<Block>().blockState == BlockValues.BlockState.UP) {
                 this.transform.position = new Vector3(transform.position.x, 2.75f, transform.position.z);
-            else if(currentBlock.GetComponent<Block>().blockState == BlockValues.BlockState.DOWN)
+                Debug.Log("MoveUp");
+            } else if(this.currentBlock.GetComponent<Block>().blockState == BlockValues.BlockState.DOWN) {
                 this.transform.position = new Vector3(transform.position.x, 1.5f, transform.position.z);
+            }
         }
 
         private bool CastCollisionRays() {
@@ -112,7 +115,9 @@
             Debug.DrawRay(tempOrigin, rayDirection * 0.5f, Color.red);
             if(Physics.Raycast(tempOrigin, rayDirection, out hitInfo, 0.5f)) {
                 if(hitInfo.collider != null) {
-                    if(hitInfo.collider.tag == "AI") {
+                    if(hitInfo.collider.tag == "Player") {
+                        UnityEditor.EditorApplication.isPlaying = false;
+                        Application.Quit();
                         return false;
                     } else {
                         isMoving = false;
@@ -127,13 +132,13 @@
 
         private void GetCurrentBlock() {
             RaycastHit hitInfo;
-            currentBlock = null;
+            //this.currentBlock = null;
             Vector3 rayDirection = transform.TransformDirection(Vector3.down);
 
             Debug.DrawRay(transform.position, rayDirection * 100.0f, Color.red);
             if(Physics.Raycast(transform.position, rayDirection, out hitInfo, 5.0f)) {
                 if(hitInfo.transform.tag == "Block") {
-                    currentBlock = hitInfo.transform.gameObject;
+                    this.currentBlock = hitInfo.transform.gameObject;
                 }
             }
         }

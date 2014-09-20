@@ -46,28 +46,29 @@
             if(Input.GetKeyDown(KeyCode.UpArrow)) {
                 previousDirection = currentDirection;
                 currentDirection = PlayerValues.PlayerDirection.FORWARD;
-                gridController.ActivateBlocks(currentDirection, previousDirection);
+                //gridController.ActivateBlocks(currentDirection, previousDirection);
                 PlayerMovement.instance.moveVector = new Vector3(0, 0, 1);
                 isMoving = true;
             } else if(Input.GetKeyDown(KeyCode.RightArrow)) {
                 previousDirection = currentDirection;
                 currentDirection = PlayerValues.PlayerDirection.RIGHT;
-                gridController.ActivateBlocks(currentDirection, previousDirection);
+                //gridController.ActivateBlocks(currentDirection, previousDirection);
                 PlayerMovement.instance.moveVector = new Vector3(1, 0, 0);
                 isMoving = true;
             } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
                 previousDirection = currentDirection;
                 currentDirection = PlayerValues.PlayerDirection.BACKWARD;
-                gridController.ActivateBlocks(currentDirection, previousDirection);
+                //gridController.ActivateBlocks(currentDirection, previousDirection);
                 PlayerMovement.instance.moveVector = new Vector3(0, 0, -1);
                 isMoving = true;
             } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
                 previousDirection = currentDirection;
                 currentDirection = PlayerValues.PlayerDirection.LEFT;
-                gridController.ActivateBlocks(currentDirection, previousDirection);
+                //gridController.ActivateBlocks(currentDirection, previousDirection);
                 PlayerMovement.instance.moveVector = new Vector3(-1, 0, 0);
                 isMoving = true;
             }
+            gridController.ActivateBlocks(currentDirection, previousDirection);
             CheckCurrentBlock();
         }
 
@@ -105,6 +106,8 @@
             if(Physics.Raycast(tempOrigin, rayDirection, out hitInfo, 0.5f)) {
                 if(hitInfo.collider != null) {
                     if(hitInfo.collider.tag == "AI") {
+                        UnityEditor.EditorApplication.isPlaying = false;
+                        Application.Quit();
                         return false;
                     } else {
                         isMoving = false;
