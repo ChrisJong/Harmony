@@ -4,15 +4,78 @@
     using System.Collections;
 
     using Constants;
+
+    public class PlayerMovement : MonoBehaviour {
+
+        public static PlayerMovement instance;
+
+        public float moveSpeed = 10.0f;
+        public float gravity = 1000.0f;
+        public float terminalVelocity = 20.0f;
+
+        public Vector3 moveVector;
+        public float verticalVelocity;
+
+        void Awake() {
+            instance = this;
+        }
+
+        public void UpdateMovement() {
+            ProcessMovement();
+        }
+
+        private void ProcessMovement() {
+            if(PlayerController.instance.isMoving)
+                moveVector = transform.TransformDirection(moveVector);
+
+            if(moveVector.magnitude > 1)
+                moveVector = Vector3.Normalize(moveVector);
+
+            moveVector *= moveSpeed;
+
+            moveVector = new Vector3(moveVector.x, verticalVelocity, moveVector.z);
+
+            ApplyGravity();
+
+            PlayerController.characterController.Move(moveVector * Time.deltaTime);
+        }
+
+        private void ApplyGravity() {
+            if(moveVector.y > -terminalVelocity) {
+                moveVector = new Vector3(moveVector.x, moveVector.y - gravity * Time.deltaTime, moveVector.z);
+            }
+
+            if(PlayerController.characterController.isGrounded && moveVector.y < -1) {
+                moveVector = new Vector3(moveVector.x, -1, moveVector.z);
+            }
+        }
+
+        public Vector3 MoveVector {
+            get { return moveVector; }
+            set { moveVector = value; }
+        }
+
+        public float VerticalVelocity {
+            get { return verticalVelocity; }
+            set { verticalVelocity = value; }
+        }
+    }
+}
+
+
+/*namespace Player {
+
+    using UnityEngine;
+    using System.Collections;
+
+    using Constants;
     using GridGenerator;
     using Blocks;
-    using AI;
 
     public class PlayerMovement : MonoBehaviour {
 
         public GridController gridController;
         public CharacterController mainController;
-        public AIMovement aiPlayer;
         public GameObject currentBlock;
 
         public float moveSpeed = 7.0f;
@@ -25,9 +88,9 @@
         public PlayerValues.PlayerDirection currentDirection;
         public PlayerValues.PlayerDirection previousDirection;
 
-        public float gravity = 21.0f;
+        public float gravity = 100.0f;
         //private float _terminalVelocity = 1.0f;
-        private float _verticalVelocity;
+        public float _verticalVelocity;
 
         private float _rayDistance = 0.5f;
 
@@ -42,8 +105,12 @@
 
         void Update() {
             GetControlInput();
-            CastRay();
-            ProcessMovement();
+            if(isMoving)
+                ProcessMovement();
+            else
+                ResetMovement();
+            
+            //ProcessMovement();
         }
 
         public void ResetMovement() {
@@ -53,30 +120,24 @@
         }
 
         private void GetControlInput() {
-            if(aiPlayer == null)
-                aiPlayer = GameObject.FindGameObjectWithTag("AI").GetComponent<AIMovement>();
-
-            if(!isMoving && !aiPlayer.isMoving) {
+            GetCurrentBlock();
+            CastRay();
+            if(!isMoving) {
                 if(Input.GetKeyDown(KeyCode.UpArrow)) {
                     previousDirection = currentDirection;
                     currentDirection = PlayerValues.PlayerDirection.FORWARD;
-                    //aiPlayer.currentDirection = currentDirection;
                     gridController.ActivateBlocks(currentDirection, previousDirection);
-                    ResetMovement();
                     moveVector = new Vector3(0, 0, 1);
                     isMoving = true;
                 } else if(Input.GetKeyDown(KeyCode.RightArrow)) {
                     previousDirection = currentDirection;
                     currentDirection = PlayerValues.PlayerDirection.RIGHT;
-                    //aiPlayer.currentDirection = currentDirection;
                     gridController.ActivateBlocks(currentDirection, previousDirection);
-                    ResetMovement();
                     moveVector = new Vector3(1, 0, 0);
                     isMoving = true;
                 } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
                     previousDirection = currentDirection;
                     currentDirection = PlayerValues.PlayerDirection.BACKWARD;
-                    //aiPlayer.currentDirection = currentDirection;
                     gridController.ActivateBlocks(currentDirection, previousDirection);
                     ResetMovement();
                     moveVector = new Vector3(0, 0, -1);
@@ -84,25 +145,23 @@
                 } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
                     previousDirection = currentDirection;
                     currentDirection = PlayerValues.PlayerDirection.LEFT;
-                    //aiPlayer.currentDirection = currentDirection;
                     gridController.ActivateBlocks(currentDirection, previousDirection);
                     ResetMovement();
                     moveVector = new Vector3(-1, 0, 0);
                     isMoving = true;
                 }
-                
-            } else
-                return;
+                CheckCurrentBlock();
+                CastRay();
+            }
         }
 
         private void ProcessMovement() {
-            GetCurrentBlock();
             if(isMoving) {
-                
                 moveVector = transform.TransformDirection(moveVector);
             } else {
                 moveVector = new Vector3(0, moveVector.y, 0);
             }
+
             if(moveVector.magnitude > 1.0f)
                 moveVector = Vector3.Normalize(moveVector);
 
@@ -114,27 +173,22 @@
 
             mainController.Move(moveVector * Time.deltaTime);
             
+            CastRay();
         }
 
         private void ApplyGravity() {
-
-            var distanceToGround = transform.position.y - currentBlock.transform.position.y;
-
-            //Debug.Log(distanceToGround.ToString());
-
-            float offset = 0.2f;
-
-            if(distanceToGround >= 0.8f && distanceToGround <= 1.2f) {
-                //Debug.Log("Reset");
-                transform.position = new Vector3(transform.position.x, Round(transform.position.y), transform.position.z);
-                return;
+            if(mainController.isGrounded){
+                _verticalVelocity = 0.0f;
+            } else {
+                _verticalVelocity -= 20;
             }
+        }
 
-            if(distanceToGround < (1.0f - offset)) {
-                //Debug.Log("Up");
-                moveVector = new Vector3(moveVector.x, 50.0f, moveVector.z);
-            } else if(distanceToGround > 1.0f + offset)
-                moveVector = new Vector3(moveVector.x, -20.0f, moveVector.z);
+        private void CheckCurrentBlock() {
+            if(currentBlock.GetComponent<Block>().blockState == BlockValues.BlockState.UP)
+                this.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+            else if(currentBlock.GetComponent<Block>().blockState == BlockValues.BlockState.DOWN)
+                this.transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
         }
 
         private void CastRay() {
@@ -155,8 +209,9 @@
                 rayDirection += transform.TransformDirection(Vector3.left);
                 break;
             }
-            Vector3 tempOrigin = new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z);
-            Debug.DrawRay(tempOrigin, rayDirection * 100.0f, Color.red);
+
+            Vector3 tempOrigin = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            Debug.DrawRay(tempOrigin, rayDirection * _rayDistance, Color.red);
             if(Physics.Raycast(tempOrigin, rayDirection, out hitInfo, _rayDistance)) {
                 //Debug.Log(hitInfo.transform.name);
                 if(hitInfo.collider != null) {
@@ -175,11 +230,10 @@
 
             Debug.DrawRay(transform.position, rayDirection * 100.0f, Color.red);
             if(Physics.Raycast(transform.position, rayDirection, out hitInfo, 5.0f)) {
-                //Debug.Log(hitInfo.transform.name);
                 if(hitInfo.transform.tag == "Block") {
                     currentBlock = hitInfo.transform.gameObject;
                 }
             }
         }
     }
-}
+}*/

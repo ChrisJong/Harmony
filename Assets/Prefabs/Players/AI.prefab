@@ -14,6 +14,7 @@ GameObject:
   - 65: {fileID: 6500000}
   - 143: {fileID: 14300000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: AI
   m_TagString: AI
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .5, y: .5, z: .5}
+  m_LocalScale: {x: .75, y: .75, z: .75}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -80,21 +81,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35fe975ae6b5e9540bd5acbd27db38ef, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e261508b7a1477498dde2b6f8d67dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridController: {fileID: 0}
-  mainController: {fileID: 0}
-  humanPlayer: {fileID: 0}
   currentBlock: {fileID: 0}
-  moveSpeed: 7
-  isMoving: 0
-  moveVector: {x: 0, y: 0, z: 0}
-  currentPosition: {x: 0, y: 0, z: 0}
-  previousPosition: {x: 0, y: 0, z: 0}
   currentDirection: 0
   previousDirection: 0
-  gravity: 21
+  isMoving: 0
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01a1a80800f33e6428886c54b82443d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
+  gravity: 1000
+  terminalVelocity: 20
+  moveVector: {x: 0, y: 0, z: 0}
+  verticalVelocity: 0
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -114,11 +123,11 @@ CharacterController:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   serializedVersion: 2
-  m_Height: .5
-  m_Radius: .25
-  m_SlopeLimit: 0
-  m_StepOffset: 0
-  m_SkinWidth: 9.99999975e-05
+  m_Height: 1.5
+  m_Radius: .500000119
+  m_SlopeLimit: 45
+  m_StepOffset: .300000012
+  m_SkinWidth: .0799999982
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000

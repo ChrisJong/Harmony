@@ -18,10 +18,13 @@
         public BlockValues.BlockState blockState;
         public bool frozen;
 
+        public Vector3 pass;
+
         void Awake() {
             _blockSpeed = 20.0f;
             _blockVelocity = Vector3.zero;
             _blockPosition = this.transform.position;
+            pass = _blockVelocity = _blockSpeed * transform.TransformDirection(Vector3.up);
             
             //_blockHeight = 1.0f;
         }
@@ -45,10 +48,11 @@
         public void MoveUp() {
             //blockState = BlockState.UP;
             //while(blockState == BlockState.UP) {
-                _blockVelocity = _blockSpeed * transform.TransformDirection(Vector3.up);
-                _blockPosition += _blockVelocity * Time.deltaTime;
+                //_blockVelocity = _blockSpeed * transform.TransformDirection(Vector3.up);
+                //_blockPosition += _blockVelocity * Time.deltaTime;
+            _blockPosition = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
                 this.transform.position = _blockPosition;
-                if(this.transform.position.y >= 0.95f) {
+                if(this.transform.position.y >= 1.0f) {
                     this.transform.position = new Vector3(this.transform.position.x, 0.95f, this.transform.position.z);
                     _blockVelocity = Vector3.zero;
                     _blockPosition = this.transform.position;
@@ -61,8 +65,9 @@
         public void MoveDown() {
             //blockState = BlockState.DOWN;
             //while(blockState == BlockState.DOWN) {
-                _blockVelocity = _blockSpeed * transform.TransformDirection(Vector3.down);
-                _blockPosition += _blockVelocity * Time.deltaTime;
+                //_blockVelocity = _blockSpeed * transform.TransformDirection(Vector3.down);
+                //_blockPosition += _blockVelocity * Time.deltaTime;
+            _blockPosition = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
                 this.transform.position = _blockPosition;
                 if(this.transform.position.y <= 0.0f) {
                     this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);

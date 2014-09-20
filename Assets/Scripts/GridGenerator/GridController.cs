@@ -51,8 +51,7 @@
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
                         //obj.GetComponent<Block>().MoveUp();
                     }
-                } else
-                    return;
+                }
                 break;
 
                 case PlayerValues.PlayerDirection.RIGHT:
@@ -61,8 +60,7 @@
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
                         //obj.GetComponent<Block>().MoveUp();
                     }
-                } else
-                    return;
+                }
                 break;
 
                 case PlayerValues.PlayerDirection.BACKWARD:
@@ -71,8 +69,7 @@
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
                         //obj.GetComponent<Block>().MoveUp();
                     }
-                } else
-                    return;
+                }
                 break;
 
                 case PlayerValues.PlayerDirection.LEFT:
@@ -81,8 +78,7 @@
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
                         //obj.GetComponent<Block>().MoveUp();
                     }
-                } else
-                    return;
+                }
                 break;
             }
 
@@ -93,8 +89,7 @@
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
                         //obj.GetComponent<Block>().MoveDown();
                     }
-                } else
-                    return;
+                }
                 break;
 
                 case PlayerValues.PlayerDirection.RIGHT:
@@ -103,8 +98,7 @@
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
                         //obj.GetComponent<Block>().MoveDown();
                     }
-                } else
-                    return;
+                }
                 break;
 
                 case PlayerValues.PlayerDirection.BACKWARD:
@@ -113,8 +107,7 @@
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
                         //obj.GetComponent<Block>().MoveDown();
                     }
-                } else
-                    return;
+                }
                 break;
 
                 case PlayerValues.PlayerDirection.LEFT:
@@ -123,8 +116,7 @@
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
                         //obj.GetComponent<Block>().MoveDown();
                     }
-                } else
-                    return;
+                }
                 break;
             }
         }
