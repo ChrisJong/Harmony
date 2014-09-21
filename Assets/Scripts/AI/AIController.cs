@@ -9,13 +9,12 @@
 
     public class AIController : MonoBehaviour {
 
-        public static CharacterController characterController;
-        public static GridController gridController;
         public static AIController instance;
-        public GameObject currentBlock;
+        public static CharacterController characterController;
 
-        public PlayerValues.PlayerDirection currentDirection;
-        public PlayerValues.PlayerDirection previousDirection;
+        private GameObject _currentBlock;
+        private PlayerValues.MovementDirection _currentDirection = PlayerValues.MovementDirection.NONE;
+        private PlayerValues.MovementDirection _previousDirection = PlayerValues.MovementDirection.NONE;
 
         public bool isMoving = false;
 
@@ -28,67 +27,65 @@
         }
 
         void Awake() {
-            characterController = GetComponent<CharacterController>() as CharacterController;
-            gridController = GameObject.FindGameObjectWithTag("GridController").GetComponent<GridController>();
             instance = this;
+            characterController = GetComponent<CharacterController>() as CharacterController;
+
+            this._currentBlock = null;
+            this._currentDirection = PlayerValues.MovementDirection.NONE;
+            this._previousDirection = PlayerValues.MovementDirection.NONE;
         }
 
         void Update() {
             if(Camera.main == null)
                 return;
 
-            GetInput();
+            this.CheckCurrentBlock();
 
-            if(CastCollisionRays())
+            if(this.CastCollisionRays())
                 AIMovement.instance.UpdateMovement();
         }
 
-        private void GetInput() {
-            if(isMoving)
+        public void GetInput(PlayerValues.MovementDirection current, PlayerValues.MovementDirection previous) {
+            if(this.isMoving)
                 return;
-            
-            GetCurrentBlock();
-            //CheckCurrentBlock();
-            AIMovement.instance.verticalVelocity = AIMovement.instance.moveVector.y;
-            AIMovement.instance.moveVector = Vector3.zero;
+
+            this.GetCurrentBlock();
+            this.CheckCurrentBlock();
+            AIMovement.instance.verticalVelocity = AIMovement.instance.MoveVector.y;
+            AIMovement.instance.MoveVector = Vector3.zero;
 
             if(Input.GetKeyDown(KeyCode.UpArrow)) {
-                previousDirection = currentDirection;
-                currentDirection = PlayerValues.PlayerDirection.FORWARD;
-                gridController.ActivateBlocks(currentDirection, previousDirection);
-                AIMovement.instance.moveVector = new Vector3(0, 0, -1);
-                isMoving = true;
+                this._previousDirection = this._currentDirection;
+                this._currentDirection = current;
+                AIMovement.instance.MoveVector = new Vector3(0, 0, -1);
+                this.isMoving = true;
             } else if(Input.GetKeyDown(KeyCode.RightArrow)) {
-                previousDirection = currentDirection;
-                currentDirection = PlayerValues.PlayerDirection.RIGHT;
-                gridController.ActivateBlocks(currentDirection, previousDirection);
-                AIMovement.instance.moveVector = new Vector3(-1, 0, 0);
-                isMoving = true;
+                this._previousDirection = this._currentDirection;
+                this._currentDirection = current;
+                AIMovement.instance.MoveVector = new Vector3(-1, 0, 0);
+                this.isMoving = true;
             } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
-                previousDirection = currentDirection;
-                currentDirection = PlayerValues.PlayerDirection.BACKWARD;
-                gridController.ActivateBlocks(currentDirection, previousDirection);
-                AIMovement.instance.moveVector = new Vector3(0, 0, 1);
-                isMoving = true;
+                this._previousDirection = this._currentDirection;
+                this._currentDirection = current;
+                AIMovement.instance.MoveVector = new Vector3(0, 0, 1);
+                this.isMoving = true;
             } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
-                previousDirection = currentDirection;
-                currentDirection = PlayerValues.PlayerDirection.LEFT;
-                gridController.ActivateBlocks(currentDirection, previousDirection);
-                AIMovement.instance.moveVector = new Vector3(1, 0, 0);
-                isMoving = true;
+                this._previousDirection = this._currentDirection;
+                this._currentDirection = current;
+                AIMovement.instance.MoveVector = new Vector3(1, 0, 0);
+                this.isMoving = true;
             }
-            CheckCurrentBlock();
+            this.CheckCurrentBlock();
         }
 
-        private void CheckCurrentBlock() {
-            if(currentBlock == null)
+        public void CheckCurrentBlock() {
+            if(this._currentBlock == null)
                 return;
 
-            if(this.currentBlock.GetComponent<Block>().blockState == BlockValues.BlockState.UP) {
-                this.transform.position = new Vector3(transform.position.x, 2.75f, transform.position.z);
-                Debug.Log("MoveUp");
-            } else if(this.currentBlock.GetComponent<Block>().blockState == BlockValues.BlockState.DOWN) {
-                this.transform.position = new Vector3(transform.position.x, 1.5f, transform.position.z);
+            if(this._currentBlock.GetComponent<Block>().blockState == BlockValues.BlockState.UP) {
+                this.transform.position = new Vector3(this.transform.position.x, 2.5f, this.transform.position.z);
+            } else if(this._currentBlock.GetComponent<Block>().blockState == BlockValues.BlockState.DOWN) {
+                this.transform.position = new Vector3(this.transform.position.x, 1.5f, this.transform.position.z);
             }
         }
 
@@ -96,33 +93,33 @@
             RaycastHit hitInfo;
             Vector3 rayDirection = Vector3.zero;
 
-            switch(currentDirection) {
-                case PlayerValues.PlayerDirection.FORWARD:
-                rayDirection += transform.TransformDirection(Vector3.back);
+            switch(this._currentDirection) {
+                case PlayerValues.MovementDirection.FORWARD:
+                rayDirection += this.transform.TransformDirection(Vector3.back);
                 break;
-                case PlayerValues.PlayerDirection.RIGHT:
-                rayDirection += transform.TransformDirection(Vector3.left);
+                case PlayerValues.MovementDirection.RIGHT:
+                rayDirection += this.transform.TransformDirection(Vector3.left);
                 break;
-                case PlayerValues.PlayerDirection.BACKWARD:
-                rayDirection += transform.TransformDirection(Vector3.forward);
+                case PlayerValues.MovementDirection.BACKWARD:
+                rayDirection += this.transform.TransformDirection(Vector3.forward);
                 break;
-                case PlayerValues.PlayerDirection.LEFT:
-                rayDirection += transform.TransformDirection(Vector3.right);
+                case PlayerValues.MovementDirection.LEFT:
+                rayDirection += this.transform.TransformDirection(Vector3.right);
                 break;
             }
 
-            Vector3 tempOrigin = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-            Debug.DrawRay(tempOrigin, rayDirection * 0.5f, Color.red);
-            if(Physics.Raycast(tempOrigin, rayDirection, out hitInfo, 0.5f)) {
+            Vector3 tempOrigin = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
+            Debug.DrawRay(tempOrigin, rayDirection * 0.6f, Color.red);
+            if(Physics.Raycast(tempOrigin, rayDirection, out hitInfo, 0.6f)) {
                 if(hitInfo.collider != null) {
                     if(hitInfo.collider.tag == "Player") {
                         UnityEditor.EditorApplication.isPlaying = false;
                         Application.Quit();
                         return false;
                     } else {
-                        isMoving = false;
-                        AIMovement.instance.verticalVelocity = AIMovement.instance.moveVector.y;
-                        AIMovement.instance.moveVector = Vector3.zero;
+                        this.isMoving = false;
+                        AIMovement.instance.verticalVelocity = AIMovement.instance.MoveVector.y;
+                        AIMovement.instance.MoveVector = Vector3.zero;
                         return true;
                     }
                 }
@@ -132,13 +129,13 @@
 
         private void GetCurrentBlock() {
             RaycastHit hitInfo;
-            //this.currentBlock = null;
-            Vector3 rayDirection = transform.TransformDirection(Vector3.down);
+            this._currentBlock = null;
+            Vector3 rayDirection = this.transform.TransformDirection(Vector3.down);
 
-            Debug.DrawRay(transform.position, rayDirection * 100.0f, Color.red);
-            if(Physics.Raycast(transform.position, rayDirection, out hitInfo, 5.0f)) {
+            Debug.DrawRay(this.transform.position, rayDirection * 100.0f, Color.red);
+            if(Physics.Raycast(this.transform.position, rayDirection, out hitInfo, 5.0f)) {
                 if(hitInfo.transform.tag == "Block") {
-                    this.currentBlock = hitInfo.transform.gameObject;
+                    this._currentBlock = hitInfo.transform.gameObject;
                 }
             }
         }

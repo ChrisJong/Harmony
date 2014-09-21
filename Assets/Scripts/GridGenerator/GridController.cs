@@ -3,12 +3,15 @@
     using UnityEngine;
     using System.Collections.Generic;
 
-    using Constants;
     using Blocks;
     using Player;
+    using Sound;
+    using Constants;
     
     [DisallowMultipleComponent]
     public class GridController : MonoBehaviour {
+
+        public static GridController instance;
 
         private List<GameObject> _upList = new List<GameObject>();
         private List<GameObject> _rightList = new List<GameObject>();
@@ -17,19 +20,19 @@
         private List<GameObject> _emptyUpList = new List<GameObject>();
 
         void Awake() {
+            instance = this;
             GameController.FindOrCreate();
         }
 
-        // Use this for initialization
         void Start() {
-            _upList.Clear();
-            _rightList.Clear();
-            _downList.Clear();
-            _leftList.Clear();
-            FindBlocks();
+            this._upList.Clear();
+            this._rightList.Clear();
+            this._downList.Clear();
+            this._leftList.Clear();
+            this.FindBlocks();
 
-            if(_emptyUpList.Count > 0){
-                foreach(GameObject obj in _emptyUpList){
+            if(this._emptyUpList.Count > 0) {
+                foreach(GameObject obj in this._emptyUpList) {
                     obj.GetComponent<Block>().MoveUp();
                 }
             }
@@ -40,41 +43,42 @@
         /// </summary>
         /// <param name="current">The Current Direction The Player Is Moving At.</param>
         /// <param name="previous">The Previous Direction The Player Was Moving Before.</param>
-        public void ActivateBlocks(PlayerValues.PlayerDirection current, PlayerValues.PlayerDirection previous) {
+        public void ActivateBlocks(PlayerValues.MovementDirection current, PlayerValues.MovementDirection previous) {
             if(current == previous)
                 return;
 
+            SoundController.PlayerAudio(SoundValues.BlockUp);
             switch(current) {
-                case PlayerValues.PlayerDirection.FORWARD:
-                if(_upList.Count > 0) {
-                    foreach(GameObject obj in _upList) {
+                case PlayerValues.MovementDirection.FORWARD:
+                if(this._upList.Count > 0) {
+                    foreach(GameObject obj in this._upList) {
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
                         //obj.GetComponent<Block>().MoveUp();
                     }
                 }
                 break;
 
-                case PlayerValues.PlayerDirection.RIGHT:
-                if(_rightList.Count > 0) {
-                    foreach(GameObject obj in _rightList) {
+                case PlayerValues.MovementDirection.RIGHT:
+                if(this._rightList.Count > 0) {
+                    foreach(GameObject obj in this._rightList) {
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
                         //obj.GetComponent<Block>().MoveUp();
                     }
                 }
                 break;
 
-                case PlayerValues.PlayerDirection.BACKWARD:
-                if(_downList.Count > 0) {
-                    foreach(GameObject obj in _downList) {
+                case PlayerValues.MovementDirection.BACKWARD:
+                if(this._downList.Count > 0) {
+                    foreach(GameObject obj in this._downList) {
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
                         //obj.GetComponent<Block>().MoveUp();
                     }
                 }
                 break;
 
-                case PlayerValues.PlayerDirection.LEFT:
-                if(_leftList.Count > 0) {
-                    foreach(GameObject obj in _leftList) {
+                case PlayerValues.MovementDirection.LEFT:
+                if(this._leftList.Count > 0) {
+                    foreach(GameObject obj in this._leftList) {
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
                         //obj.GetComponent<Block>().MoveUp();
                     }
@@ -82,37 +86,38 @@
                 break;
             }
 
+            SoundController.PlayerAudio(SoundValues.BlockDown);
             switch(previous) {
-                case PlayerValues.PlayerDirection.FORWARD:
-                if(_upList.Count > 0) {
-                    foreach(GameObject obj in _upList) {
+                case PlayerValues.MovementDirection.FORWARD:
+                if(this._upList.Count > 0) {
+                    foreach(GameObject obj in this._upList) {
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
                         //obj.GetComponent<Block>().MoveDown();
                     }
                 }
                 break;
 
-                case PlayerValues.PlayerDirection.RIGHT:
-                if(_rightList.Count > 0) {
-                    foreach(GameObject obj in _rightList) {
+                case PlayerValues.MovementDirection.RIGHT:
+                if(this._rightList.Count > 0) {
+                    foreach(GameObject obj in this._rightList) {
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
                         //obj.GetComponent<Block>().MoveDown();
                     }
                 }
                 break;
 
-                case PlayerValues.PlayerDirection.BACKWARD:
-                if(_downList.Count > 0) {
-                    foreach(GameObject obj in _downList) {
+                case PlayerValues.MovementDirection.BACKWARD:
+                if(this._downList.Count > 0) {
+                    foreach(GameObject obj in this._downList) {
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
                         //obj.GetComponent<Block>().MoveDown();
                     }
                 }
                 break;
 
-                case PlayerValues.PlayerDirection.LEFT:
-                if(_leftList.Count > 0) {
-                    foreach(GameObject obj in _leftList) {
+                case PlayerValues.MovementDirection.LEFT:
+                if(this._leftList.Count > 0) {
+                    foreach(GameObject obj in this._leftList) {
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
                         //obj.GetComponent<Block>().MoveDown();
                     }
@@ -129,23 +134,23 @@
                 var childType = child.GetComponent<Block>().blockType;
                 switch(childType) {
                     case BlockValues.BlockType.UP:
-                    _upList.Add(child.gameObject);
+                    this._upList.Add(child.gameObject);
                     break;
 
                     case BlockValues.BlockType.RIGHT:
-                    _rightList.Add(child.gameObject);
+                    this._rightList.Add(child.gameObject);
                     break;
 
                     case BlockValues.BlockType.DOWN:
-                    _downList.Add(child.gameObject);
+                    this._downList.Add(child.gameObject);
                     break;
 
                     case BlockValues.BlockType.LEFT:
-                    _leftList.Add(child.gameObject);
+                    this._leftList.Add(child.gameObject);
                     break;
 
                     case BlockValues.BlockType.EMPTYUP:
-                    _emptyUpList.Add(child.gameObject);
+                    this._emptyUpList.Add(child.gameObject);
                     break;
                 }
             }

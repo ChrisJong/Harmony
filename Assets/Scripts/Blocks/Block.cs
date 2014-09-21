@@ -10,7 +10,6 @@
     public class Block : MonoBehaviour {
 
         private float _blockSpeed;
-        private Vector3 _blockVelocity;
         private Vector3 _blockPosition;
         //private float _blockHeight;
 
@@ -18,65 +17,40 @@
         public BlockValues.BlockState blockState;
         public bool frozen;
 
-        public Vector3 pass;
-
         void Awake() {
-            _blockSpeed = 20.0f;
-            _blockVelocity = Vector3.zero;
-            _blockPosition = this.transform.position;
-            pass = _blockVelocity = _blockSpeed * transform.TransformDirection(Vector3.up);
-            
-            //_blockHeight = 1.0f;
+            this._blockPosition = this.transform.position;
         }
 
-        void Start() {
-            //GridMap temp = GameObject.Find("GridMap").GetComponent<GridMap>();
-            //_blockHeight = temp.realBlockHeight;
-        }
-
-        // Update is called once per frame
         void Update() {
-            if(blockState == BlockValues.BlockState.NONE)
+            if(this.blockState == BlockValues.BlockState.NONE)
                 return;
 
-            if(blockState == BlockValues.BlockState.UP)
+            if(this.blockState == BlockValues.BlockState.UP)
                 MoveUp();
-            if(blockState == BlockValues.BlockState.DOWN)
+            if(this.blockState == BlockValues.BlockState.DOWN)
                 MoveDown();
         }
 
         public void MoveUp() {
-            //blockState = BlockState.UP;
-            //while(blockState == BlockState.UP) {
-                //_blockVelocity = _blockSpeed * transform.TransformDirection(Vector3.up);
-                //_blockPosition += _blockVelocity * Time.deltaTime;
-            _blockPosition = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
-                this.transform.position = _blockPosition;
-                if(this.transform.position.y >= 1.0f) {
-                    this.transform.position = new Vector3(this.transform.position.x, 0.95f, this.transform.position.z);
-                    _blockVelocity = Vector3.zero;
-                    _blockPosition = this.transform.position;
-                    blockState = BlockValues.BlockState.NONE;
-                    return;
-                }
-            //}
+            this._blockPosition = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
+            this.transform.position = this._blockPosition;
+            if(this.transform.position.y >= 1.0f) {
+                this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
+                this._blockPosition = this.transform.position;
+                this.blockState = BlockValues.BlockState.NONE;
+                return;
+            }
         }
 
         public void MoveDown() {
-            //blockState = BlockState.DOWN;
-            //while(blockState == BlockState.DOWN) {
-                //_blockVelocity = _blockSpeed * transform.TransformDirection(Vector3.down);
-                //_blockPosition += _blockVelocity * Time.deltaTime;
-            _blockPosition = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
-                this.transform.position = _blockPosition;
-                if(this.transform.position.y <= 0.0f) {
-                    this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
-                    _blockVelocity = Vector3.zero;
-                    _blockPosition = this.transform.position;
-                    blockState = BlockValues.BlockState.NONE;
-                    return;
-                }
-            //}
+            this._blockPosition = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
+            this.transform.position = this._blockPosition;
+            if(this.transform.position.y <= 0.0f) {
+                this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
+                this._blockPosition = this.transform.position;
+                this.blockState = BlockValues.BlockState.NONE;
+                return;
+            }
         }
 
         public void SetType(BlockValues.BlockType type) {
@@ -123,14 +97,6 @@
                 this.blockType = BlockValues.BlockType.EMPTYDOWN;
                 break;
             }
-        }
-
-        public float BlockSpeed {
-            get { return _blockSpeed; }
-        }
-
-        public Vector3 BlockVelocity {
-            get { return _blockVelocity; }
         }
     }
 }

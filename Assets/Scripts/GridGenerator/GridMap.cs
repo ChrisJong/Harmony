@@ -148,18 +148,18 @@
         /// Finds the Spawn Blocks To Genereate The Player And AI Objects.
         /// </summary>
         private void GeneratePlayers() {
-            if(spawnBlocks.Count == 2) {
-                foreach(GameObject obj in spawnBlocks) {
+            if(this.spawnBlocks.Count == 2) {
+                foreach(GameObject obj in this.spawnBlocks) {
                     var type = obj.GetComponent<Block>().blockType;
                     var spawnPoint = obj.transform.FindChild("SpawnPoint").gameObject;
                     if(type == BlockValues.BlockType.HUMAN) {
                         Instantiate((GameObject)AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabPlayer, "Player"), spawnPoint.transform.position, Quaternion.identity);
-                        humanReady = true;
+                        this.humanReady = true;
                     }
 
                     if(type == BlockValues.BlockType.AI) {
                         Instantiate((GameObject)AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabPlayer, "AI"), spawnPoint.transform.position, Quaternion.identity);
-                        aiReady = true;
+                        this.aiReady = true;
                     }
                 }
             } else {

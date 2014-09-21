@@ -23,12 +23,12 @@ public class MainCameraController : MonoBehaviour {
     /// </summary>
     private void UpdateCamera() {
 
-        var totalWidth = gridMapScript.blockWidth * gridMapScript.rows;
-        var totalHeight = gridMapScript.blockBreadth * gridMapScript.columns;
+        var totalWidth = gridMapScript.blockBreadth * gridMapScript.columns;
+        var totalHeight = gridMapScript.blockWidth * gridMapScript.rows;
 
         var posX = (float)(totalWidth * 0.5f);
         var posY = (float)Mathf.Round((totalHeight + (totalHeight / 3.0f)) + 0.5f);
-        var posZ = (float)(gridMapScript.blockBreadth * 0.5f);
+        var posZ = (float)(totalHeight * 0.5f);
         var fov = (float)CameraValues.minFOW;
 
         if(gridMapScript.columns > (gridMapScript.rows * 2))

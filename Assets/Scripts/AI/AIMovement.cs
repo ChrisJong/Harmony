@@ -3,61 +3,54 @@
     using UnityEngine;
     using System.Collections;
 
+    using Sound;
     using Constants;
 
     public class AIMovement : MonoBehaviour {
 
         public static AIMovement instance;
 
-        public float moveSpeed = 10.0f;
-        public float gravity = 1000.0f;
-        public float terminalVelocity = 20.0f;
-
-        public Vector3 moveVector;
-        public float verticalVelocity;
+        public Vector3 MoveVector {
+            get;
+            set;
+        }
+        public float verticalVelocity {
+            get;
+            set;
+        }
 
         void Awake() {
             instance = this;
         }
 
         public void UpdateMovement() {
-            ProcessMovement();
+            this.ProcessMovement();
         }
 
         private void ProcessMovement() {
             if(AIController.instance.isMoving)
-                moveVector = transform.TransformDirection(moveVector);
+                this.MoveVector = this.transform.TransformDirection(this.MoveVector);
 
-            if(moveVector.magnitude > 1)
-                moveVector = Vector3.Normalize(moveVector);
+            if(this.MoveVector.magnitude > 1.0f)
+                this.MoveVector = Vector3.Normalize(this.MoveVector);
 
-            moveVector *= moveSpeed;
+            this.MoveVector *= PlayerValues.MoveSpeed;
 
-            moveVector = new Vector3(moveVector.x, verticalVelocity, moveVector.z);
+            this.MoveVector = new Vector3(this.MoveVector.x, this.verticalVelocity, this.MoveVector.z);
 
-            ApplyGravity();
+            this.ApplyGravity();
 
-            AIController.characterController.Move(moveVector * Time.deltaTime);
+            AIController.characterController.Move(this.MoveVector * Time.deltaTime);
         }
 
         private void ApplyGravity() {
-            if(moveVector.y > -terminalVelocity) {
-                moveVector = new Vector3(moveVector.x, moveVector.y - gravity * Time.deltaTime, moveVector.z);
+            if(this.MoveVector.y > -PlayerValues.TerminalVelocity) {
+                this.MoveVector = new Vector3(this.MoveVector.x, this.MoveVector.y - PlayerValues.Gravity * Time.deltaTime, this.MoveVector.z);
             }
 
-            if(AIController.characterController.isGrounded && moveVector.y < -1) {
-                moveVector = new Vector3(moveVector.x, -1, moveVector.z);
+            if(AIController.characterController.isGrounded && this.MoveVector.y < -1.0f) {
+                this.MoveVector = new Vector3(this.MoveVector.x, -1.0f, this.MoveVector.z);
             }
-        }
-
-        public Vector3 MoveVector {
-            get { return moveVector; }
-            set { moveVector = value; }
-        }
-
-        public float VerticalVelocity {
-            get { return verticalVelocity; }
-            set { verticalVelocity = value; }
         }
     }
 }

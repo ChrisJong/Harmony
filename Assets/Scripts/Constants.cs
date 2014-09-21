@@ -1,9 +1,9 @@
 ﻿// This Class will hold any block static values the game will have access to across all scripts (only place values/variables/rules here if the values never change).
 namespace Constants {
     using System;
+    using System.Collections.Generic;
     using UnityEngine;
     using UnityEditor;
-    using System.Collections.Generic;
 
     public static class AssetPaths {
         public const string PathPrefab = "Assets/Prefabs/";
@@ -24,22 +24,25 @@ namespace Constants {
         public const string AIName = "AI";
 
         public const string GameControllerName = "GameController";
+        public const string SoundControllerName = "SoundController";
     }
 
     public static class PlayerValues {
-        public enum PlayerDirection {
+        public enum MovementDirection {
             NONE = 0,
             FORWARD,
             RIGHT,
             BACKWARD,
             LEFT
         };
+
+
+        public const float MoveSpeed = 10.0f;
+        public const float Gravity = 1000.0f;
+        public const float TerminalVelocity = 20.0f;
     }
 
     public static class BlockValues {
-        /// <summary>
-        /// A Enum that holds the type of blocks the game will have. this will help us keep track of what blocks we have available.
-        /// </summary>
         public enum BlockType {
             EMPTYUP = 0,
             EMPTYDOWN,
@@ -67,6 +70,13 @@ namespace Constants {
         public const float minFOW = 60.0f;
         public const float maxFOX = 150.0f;
         public const float FOVMultiplier = 10.0f;
-        public static Quaternion CameraRotation = Quaternion.Euler(75.0f, 0.0f, 0.0f);
+        public static Quaternion CameraRotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);
+    }
+
+    public static class SoundValues {
+        public const string BlockUp = "blockup";
+        public const string BlockDown = "blockdown";
+        public const string BlockCollision = "blockcollision";
+        public const string PlayerMovement = "playermovement";
     }
 }
