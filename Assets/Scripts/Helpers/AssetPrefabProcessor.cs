@@ -10,6 +10,13 @@
 
     public class AssetProcessor {
 
+        public static Type InstantiatePrefab<Type>(string objectLocation, string objectName) where Type : UnityEngine.Object {
+            string prefabPath = GetPrefabPath(objectLocation, objectName);
+            Type prefabObject = LoadAsset<Type>(prefabPath);
+
+            return PrefabUtility.InstantiatePrefab(prefabObject) as Type;
+        }
+
         /// <summary>
         /// This Function Will Find And Return A Gameobject Of An Asset(Prefab) In Our Project In A Specified Place
         /// </summary>
@@ -32,7 +39,7 @@
         /// <returns></returns>
         private static Type LoadAsset<Type>(string path) where Type : UnityEngine.Object {
 
-            var temp = Resources.LoadAssetAtPath(path, typeof(Type)) as Type;
+            var temp = AssetDatabase.LoadAssetAtPath(path, typeof(Type)) as Type;
 
             if(temp == null)
                 throw new ArgumentNullException("Object at " + path + " Not Found");

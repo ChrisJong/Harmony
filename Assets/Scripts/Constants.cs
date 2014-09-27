@@ -5,6 +5,15 @@ namespace Constants {
     using UnityEngine;
     using UnityEditor;
 
+    public static class GlobalValues {
+        public enum GameState {
+            MENU,
+            INGAME,
+            PAUSED,
+            NONE
+        }
+    }
+
     public static class AssetPaths {
         public const string PathPrefab = "Assets/Prefabs/";
         public const string PathPrefabBlocks = PathPrefab + "Blocks/";
@@ -24,6 +33,7 @@ namespace Constants {
         public const string AIName = "AI";
 
         public const string GameControllerName = "GameController";
+        public const string GridControllerName = "GridController";
         public const string SoundControllerName = "SoundController";
     }
 
@@ -49,9 +59,7 @@ namespace Constants {
             UP,
             RIGHT,
             DOWN,
-            LEFT,
-            HUMAN,
-            AI
+            LEFT
         };
 
         public enum BlockState {
@@ -78,5 +86,15 @@ namespace Constants {
         public const string BlockDown = "blockdown";
         public const string BlockCollision = "blockcollision";
         public const string PlayerMovement = "playermovement";
+    }
+
+    public static class MenuValues {
+        public enum MenuTypes {
+            NEWGAME = 0,
+            ABOUT,
+            CREDITS,
+            SOMETHING,
+            MAINMENU
+        }
     }
 }

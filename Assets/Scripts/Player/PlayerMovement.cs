@@ -23,6 +23,10 @@
             instance = this;
         }
 
+        void FixedUpdate() {
+            this.ApplyGravity();
+        }
+
         public void UpdateMovement() {
             this.ProcessMovement();
         }

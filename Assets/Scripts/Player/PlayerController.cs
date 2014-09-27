@@ -3,7 +3,7 @@
     using UnityEngine;
     using System.Collections;
 
-    using GridGenerator;
+    using Grid;
     using Constants;
     using Blocks;
 

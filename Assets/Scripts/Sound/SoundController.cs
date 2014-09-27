@@ -28,22 +28,28 @@
         }
 
         void Start() {
-            this.StartMusic();
+            this.StartMusic(GameController.instance.gameState);
         }
 
         void FixedUpdate() {
             this.MusicPlayer();
         }
 
-        private void StartMusic() {
-            int randomSong = Random.Range(0, this.musicGame.Count);
-            this._currentSong.clip = musicGame[randomSong] as AudioClip;
-            this._currentSong.Play();
+        private void StartMusic(GlobalValues.GameState gameState) {
+            if(gameState == GlobalValues.GameState.INGAME) {
+                int randomSong = Random.Range(0, this.musicGame.Count);
+                this._currentSong.clip = musicGame[randomSong] as AudioClip;
+                this._currentSong.Play();
+            } else if(gameState == GlobalValues.GameState.MENU) {
+                int randomSong = Random.Range(0, this.musicMenu.Count);
+                this._currentSong.clip = musicMenu[randomSong] as AudioClip;
+                this._currentSong.Play();
+            }
         }
 
         private void MusicPlayer() {
             if(_currentSong.time >= audio.clip.length) {
-                this.StartMusic();
+                this.StartMusic(GameController.instance.gameState);
             } else
                 return;
         }
@@ -97,7 +103,7 @@
                 audio.rolloffMode = AudioRolloffMode.Linear;
                 audio.minDistance = 50.0f;
                 audio.volume = 0.5f;
-                Instantiate(tempController);
+                Instantiate(tempController).name = AssetPaths.SoundControllerName;
                 return;
             } else {
                 return;

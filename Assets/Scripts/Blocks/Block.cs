@@ -3,7 +3,7 @@
     using UnityEngine;
     using System.Collections;
 
-    using GridGenerator;
+    using Grid;
     using Constants;
 
     [DisallowMultipleComponent]
@@ -79,16 +79,6 @@
                 case BlockValues.BlockType.EMPTYUP:
                 this.blockState = BlockValues.BlockState.UP;
                 this.blockType = BlockValues.BlockType.EMPTYUP;
-                this.frozen = true;
-                break;
-
-                case BlockValues.BlockType.AI:
-                this.blockType = BlockValues.BlockType.AI;
-                this.frozen = true;
-                break;
-
-                case BlockValues.BlockType.HUMAN:
-                this.blockType = BlockValues.BlockType.HUMAN;
                 this.frozen = true;
                 break;
 

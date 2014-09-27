@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Constants;
-using GridGenerator;
+using Grid;
 
 public class MainCameraController : MonoBehaviour {
 
@@ -11,7 +11,8 @@ public class MainCameraController : MonoBehaviour {
     private Vector3 _position;
 
     void Awake() {
-        gridMapScript = GameObject.FindGameObjectWithTag("GridController").GetComponent<GridMap>();
+        if(GameController.instance.gameState == GlobalValues.GameState.INGAME)
+            gridMapScript = GameObject.FindGameObjectWithTag("GridMap").GetComponent<GridMap>();
     }
 
 	void Start() {
@@ -23,8 +24,8 @@ public class MainCameraController : MonoBehaviour {
     /// </summary>
     private void UpdateCamera() {
 
-        var totalWidth = gridMapScript.blockBreadth * gridMapScript.columns;
-        var totalHeight = gridMapScript.blockWidth * gridMapScript.rows;
+        var totalWidth = BlockValues.BlockWidth * gridMapScript.columns;
+        var totalHeight = BlockValues.BlockBreadth * gridMapScript.rows;
 
         var posX = (float)(totalWidth * 0.5f);
         var posY = (float)Mathf.Round((totalHeight + (totalHeight / 3.0f)) + 0.5f);
@@ -60,14 +61,16 @@ public class MainCameraController : MonoBehaviour {
             tempCamera.tag = "MainCamera";
         }
 
-        GameObject tempLight = new GameObject("Directional Light");
-        tempLight.transform.rotation = Quaternion.Euler(50.0f, -30.0f, 0.0f);
-        tempLight.AddComponent<Light>();
-        Light lightDetails = tempLight.GetComponent<Light>();
-        lightDetails.type = LightType.Directional;
-        lightDetails.intensity = 0.50f;
-        lightDetails.shadows = LightShadows.Soft;
+        if(GameController.instance.gameState == GlobalValues.GameState.INGAME) {
+            GameObject tempLight = new GameObject("Directional Light");
+            tempLight.transform.rotation = Quaternion.Euler(50.0f, -30.0f, 0.0f);
+            tempLight.AddComponent<Light>();
+            Light lightDetails = tempLight.GetComponent<Light>();
+            lightDetails.type = LightType.Directional;
+            lightDetails.intensity = 0.50f;
+            lightDetails.shadows = LightShadows.Soft;
 
-        tempCamera.AddComponent<MainCameraController>();
+            tempCamera.AddComponent<MainCameraController>();
+        }
     }
 }
