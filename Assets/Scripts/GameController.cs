@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour {
     void Awake() {
         instance = this;
 
-        if(UnityEditor.EditorApplication.currentScene == "Assets/Scenes/Menu/menu.unity") {
+        if(UnityEditor.EditorApplication.currentScene == "Assets/Scenes/MainMenu/MainMenu.unity") {
             gameState = GlobalValues.GameState.MENU;
         } else {
             gameState = GlobalValues.GameState.INGAME;
