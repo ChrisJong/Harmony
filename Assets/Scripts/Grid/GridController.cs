@@ -21,6 +21,8 @@
         private List<GameObject> _rightList = new List<GameObject>();
         private List<GameObject> _downList = new List<GameObject>();
         private List<GameObject> _leftList = new List<GameObject>();
+        private List<GameObject> _multiLeftRightList = new List<GameObject>();
+        private List<GameObject> _multiUpDownList = new List<GameObject>();
         private List<GameObject> _emptyUpList = new List<GameObject>();
 
         private PlayerValues.MovementDirection _directionCurrent;
@@ -39,6 +41,8 @@
             this._rightList.Clear();
             this._downList.Clear();
             this._leftList.Clear();
+            this._multiLeftRightList.Clear();
+            this._multiUpDownList.Clear();
             this.FindBlocks();
 
             if(this._emptyUpList.Count > 0) {
@@ -71,7 +75,6 @@
                 AIController.instance.GetInput(this._directionCurrent, this._directionPrevious);
                 GridController.instance.ActivateBlocks(this._directionCurrent, this._directionPrevious);
                 this.moveCount++;
-                Debug.Log("Moves: " + this.moveCount.ToString());
             } else if(Input.GetKeyDown(KeyCode.RightArrow)) {
                 this._directionPrevious = this._directionCurrent;
                 this._directionCurrent = PlayerValues.MovementDirection.RIGHT;
@@ -80,7 +83,6 @@
                 GridController.instance.ActivateBlocks(this._directionCurrent, this._directionPrevious);
                 SoundController.PlayerAudio(SoundValues.PlayerMovement);
                 this.moveCount++;
-                Debug.Log("Moves: " + this.moveCount.ToString());
             } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
                 this._directionPrevious = this._directionCurrent;
                 this._directionCurrent = PlayerValues.MovementDirection.BACKWARD;
@@ -89,7 +91,6 @@
                 GridController.instance.ActivateBlocks(this._directionCurrent, this._directionPrevious);
                 SoundController.PlayerAudio(SoundValues.PlayerMovement);
                 this.moveCount++;
-                Debug.Log("Moves: " + this.moveCount.ToString());
             } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
                 this._directionPrevious = this._directionCurrent;
                 this._directionCurrent = PlayerValues.MovementDirection.LEFT;
@@ -98,7 +99,6 @@
                 GridController.instance.ActivateBlocks(this._directionCurrent, this._directionPrevious);
                 SoundController.PlayerAudio(SoundValues.PlayerMovement);
                 this.moveCount++;
-                Debug.Log("Moves: " + this.moveCount.ToString());
             }
             
             PlayerController.instance.CheckCurrentBlock();
@@ -123,6 +123,12 @@
                         //obj.GetComponent<Block>().MoveUp();
                     }
                 }
+
+                if(this._multiUpDownList.Count > 0) {
+                    foreach(GameObject obj in this._multiUpDownList) {
+                        obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
+                    }
+                }
                 break;
 
                 case PlayerValues.MovementDirection.RIGHT:
@@ -130,6 +136,12 @@
                     foreach(GameObject obj in this._rightList) {
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
                         //obj.GetComponent<Block>().MoveUp();
+                    }
+                }
+
+                if(this._multiLeftRightList.Count > 0) {
+                    foreach(GameObject obj in this._multiLeftRightList) {
+                        obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
                     }
                 }
                 break;
@@ -141,6 +153,12 @@
                         //obj.GetComponent<Block>().MoveUp();
                     }
                 }
+
+                if(this._multiUpDownList.Count > 0) {
+                    foreach(GameObject obj in this._multiUpDownList) {
+                        obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
+                    }
+                }
                 break;
 
                 case PlayerValues.MovementDirection.LEFT:
@@ -148,6 +166,12 @@
                     foreach(GameObject obj in this._leftList) {
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
                         //obj.GetComponent<Block>().MoveUp();
+                    }
+                }
+
+                if(this._multiLeftRightList.Count > 0) {
+                    foreach(GameObject obj in this._multiLeftRightList) {
+                        obj.GetComponent<Block>().blockState = BlockValues.BlockState.UP;
                     }
                 }
                 break;
@@ -162,6 +186,14 @@
                         //obj.GetComponent<Block>().MoveDown();
                     }
                 }
+
+                if(current != PlayerValues.MovementDirection.BACKWARD) {
+                    if(this._multiUpDownList.Count > 0) {
+                        foreach(GameObject obj in this._multiUpDownList) {
+                            obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
+                        }
+                    }
+                }
                 break;
 
                 case PlayerValues.MovementDirection.RIGHT:
@@ -169,6 +201,14 @@
                     foreach(GameObject obj in this._rightList) {
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
                         //obj.GetComponent<Block>().MoveDown();
+                    }
+                }
+
+                if(current != PlayerValues.MovementDirection.LEFT){
+                    if(this._multiLeftRightList.Count > 0) {
+                        foreach(GameObject obj in this._multiLeftRightList) {
+                            obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
+                        }
                     }
                 }
                 break;
@@ -180,6 +220,14 @@
                         //obj.GetComponent<Block>().MoveDown();
                     }
                 }
+
+                if(current != PlayerValues.MovementDirection.FORWARD) {
+                    if(this._multiUpDownList.Count > 0) {
+                        foreach(GameObject obj in this._multiUpDownList) {
+                            obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
+                        }
+                    }
+                }
                 break;
 
                 case PlayerValues.MovementDirection.LEFT:
@@ -187,6 +235,14 @@
                     foreach(GameObject obj in this._leftList) {
                         obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
                         //obj.GetComponent<Block>().MoveDown();
+                    }
+                }
+
+                if(current != PlayerValues.MovementDirection.RIGHT) {
+                    if(this._multiLeftRightList.Count > 0) {
+                        foreach(GameObject obj in this._multiLeftRightList) {
+                            obj.GetComponent<Block>().blockState = BlockValues.BlockState.DOWN;
+                        }
                     }
                 }
                 break;
@@ -218,6 +274,14 @@
 
                     case BlockValues.BlockType.EMPTYUP:
                     this._emptyUpList.Add(child.gameObject);
+                    break;
+
+                    case BlockValues.BlockType.MULTILEFTRIGHT:
+                    this._multiLeftRightList.Add(child.gameObject);
+                    break;
+
+                    case BlockValues.BlockType.MULTIUPDOWN:
+                    this._multiUpDownList.Add(child.gameObject);
                     break;
                 }
             }

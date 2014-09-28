@@ -203,6 +203,16 @@
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.LeftBlockName);
                     block.GetComponent<Block>().SetType(BlockValues.BlockType.LEFT);
                     break;
+
+                    case BlockValues.BlockType.MULTILEFTRIGHT:
+                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.MultiLeftRightBlockName);
+                    block.GetComponent<Block>().SetType(BlockValues.BlockType.MULTILEFTRIGHT);
+                    break;
+
+                    case BlockValues.BlockType.MULTIUPDOWN:
+                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.MultiUpDownBlockName);
+                    block.GetComponent<Block>().SetType(BlockValues.BlockType.MULTIUPDOWN);
+                    break;
                 }
             }
                 

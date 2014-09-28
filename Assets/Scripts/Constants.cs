@@ -25,8 +25,8 @@ namespace Constants {
         public const string DownBlockName = "DownBlock";
         public const string LeftBlockName = "LeftBlock";
         public const string EmptyBlockName = "EmptyBlock";
-        public const string SpawnBlockHumanName = "SpawnHumanBlock";
-        public const string SpawnBlockAIName = "SpawnAIBlock";
+        public const string MultiLeftRightBlockName = "MultiLeftRightBlock";
+        public const string MultiUpDownBlockName = "MultiUpDownBlock";
         public const string InvisibleBlockName = "InvisibleBlock";
 
         public const string PlayerName = "Player";
@@ -59,7 +59,9 @@ namespace Constants {
             UP,
             RIGHT,
             DOWN,
-            LEFT
+            LEFT,
+            MULTILEFTRIGHT,
+            MULTIUPDOWN
         };
 
         public enum BlockState {

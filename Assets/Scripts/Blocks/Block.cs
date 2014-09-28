@@ -71,6 +71,14 @@
                 this.blockType = BlockValues.BlockType.LEFT;
                 break;
 
+                case BlockValues.BlockType.MULTILEFTRIGHT:
+                this.blockType = BlockValues.BlockType.MULTILEFTRIGHT;
+                break;
+
+                case BlockValues.BlockType.MULTIUPDOWN:
+                this.blockType = BlockValues.BlockType.MULTIUPDOWN;
+                break;
+
                 case BlockValues.BlockType.EMPTYDOWN:
                 this.blockType = BlockValues.BlockType.EMPTYDOWN;
                 this.frozen = true;

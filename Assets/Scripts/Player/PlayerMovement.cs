@@ -23,7 +23,7 @@
             instance = this;
         }
 
-        void FixedUpdate() {
+        void Update() {
             this.ApplyGravity();
         }
 
