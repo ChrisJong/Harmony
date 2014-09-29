@@ -53,11 +53,13 @@
         private void OnMouseUp() {
             if(!this._gameMenuToggle) {
                 this._gameMenuToggle = true;
-                //Time.timeScale = 0.0f;
+                GameMenuController.instance.SetMenu();
+                Time.timeScale = 0.0f;
                 this._objectTexture.texture = backTextureList[0];
             } else {
                 this._gameMenuToggle = false;
-                //Time.timeScale = 1.0f;
+                GameMenuController.instance.SetMenu();
+                Time.timeScale = 1.0f;
                 this._objectTexture.texture = menuTextureList[0];
             }
         }

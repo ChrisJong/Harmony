@@ -7,15 +7,18 @@
 
     public class GameMenuController : MonoBehaviour {
 
+        public static GameMenuController instance;
+
         public GameObject menuBG;
         public GameObject gameMenuButton;
 
         void Awake() {
-            menuBG.transform.guiTexture.pixelInset = GameMenu.MenuBGRect;
-            menuBG.SetActive(false);
+            instance = this;
+            this.menuBG.transform.guiTexture.pixelInset = GameMenu.MenuBGRect;
+            this.menuBG.SetActive(false);
         }
 
-        void FixedUpdate() {
+        public void SetMenu() {
             if(gameMenuButton.GetComponent<GameMenuButton>().GameMenuToggle) {
                 menuBG.SetActive(true);
             } else {
