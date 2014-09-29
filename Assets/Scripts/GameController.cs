@@ -20,6 +20,8 @@ public class GameController : MonoBehaviour {
 
         if(UnityEditor.EditorApplication.currentScene == "Assets/Scenes/MainMenu/MainMenu.unity") {
             gameState = GlobalValues.GameState.MENU;
+        } else if(Application.loadedLevelName == "MainMenu") {
+            gameState = GlobalValues.GameState.MENU;
         } else {
             gameState = GlobalValues.GameState.INGAME;
         }

@@ -53,9 +53,6 @@
         }
 
         void OnGUI() {
-            if(GUI.Button(new Rect(0, 0, 100, 30), "Restart")) {
-                Application.LoadLevel(Application.loadedLevelName);
-            }
             GUI.Label(new Rect(0, 30, 100, 30), "Moves: " + this.moveCount.ToString());
         }
 

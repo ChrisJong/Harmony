@@ -184,15 +184,15 @@
                 Gizmos.DrawLine(position + new Vector3(0, 0, i * this._blockBreadth), position + new Vector3(mapWidth, 0, i * this._blockBreadth));
 
             // draws the marker position. (in this case a red wireframe block).
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.cyan;
             //Gizmos.DrawWireCube(this.markerPosition, new Vector3(this._blockWidth, this._blockHeight, this._blockBreadth));
             Gizmos.DrawCube(this.markerPosition, new Vector3(this._blockWidth, this._blockHeight + 0.1f, this._blockBreadth));
 
             // draws the marker position for player and ai spawn points.
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireCube(new Vector3(this.humanSpawnPoint.x + (BlockValues.BlockWidth * 0.5f), 0.0f, this.humanSpawnPoint.z + (BlockValues.BlockBreadth * 0.5f)), new Vector3(this._blockWidth, this._blockHeight + 0.25f, this._blockBreadth));
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(new Vector3(this.humanSpawnPoint.x + (BlockValues.BlockWidth * 0.5f), 0.0f, this.humanSpawnPoint.z + (BlockValues.BlockBreadth * 0.5f)), new Vector3(this._blockWidth, this._blockHeight + 0.5f, this._blockBreadth));
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(new Vector3(this.aiSpawnPoint.x + (BlockValues.BlockWidth * 0.5f), 0.0f, this.aiSpawnPoint.z + (BlockValues.BlockBreadth * 0.5f)), new Vector3(this._blockWidth, this._blockHeight + 0.25f, this._blockBreadth));
+            Gizmos.DrawWireCube(new Vector3(this.aiSpawnPoint.x + (BlockValues.BlockWidth * 0.5f), 0.0f, this.aiSpawnPoint.z + (BlockValues.BlockBreadth * 0.5f)), new Vector3(this._blockWidth, this._blockHeight + 0.5f, this._blockBreadth));
         }
 
         #region

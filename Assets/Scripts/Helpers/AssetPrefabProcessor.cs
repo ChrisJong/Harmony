@@ -24,7 +24,7 @@
         /// <param name="objectName">The Name Of The Asset</param>
         /// <returns></returns>
         public static Type FindAsset<Type>(string objectLocation, string objectName) where Type : UnityEngine.Object {
-
+            
             string prefabPath = GetPrefabPath(objectLocation, objectName);
             Type prefabObject = LoadAsset<Type>(prefabPath);
 

@@ -71,11 +71,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed16f43e377e06947af4c97222df2bd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  gravity: 1000
-  terminalVelocity: 20
-  moveVector: {x: 0, y: 0, z: 0}
-  verticalVelocity: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -87,9 +82,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e33a779d349104185aa40617430de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBlock: {fileID: 0}
-  currentDirection: 0
-  previousDirection: 0
   isMoving: 0
 --- !u!135 &13500000
 SphereCollider:
@@ -111,10 +103,10 @@ CharacterController:
   m_GameObject: {fileID: 100000}
   serializedVersion: 2
   m_Height: 1.5
-  m_Radius: .500000119
+  m_Radius: .300000012
   m_SlopeLimit: 45
   m_StepOffset: .300000012
-  m_SkinWidth: .0799999982
+  m_SkinWidth: .200000003
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000

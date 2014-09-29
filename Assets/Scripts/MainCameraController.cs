@@ -7,18 +7,23 @@ public class MainCameraController : MonoBehaviour {
 
     public GridMap gridMapScript;
 
+    private Camera _mainCamera;
     private Transform _targetToLookAt;
     private Vector3 _position;
 
     void Awake() {
         if(GameController.instance.gameState == GlobalValues.GameState.INGAME)
             gridMapScript = GameObject.FindGameObjectWithTag("GridMap").GetComponent<GridMap>();
+
+        this._mainCamera = this.transform.camera;
+        this._mainCamera.fieldOfView = CameraValues.MaxFOV;
     }
 
 	void Start() {
         UpdateCamera();
+        StartCoroutine(StartCamera());
 	}
-	
+
     /// <summary>
     /// Updates The Camera Position At The Start To Fit The Maze.
     /// </summary>
@@ -30,7 +35,7 @@ public class MainCameraController : MonoBehaviour {
         var posX = (float)(totalWidth * 0.5f);
         var posY = (float)Mathf.Round((totalHeight + (totalHeight / 3.0f)) + 0.5f);
         var posZ = (float)(totalHeight * 0.5f);
-        var fov = (float)CameraValues.minFOW;
+        var fov = (float)CameraValues.MaxFOV;
 
         if(gridMapScript.columns > (gridMapScript.rows * 2))
             posY = gridMapScript.rows + 2.5f + (gridMapScript.columns - (gridMapScript.rows * 2));
@@ -42,6 +47,18 @@ public class MainCameraController : MonoBehaviour {
         transform.rotation = CameraValues.CameraRotation;
         camera.fieldOfView = fov;
         camera.backgroundColor = CameraValues.BackgroundColor;
+    }
+
+    private IEnumerator StartCamera(){
+        while(true) {
+            this._mainCamera.fieldOfView = Mathf.Lerp(this._mainCamera.fieldOfView, CameraValues.MinFOV, CameraValues.FOVSpeed * Time.deltaTime);
+            if((CameraValues.MinFOV + 0.1f) < this._mainCamera.fieldOfView) {
+                yield return null;
+            } else {
+                this._mainCamera.fieldOfView = CameraValues.MinFOV;
+                yield break;
+            }
+        }
     }
 
     /// <summary>

@@ -95,7 +95,7 @@
             } else {
                 GUI.Label(new Rect(10, Screen.height - 65, 200, 100), "LEFT MOUSE BUTTON: Place Block");
                 GUI.Label(new Rect(10, Screen.height - 80, 230, 100), "RIGHT MOUSE BUTTON: Remove Block");
-                GUI.Label(new Rect(10, Screen.height - 95, 300, 100), "CYAN = Human Spawn / YELLOW = AI Spawn");
+                GUI.Label(new Rect(10, Screen.height - 95, 300, 100), "RED = Human Spawn / YELLOW = AI Spawn");
             }
             Handles.EndGUI();
         }
