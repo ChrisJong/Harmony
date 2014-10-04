@@ -4,7 +4,7 @@
     using UnityEngine;
 
     using Helpers;
-    using Constants;
+    using GameInfo;
 
     [DisallowMultipleComponent]
     public class SoundController : MonoBehaviour {
@@ -16,9 +16,10 @@
 
         public AudioClip blockUp;
         public AudioClip blockDown;
-        public AudioClip blockCollision;
 
-        public AudioClip playerMovement;
+        public List<AudioClip> playerMovement;
+        public AudioClip playerCollision;
+        public AudioClip playerHover;
 
         private AudioSource _currentSong;
 
@@ -35,12 +36,12 @@
             this.MusicPlayer();
         }
 
-        private void StartMusic(GlobalValues.GameState gameState) {
-            if(gameState == GlobalValues.GameState.INGAME) {
+        private void StartMusic(GlobalInfo.GameState gameState) {
+            if(gameState == GlobalInfo.GameState.INGAME) {
                 int randomSong = Random.Range(0, this.musicGame.Count);
                 this._currentSong.clip = musicGame[randomSong] as AudioClip;
                 this._currentSong.Play();
-            } else if(gameState == GlobalValues.GameState.MENU) {
+            } else if(gameState == GlobalInfo.GameState.MENU) {
                 int randomSong = Random.Range(0, this.musicMenu.Count);
                 this._currentSong.clip = musicMenu[randomSong] as AudioClip;
                 this._currentSong.Play();
@@ -56,40 +57,42 @@
 
         public static void PlayerAudio(string type, Vector3 position) {
             switch(type.ToLower()){
-                case SoundValues.BlockUp:
+                case SoundInfo.BlockUp:
                 AudioSource.PlayClipAtPoint(SoundController.instance.blockUp, position);
                 break;
 
-                case SoundValues.BlockDown:
+                case SoundInfo.BlockDown:
                 AudioSource.PlayClipAtPoint(SoundController.instance.blockDown, position);
                 break;
 
-                case SoundValues.BlockCollision:
-                AudioSource.PlayClipAtPoint(SoundController.instance.blockCollision, position);
+                case SoundInfo.PlayerCollision:
+                AudioSource.PlayClipAtPoint(SoundController.instance.playerCollision, position, 0.5f);
                 break;
 
-                case SoundValues.PlayerMovement:
-                AudioSource.PlayClipAtPoint(SoundController.instance.playerMovement, position);
+                case SoundInfo.PlayerMovement:
+                int randomMove = Random.Range(0, SoundController.instance.playerMovement.Count);
+                AudioSource.PlayClipAtPoint(SoundController.instance.playerMovement[randomMove], position, 0.5f);
                 break;
             }
         }
 
         public static void PlayerAudio(string type) {
             switch(type.ToLower()) {
-                case SoundValues.BlockUp:
+                case SoundInfo.BlockUp:
                 AudioSource.PlayClipAtPoint(SoundController.instance.blockUp, Vector3.zero);
                 break;
 
-                case SoundValues.BlockDown:
+                case SoundInfo.BlockDown:
                 AudioSource.PlayClipAtPoint(SoundController.instance.blockDown, Vector3.zero);
                 break;
 
-                case SoundValues.BlockCollision:
-                AudioSource.PlayClipAtPoint(SoundController.instance.blockCollision, Vector3.zero);
+                case SoundInfo.PlayerCollision:
+                AudioSource.PlayClipAtPoint(SoundController.instance.playerCollision, Vector3.zero, 0.5f);
                 break;
 
-                case SoundValues.PlayerMovement:
-                AudioSource.PlayClipAtPoint(SoundController.instance.playerMovement, Vector3.zero);
+                case SoundInfo.PlayerMovement:
+                int randomMove = Random.Range(0, SoundController.instance.playerMovement.Count);
+                AudioSource.PlayClipAtPoint(SoundController.instance.playerMovement[randomMove], Vector3.zero, 0.5f);
                 break;
             }
         }

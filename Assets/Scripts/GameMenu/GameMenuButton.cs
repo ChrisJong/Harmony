@@ -3,64 +3,64 @@
     using System.Collections.Generic;
     using UnityEngine;
 
-    using Constants;
+    using GameInfo;
     using Helpers;
 
     public class GameMenuButton : MonoBehaviour {
 
-        public List<Texture2D> menuTextureList = new List<Texture2D>();
-        public List<Texture2D> backTextureList = new List<Texture2D>();
-
+        public Texture2D buttonEnterTexture;
+        public Texture2D buttonExitTexture;
+        public Texture2D bannerTexture;
+        
         private GUITexture _objectTexture;
+        private GUITexture _bannerObjectTexture;
+
+        private GameObject _bannerObject;
         private bool _gameMenuToggle = false;
-        private int _currentFrame;
-        private int _minFrame = 0;
-        private int _maxFrame = 0;
 
         private void Awake() {
-            this._currentFrame = 0;
-            this._minFrame = 0;
-            this._maxFrame = GameMenu.LogoFrameCount;
+            this.transform.position = GameMenuInfo.GameMenuVector;
             this._objectTexture = this.transform.guiTexture;
 
-            this._objectTexture.texture = menuTextureList[0];
-            this._objectTexture.pixelInset = GameMenu.GameMenuRect;
+            this._objectTexture.texture = this.buttonExitTexture;
+            this._objectTexture.pixelInset = GameMenuInfo.GameMenuRect;
+
+            this._bannerObject = this.transform.GetChild(0).gameObject;
+            this._bannerObjectTexture = this._bannerObject.guiTexture;
+            this._bannerObjectTexture.texture = this.bannerTexture;
+            this._bannerObjectTexture.pixelInset = GameMenuInfo.BannerRect;
+            this._bannerObject.SetActive(false);
         }
         
-        private void OnMouseOver() {
-            if(this._currentFrame == this._maxFrame || this._gameMenuToggle)
-                return;
-
-            if(GlobalValues.ScreenWidth - Input.mousePosition.x < 75) {
-                for(int i = this._currentFrame; i < this._maxFrame; i++) {
-                    this._currentFrame = i;
-                    this._objectTexture.texture = menuTextureList[i];
-                }
-            } else
-                return;
+        private void OnMouseEnter() {
+            if(this._gameMenuToggle) {
+                this._objectTexture.texture = this.buttonExitTexture;
+            } else {
+                this._objectTexture.texture = this.buttonEnterTexture;
+                this._bannerObjectTexture.gameObject.SetActive(true);
+            }
         }
 
         private void OnMouseExit() {
-            if(this._currentFrame == 0 || this._gameMenuToggle)
-                return;
-
-            for(int i = this._currentFrame; i >= this._minFrame; i--) {
-                this._currentFrame = i;
-                this._objectTexture.texture = menuTextureList[i];
+            if(this._gameMenuToggle) {
+                this._objectTexture.texture = this.buttonEnterTexture;
+            } else {
+                this._objectTexture.texture = this.buttonExitTexture;
+                this._bannerObjectTexture.gameObject.SetActive(false);
             }
         }
 
         private void OnMouseUp() {
             if(!this._gameMenuToggle) {
                 this._gameMenuToggle = true;
-                GameMenuController.instance.SetMenu();
-                Time.timeScale = 0.0f;
-                this._objectTexture.texture = backTextureList[0];
+                this._bannerObjectTexture.gameObject.SetActive(true);
+                GameMenuController.instance.SetMenu(true);
+                this._objectTexture.texture = this.buttonEnterTexture;
             } else {
                 this._gameMenuToggle = false;
-                GameMenuController.instance.SetMenu();
-                Time.timeScale = 1.0f;
-                this._objectTexture.texture = menuTextureList[0];
+                this._bannerObjectTexture.gameObject.SetActive(false);
+                GameMenuController.instance.SetMenu(false);
+                this._objectTexture.texture = this.buttonExitTexture;
             }
         }
 

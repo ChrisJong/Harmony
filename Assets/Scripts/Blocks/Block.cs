@@ -4,7 +4,7 @@
     using System.Collections;
 
     using Grid;
-    using Constants;
+    using GameInfo;
 
     [DisallowMultipleComponent]
     public class Block : MonoBehaviour {
@@ -13,8 +13,8 @@
         private Vector3 _blockPosition;
         //private float _blockHeight;
 
-        public BlockValues.BlockType blockType;
-        public BlockValues.BlockState blockState;
+        public BlockInfo.BlockType blockType;
+        public BlockInfo.BlockState blockState;
         public bool frozen;
 
         void Awake() {
@@ -22,12 +22,12 @@
         }
 
         void Update() {
-            if(this.blockState == BlockValues.BlockState.NONE)
+            if(this.blockState == BlockInfo.BlockState.NONE)
                 return;
 
-            if(this.blockState == BlockValues.BlockState.UP)
+            if(this.blockState == BlockInfo.BlockState.UP)
                 MoveUp();
-            if(this.blockState == BlockValues.BlockState.DOWN)
+            if(this.blockState == BlockInfo.BlockState.DOWN)
                 MoveDown();
         }
 
@@ -37,7 +37,7 @@
             if(this.transform.position.y >= 1.0f) {
                 this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
                 this._blockPosition = this.transform.position;
-                this.blockState = BlockValues.BlockState.NONE;
+                this.blockState = BlockInfo.BlockState.NONE;
                 return;
             }
         }
@@ -48,51 +48,51 @@
             if(this.transform.position.y <= 0.0f) {
                 this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
                 this._blockPosition = this.transform.position;
-                this.blockState = BlockValues.BlockState.NONE;
+                this.blockState = BlockInfo.BlockState.NONE;
                 return;
             }
         }
 
-        public void SetType(BlockValues.BlockType type) {
+        public void SetType(BlockInfo.BlockType type) {
             switch(type) {
-                case BlockValues.BlockType.UP:
-                this.blockType = BlockValues.BlockType.UP;
+                case BlockInfo.BlockType.UP:
+                this.blockType = BlockInfo.BlockType.UP;
                 break;
 
-                case BlockValues.BlockType.RIGHT:
-                this.blockType = BlockValues.BlockType.RIGHT;
+                case BlockInfo.BlockType.RIGHT:
+                this.blockType = BlockInfo.BlockType.RIGHT;
                 break;
 
-                case BlockValues.BlockType.DOWN:
-                this.blockType = BlockValues.BlockType.DOWN;
+                case BlockInfo.BlockType.DOWN:
+                this.blockType = BlockInfo.BlockType.DOWN;
                 break;
 
-                case BlockValues.BlockType.LEFT:
-                this.blockType = BlockValues.BlockType.LEFT;
+                case BlockInfo.BlockType.LEFT:
+                this.blockType = BlockInfo.BlockType.LEFT;
                 break;
 
-                case BlockValues.BlockType.MULTILEFTRIGHT:
-                this.blockType = BlockValues.BlockType.MULTILEFTRIGHT;
+                case BlockInfo.BlockType.MULTILEFTRIGHT:
+                this.blockType = BlockInfo.BlockType.MULTILEFTRIGHT;
                 break;
 
-                case BlockValues.BlockType.MULTIUPDOWN:
-                this.blockType = BlockValues.BlockType.MULTIUPDOWN;
+                case BlockInfo.BlockType.MULTIUPDOWN:
+                this.blockType = BlockInfo.BlockType.MULTIUPDOWN;
                 break;
 
-                case BlockValues.BlockType.EMPTYDOWN:
-                this.blockType = BlockValues.BlockType.EMPTYDOWN;
+                case BlockInfo.BlockType.EMPTYDOWN:
+                this.blockType = BlockInfo.BlockType.EMPTYDOWN;
                 this.frozen = true;
                 break;
 
-                case BlockValues.BlockType.EMPTYUP:
-                this.blockState = BlockValues.BlockState.UP;
-                this.blockType = BlockValues.BlockType.EMPTYUP;
+                case BlockInfo.BlockType.EMPTYUP:
+                this.blockState = BlockInfo.BlockState.UP;
+                this.blockType = BlockInfo.BlockType.EMPTYUP;
                 this.frozen = true;
                 break;
 
                 default:
-                this.blockState = BlockValues.BlockState.NONE;
-                this.blockType = BlockValues.BlockType.EMPTYDOWN;
+                this.blockState = BlockInfo.BlockState.NONE;
+                this.blockType = BlockInfo.BlockType.EMPTYDOWN;
                 break;
             }
         }

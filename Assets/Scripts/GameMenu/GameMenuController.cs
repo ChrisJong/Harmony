@@ -3,26 +3,37 @@
     using System.Collections;
     using UnityEngine;
 
-    using Constants;
+    using GameInfo;
+    using Helpers;
 
     public class GameMenuController : MonoBehaviour {
 
         public static GameMenuController instance;
 
-        public GameObject menuBG;
-        public GameObject gameMenuButton;
+        public GameObject menu;
 
         void Awake() {
             instance = this;
-            this.menuBG.transform.guiTexture.pixelInset = GameMenu.MenuBGRect;
-            this.menuBG.SetActive(false);
+            if(this.transform.GetChild(0).gameObject.name == "Menu")
+                this.menu = this.transform.GetChild(0).gameObject;
+
+            this.menu.SetActive(false);
+            this.menu.transform.position = GameMenuInfo.MenuVector;
         }
 
-        public void SetMenu() {
-            if(gameMenuButton.GetComponent<GameMenuButton>().GameMenuToggle) {
-                menuBG.SetActive(true);
+        public void SetMenu(bool set) {
+            this.menu.SetActive(set);
+        }
+
+        public static void FindOrCreate() {
+            GameObject tempController = GameObject.FindGameObjectWithTag("GameMenuController");
+
+            if(tempController == null) {
+                tempController = AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabGameMenu, AssetPaths.GameMenuControllerName);
+                Instantiate(tempController).name = AssetPaths.GameMenuControllerName;
+                return;
             } else {
-                menuBG.SetActive(false);
+                return;
             }
         }
     }

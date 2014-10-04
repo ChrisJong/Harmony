@@ -4,7 +4,7 @@
     using System.Collections;
 
     using Sound;
-    using Constants;
+    using GameInfo;
 
     public class PlayerMovement : MonoBehaviour {
 
@@ -14,16 +14,20 @@
             get;
             set;
         }
+
         public float VerticalVelocity {
             get;
             set;
         }
 
+        private GameObject _objectRotation;
+
         void Awake() {
             instance = this;
+            this._objectRotation = this.transform.GetChild(0).gameObject;
         }
 
-        void Update() {
+        void LateUpdate() {
             this.ApplyGravity();
         }
 
@@ -31,14 +35,20 @@
             this.ProcessMovement();
         }
 
+        public void RotateToMovement(float newRotation) {
+            this._objectRotation.transform.rotation = Quaternion.Euler(0, newRotation, 0);
+        }
+
         private void ProcessMovement() {
             if(PlayerController.instance.isMoving)
                 this.MoveVector = this.transform.TransformDirection(this.MoveVector);
+            else
+                this.MoveVector = new Vector3(0, this.MoveVector.y, 0);
 
             if(MoveVector.magnitude > 1.0f)
                 this.MoveVector = Vector3.Normalize(this.MoveVector);
 
-            this.MoveVector *= PlayerValues.MoveSpeed;
+            this.MoveVector *= PlayerInfo.MoveSpeed;
 
             this.MoveVector = new Vector3(this.MoveVector.x, this.VerticalVelocity, this.MoveVector.z);
 
@@ -48,8 +58,8 @@
         }
 
         private void ApplyGravity() {
-            if(this.MoveVector.y > -PlayerValues.TerminalVelocity) {
-                this.MoveVector = new Vector3(this.MoveVector.x, this.MoveVector.y - PlayerValues.Gravity * Time.deltaTime, this.MoveVector.z);
+            if(this.MoveVector.y > -PlayerInfo.TerminalVelocity) {
+                this.MoveVector = new Vector3(this.MoveVector.x, this.MoveVector.y - PlayerInfo.Gravity * Time.deltaTime, this.MoveVector.z);
             }
 
             if(PlayerController.characterController.isGrounded && this.MoveVector.y < -1.0f) {

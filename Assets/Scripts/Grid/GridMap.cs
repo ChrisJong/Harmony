@@ -3,7 +3,7 @@
     using UnityEngine;
     using System.Collections.Generic;
 
-    using Constants;
+    using GameInfo;
     using Helpers;
     using Blocks;
 
@@ -53,7 +53,7 @@
         /// <summary>
         /// gets or sets the type of block to place down onto the grid. (Every block placed will be in the down position, even if it says UP).
         /// </summary>
-        public BlockValues.BlockType blockToPlace;
+        public BlockInfo.BlockType blockToPlace;
 
         /// <summary>
         /// Spawn Locations For Player And AI.
@@ -69,10 +69,10 @@
         public GridMap() {
             this.rows = 5;
             this.columns = 5;
-            this._blockWidth = BlockValues.BlockWidth;
-            this._blockHeight = BlockValues.BlockHeight;
-            this._blockBreadth = BlockValues.BlockBreadth;
-            this.blockToPlace = BlockValues.BlockType.EMPTYDOWN;
+            this._blockWidth = BlockInfo.BlockWidth;
+            this._blockHeight = BlockInfo.BlockHeight;
+            this._blockBreadth = BlockInfo.BlockBreadth;
+            this.blockToPlace = BlockInfo.BlockType.EMPTYDOWN;
         }
 
         public void Awake() {
@@ -143,11 +143,11 @@
             var aiSpawnPoint = this.aiSpawnPoint;
 
             if(humanSpawnPoint == aiSpawnPoint) {
-                humanSpawnPoint = new Vector3(0 + BlockValues.BlockWidth * 0.5f, 1.5f, 0 + BlockValues.BlockBreadth * 0.5f);
-                aiSpawnPoint = new Vector3((this.columns * BlockValues.BlockWidth) - (BlockValues.BlockWidth * 0.5f), 1.5f, (this.rows * BlockValues.BlockBreadth) - (BlockValues.BlockBreadth * 0.5f));
+                humanSpawnPoint = new Vector3(0 + BlockInfo.BlockWidth * 0.5f, 1.5f, 0 + BlockInfo.BlockBreadth * 0.5f);
+                aiSpawnPoint = new Vector3((this.columns * BlockInfo.BlockWidth) - (BlockInfo.BlockWidth * 0.5f), 1.5f, (this.rows * BlockInfo.BlockBreadth) - (BlockInfo.BlockBreadth * 0.5f));
             } else {
-                humanSpawnPoint = new Vector3(humanSpawnPoint.x + (BlockValues.BlockWidth * 0.5f), 1.5f, humanSpawnPoint.z + (BlockValues.BlockBreadth * 0.5f));
-                aiSpawnPoint = new Vector3(aiSpawnPoint.x + (BlockValues.BlockWidth * 0.5f), 1.5f, aiSpawnPoint.z + (BlockValues.BlockBreadth * 0.5f));
+                humanSpawnPoint = new Vector3(humanSpawnPoint.x + (BlockInfo.BlockWidth * 0.5f), 1.5f, humanSpawnPoint.z + (BlockInfo.BlockBreadth * 0.5f));
+                aiSpawnPoint = new Vector3(aiSpawnPoint.x + (BlockInfo.BlockWidth * 0.5f), 1.5f, aiSpawnPoint.z + (BlockInfo.BlockBreadth * 0.5f));
             }
 
             Instantiate((GameObject)AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabPlayer, AssetPaths.PlayerName), humanSpawnPoint, Quaternion.identity);
@@ -190,9 +190,9 @@
 
             // draws the marker position for player and ai spawn points.
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(new Vector3(this.humanSpawnPoint.x + (BlockValues.BlockWidth * 0.5f), 0.0f, this.humanSpawnPoint.z + (BlockValues.BlockBreadth * 0.5f)), new Vector3(this._blockWidth, this._blockHeight + 0.5f, this._blockBreadth));
+            Gizmos.DrawWireCube(new Vector3(this.humanSpawnPoint.x + (BlockInfo.BlockWidth * 0.5f), 0.0f, this.humanSpawnPoint.z + (BlockInfo.BlockBreadth * 0.5f)), new Vector3(this._blockWidth, this._blockHeight + 0.5f, this._blockBreadth));
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(new Vector3(this.aiSpawnPoint.x + (BlockValues.BlockWidth * 0.5f), 0.0f, this.aiSpawnPoint.z + (BlockValues.BlockBreadth * 0.5f)), new Vector3(this._blockWidth, this._blockHeight + 0.5f, this._blockBreadth));
+            Gizmos.DrawWireCube(new Vector3(this.aiSpawnPoint.x + (BlockInfo.BlockWidth * 0.5f), 0.0f, this.aiSpawnPoint.z + (BlockInfo.BlockBreadth * 0.5f)), new Vector3(this._blockWidth, this._blockHeight + 0.5f, this._blockBreadth));
         }
 
         #region

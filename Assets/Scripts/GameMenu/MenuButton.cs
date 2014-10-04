@@ -3,13 +3,13 @@
     using System.Collections;
     using UnityEngine;
 
-    using Constants;
+    using GameInfo;
 
     public class MenuButton : MonoBehaviour {
 
         public Texture2D buttonEnter;
         public Texture2D buttonExit;
-        public GameMenu.ButtonTypes buttonType;
+        public GameMenuInfo.ButtonTypes buttonType;
 
         private GUITexture _objectTexture;
 
@@ -19,16 +19,16 @@
             this._objectTexture.texture = this.buttonExit;
 
             switch(this.buttonType) {
-                case GameMenu.ButtonTypes.RESTART:
-                this._objectTexture.pixelInset = GameMenu.RestartButtonRect;
+                case GameMenuInfo.ButtonTypes.RESTART:
+                this._objectTexture.pixelInset = GameMenuInfo.RestartButtonRect;
                 break;
 
-                case GameMenu.ButtonTypes.MAINMENU:
-                this._objectTexture.pixelInset = GameMenu.MainMenuButtonRect;
+                case GameMenuInfo.ButtonTypes.MAINMENU:
+                this._objectTexture.pixelInset = GameMenuInfo.MainMenuButtonRect;
                 break;
 
-                case GameMenu.ButtonTypes.QUIT:
-                this._objectTexture.pixelInset = GameMenu.QuitButtonRect;
+                case GameMenuInfo.ButtonTypes.QUIT:
+                this._objectTexture.pixelInset = GameMenuInfo.QuitButtonRect;
                 break;
             }
         }
@@ -43,17 +43,16 @@
 
         private void OnMouseUp(){
             switch(this.buttonType) {
-                case GameMenu.ButtonTypes.RESTART:
+                case GameMenuInfo.ButtonTypes.RESTART:
                 Application.LoadLevel(Application.loadedLevelName);
                 break;
 
-                case GameMenu.ButtonTypes.MAINMENU:
-                GameController.instance.gameState = GlobalValues.GameState.MENU;
-                Debug.Log(GameController.instance.gameState.ToString());
-                Application.LoadLevel(0);
+                case GameMenuInfo.ButtonTypes.MAINMENU:
+                GameController.instance.gameState = GlobalInfo.GameState.MENU;
+                Application.LoadLevel("MainMenu");
                 break;
 
-                case GameMenu.ButtonTypes.QUIT:
+                case GameMenuInfo.ButtonTypes.QUIT:
                 UnityEditor.EditorApplication.isPlaying = false;
                 Application.Quit();
                 break;

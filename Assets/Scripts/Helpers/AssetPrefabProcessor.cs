@@ -6,7 +6,7 @@
     using System.IO;
     using System.Collections.Generic;
 
-    using Constants;
+    using GameInfo;
 
     public class AssetProcessor {
 

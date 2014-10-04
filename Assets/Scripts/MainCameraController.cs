@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Constants;
+using GameInfo;
 using Grid;
 
 public class MainCameraController : MonoBehaviour {
@@ -12,11 +12,11 @@ public class MainCameraController : MonoBehaviour {
     private Vector3 _position;
 
     void Awake() {
-        if(GameController.instance.gameState == GlobalValues.GameState.INGAME)
+        if(GameController.instance.gameState == GlobalInfo.GameState.INGAME)
             gridMapScript = GameObject.FindGameObjectWithTag("GridMap").GetComponent<GridMap>();
 
         this._mainCamera = this.transform.camera;
-        this._mainCamera.fieldOfView = CameraValues.MaxFOV;
+        this._mainCamera.fieldOfView = CameraInfo.MaxFOV;
     }
 
 	void Start() {
@@ -29,13 +29,13 @@ public class MainCameraController : MonoBehaviour {
     /// </summary>
     private void UpdateCamera() {
 
-        var totalWidth = BlockValues.BlockWidth * gridMapScript.columns;
-        var totalHeight = BlockValues.BlockBreadth * gridMapScript.rows;
+        var totalWidth = BlockInfo.BlockWidth * gridMapScript.columns;
+        var totalHeight = BlockInfo.BlockBreadth * gridMapScript.rows;
 
         var posX = (float)(totalWidth * 0.5f);
         var posY = (float)Mathf.Round((totalHeight + (totalHeight / 3.0f)) + 0.5f);
         var posZ = (float)(totalHeight * 0.5f);
-        var fov = (float)CameraValues.MaxFOV;
+        var fov = (float)CameraInfo.MaxFOV;
 
         if(gridMapScript.columns > (gridMapScript.rows * 2))
             posY = gridMapScript.rows + 2.5f + (gridMapScript.columns - (gridMapScript.rows * 2));
@@ -44,18 +44,18 @@ public class MainCameraController : MonoBehaviour {
 
         _position = new Vector3(posX, posY, posZ);
         transform.position = _position;
-        transform.rotation = CameraValues.CameraRotation;
+        transform.rotation = CameraInfo.CameraRotation;
         camera.fieldOfView = fov;
-        camera.backgroundColor = CameraValues.BackgroundColor;
+        camera.backgroundColor = CameraInfo.BackgroundColor;
     }
 
     private IEnumerator StartCamera(){
         while(true) {
-            this._mainCamera.fieldOfView = Mathf.Lerp(this._mainCamera.fieldOfView, CameraValues.MinFOV, CameraValues.FOVSpeed * Time.deltaTime);
-            if((CameraValues.MinFOV + 0.1f) < this._mainCamera.fieldOfView) {
+            this._mainCamera.fieldOfView = Mathf.Lerp(this._mainCamera.fieldOfView, CameraInfo.MinFOV, CameraInfo.FOVSpeed * Time.deltaTime);
+            if((CameraInfo.MinFOV + 0.1f) < this._mainCamera.fieldOfView) {
                 yield return null;
             } else {
-                this._mainCamera.fieldOfView = CameraValues.MinFOV;
+                this._mainCamera.fieldOfView = CameraInfo.MinFOV;
                 yield break;
             }
         }
@@ -78,7 +78,7 @@ public class MainCameraController : MonoBehaviour {
             tempCamera.tag = "MainCamera";
         }
 
-        if(GameController.instance.gameState == GlobalValues.GameState.INGAME) {
+        if(GameController.instance.gameState == GlobalInfo.GameState.INGAME) {
             GameObject tempLight = new GameObject("Directional Light");
             tempLight.transform.rotation = Quaternion.Euler(50.0f, -30.0f, 0.0f);
             tempLight.AddComponent<Light>();

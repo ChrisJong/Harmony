@@ -4,7 +4,7 @@
     using UnityEditor;
     using UnityEngine;
 
-    using Constants;
+    using GameInfo;
     using Helpers;
     using Blocks;
 
@@ -174,44 +174,44 @@
             // if no game object was found we will create one.
             if(block == null) {
                 switch(map.blockToPlace) {
-                    case BlockValues.BlockType.EMPTYUP:
+                    case BlockInfo.BlockType.EMPTYUP:
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.EmptyBlockName);
-                    block.GetComponent<Block>().SetType(BlockValues.BlockType.EMPTYUP);
+                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.EMPTYUP);
                     break;
 
-                    case BlockValues.BlockType.EMPTYDOWN:
+                    case BlockInfo.BlockType.EMPTYDOWN:
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.EmptyBlockName);
-                    block.GetComponent<Block>().SetType(BlockValues.BlockType.EMPTYDOWN);
+                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.EMPTYDOWN);
                     break;
 
-                    case BlockValues.BlockType.UP:
+                    case BlockInfo.BlockType.UP:
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.UpBlockName);
-                    block.GetComponent<Block>().SetType(BlockValues.BlockType.UP);
+                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.UP);
                     break;
 
-                    case BlockValues.BlockType.RIGHT:
+                    case BlockInfo.BlockType.RIGHT:
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.RightBlockName);
-                    block.GetComponent<Block>().SetType(BlockValues.BlockType.RIGHT);
+                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.RIGHT);
                     break;
 
-                    case BlockValues.BlockType.DOWN:
+                    case BlockInfo.BlockType.DOWN:
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.DownBlockName);
-                    block.GetComponent<Block>().SetType(BlockValues.BlockType.DOWN);
+                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.DOWN);
                     break;
 
-                    case BlockValues.BlockType.LEFT:
+                    case BlockInfo.BlockType.LEFT:
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.LeftBlockName);
-                    block.GetComponent<Block>().SetType(BlockValues.BlockType.LEFT);
+                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.LEFT);
                     break;
 
-                    case BlockValues.BlockType.MULTILEFTRIGHT:
+                    case BlockInfo.BlockType.MULTILEFTRIGHT:
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.MultiLeftRightBlockName);
-                    block.GetComponent<Block>().SetType(BlockValues.BlockType.MULTILEFTRIGHT);
+                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.MULTILEFTRIGHT);
                     break;
 
-                    case BlockValues.BlockType.MULTIUPDOWN:
+                    case BlockInfo.BlockType.MULTIUPDOWN:
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.MultiUpDownBlockName);
-                    block.GetComponent<Block>().SetType(BlockValues.BlockType.MULTIUPDOWN);
+                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.MULTIUPDOWN);
                     break;
                 }
             }
