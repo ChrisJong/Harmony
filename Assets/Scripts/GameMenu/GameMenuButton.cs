@@ -64,8 +64,10 @@
             }
         }
 
+        #region Getter/Setters
         public bool GameMenuToggle {
             get { return this._gameMenuToggle; }
         }
+        #endregion
     }
 }

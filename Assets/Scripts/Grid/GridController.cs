@@ -55,13 +55,6 @@
             }
         }
 
-        void OnGUI() {
-            if(MazeInfo.MazeMoveValue.ContainsKey(MazeInfo.CurrentMazeNumber-1))
-                GUI.Label(new Rect(10, 10, 100, 30), "Moves: " + this._moveCount.ToString() + " / " + MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber-1][1].ToString());
-            else
-                GUI.Label(new Rect(10, 10, 100, 30), "Moves: " + this._moveCount.ToString());
-        }
-
         void Update() {
             if(GameController.instance.gameState == GlobalInfo.GameState.INGAME)
                 this.GetInput();
@@ -107,6 +100,11 @@
             
             PlayerController.instance.CheckCurrentBlock();
             AIController.instance.CheckCurrentBlock();
+
+            if(MazeInfo.MazeMoveValue.ContainsKey(MazeInfo.CurrentMazeNumber - 1))
+                GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString() + " / " + MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][1].ToString();
+            else
+                GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString();
         }
 
         /// <summary>
