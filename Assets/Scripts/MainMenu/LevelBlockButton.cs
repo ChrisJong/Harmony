@@ -10,7 +10,8 @@
         private int _id = 0;
 
         public Material normalMaterial;
-        public Material betterMaterial;
+        public Material lockedMaterial;
+        public Material ribbonMaterial;
 
         private TextMesh _blockText;
 
@@ -19,6 +20,8 @@
 
         private int _movesMade;
         private int _maxMoves;
+
+        private bool _mazeLocked = true;
 
         void Awake() {
             this._blockText = this.transform.GetChild(0).GetComponent<TextMesh>() as TextMesh;
@@ -32,15 +35,26 @@
             this._movesMade = MazeInfo.MazeMoveValue[this._id - 1][0];
             this._maxMoves = MazeInfo.MazeMoveValue[this._id - 1][1];
 
-            if(this._movesMade == 0) {
+            if(this._movesMade == -1) {
+                this._mazeLocked = true;
+                this.gameObject.renderer.material = this.lockedMaterial;
+                this._mazeInfo = "Maze " + this._id.ToString() + " Locked";
+                return;
+            } else if(this._movesMade == 0) {
+                this._mazeLocked = false;
                 this.gameObject.renderer.material = normalMaterial;
                 this._mazeInfo = "New Maze: " + this._id.ToString() + '\n' + "??" + " out of " + this._maxMoves + " moves";
+                return;
             } else if(this._movesMade > 0 && this._movesMade <= this._maxMoves) {
-                this.gameObject.renderer.material = betterMaterial;
+                this._mazeLocked = false;
+                this.gameObject.renderer.material = ribbonMaterial;
                 this._mazeInfo = "Best Record: " + this._mazeTitle + '\n' + this._movesMade + " out of " + this._maxMoves + " moves";
+                return;
             } else {
+                this._mazeLocked = false;
                 this.gameObject.renderer.material = normalMaterial;
                 this._mazeInfo = "Completed: " + this._mazeTitle + '\n' + this._movesMade + " out of " + this._maxMoves + " moves";
+                return;
             }
         }
 
@@ -53,7 +67,8 @@
         }
 
         private void OnMouseUp() {
-            GameController.instance.LoadLevelAt(this._id);
+            if(!this._mazeLocked)
+                GameController.instance.LoadLevelAt(this._id);
         }
     }
 }

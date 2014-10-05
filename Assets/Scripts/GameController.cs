@@ -70,6 +70,7 @@ public class GameController : MonoBehaviour {
             Object.DontDestroyOnLoad(SoundController.instance.gameObject);
 
         MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][0] = GridController.instance.MoveCount;
+        MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber][0] = 0;
         MazeInfo.CurrentMaze = MazeInfo.NextMaze;
         //Debug.Log(MazeInfo.NextMaze);
         Application.LoadLevel(MazeInfo.NextMaze);
