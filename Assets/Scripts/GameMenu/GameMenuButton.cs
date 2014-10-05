@@ -19,7 +19,7 @@
         private bool _gameMenuToggle = false;
 
         private void Awake() {
-            this.transform.position = GameMenuInfo.GameMenuVector;
+            //this.transform.position = GameMenuInfo.GameMenuVector;
             this._objectTexture = this.transform.guiTexture;
 
             this._objectTexture.texture = this.buttonExitTexture;

@@ -9,7 +9,7 @@ namespace GameInfo {
     public static class MazeInfo {
         public static Dictionary<int, List<int>> MazeMoveValue = new Dictionary<int, List<int>>() {
             // First Value Is The Maze Number (0 is Maze 1 and so on).
-            // Second Number Is The Number Of Moved The Player Has Made. 0 is a new game. -1 is locked content(will be implemented).
+            // Second Number Is The Number Of Moves The Player Has Made for that maze. 0 is a new game / unlocked content. -1 is locked content(will be implemented).
             // Thrid Number Is The Max Number Of Moves For That Stage.
             {0, new List<int>{0, 3}},
             {1, new List<int>{0, 3}},
@@ -76,8 +76,9 @@ namespace GameInfo {
 
         public const int GameMenuWidth = 100;
         public const int GameMenuHeight = 100;
-        public static Rect GameMenuRect = new Rect(-GameMenuWidth, -GameMenuHeight, GameMenuWidth, GameMenuHeight);
-        public static Vector3 GameMenuVector = new Vector3((GlobalInfo.ScreenWidth * 0.98f) / GlobalInfo.ScreenWidth, (GlobalInfo.ScreenHeight * 0.98f) / GlobalInfo.ScreenHeight, 1.0f);
+        public static Rect GameMenuRect = new Rect(GlobalInfo.ScreenWidth - (GameMenuWidth + 5), GlobalInfo.ScreenHeight - (GameMenuHeight + 5), GameMenuWidth, GameMenuHeight);
+        //public static Rect GameMenuRect = new Rect(-GameMenuWidth, -GameMenuHeight, GameMenuWidth, GameMenuHeight);
+        //public static Vector3 GameMenuVector = new Vector3((GlobalInfo.ScreenWidth * 0.98f) / GlobalInfo.ScreenWidth, (GlobalInfo.ScreenHeight * 0.97f) / GlobalInfo.ScreenHeight, 1.0f);
 
         public const int BannerWidth = 100;
         public const int BannerHeight = 50;
@@ -85,10 +86,13 @@ namespace GameInfo {
 
         public const int MenuButtonWidth = 75;
         public const int MenuButtonHeight = 75;
-        public static Vector3 MenuVector = new Vector3((GlobalInfo.ScreenWidth * 0.98f) / GlobalInfo.ScreenWidth, (GlobalInfo.ScreenHeight * 0.98f) / GlobalInfo.ScreenHeight, 1.0f);
-        public static Rect RestartButtonRect = new Rect(-MenuButtonWidth, GameMenuRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
-        public static Rect MainMenuButtonRect = new Rect(-MenuButtonWidth, RestartButtonRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
-        public static Rect QuitButtonRect = new Rect(-MenuButtonWidth, MainMenuButtonRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
+        public static Rect RestartButtonRect = new Rect(GlobalInfo.ScreenWidth - (MenuButtonWidth + 5), GameMenuRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
+        public static Rect MainMenuButtonRect = new Rect(RestartButtonRect.x, RestartButtonRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
+        public static Rect QuitButtonRect = new Rect(RestartButtonRect.x, MainMenuButtonRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
+        //public static Vector3 MenuVector = new Vector3((GlobalInfo.ScreenWidth * 0.98f) / GlobalInfo.ScreenWidth, (GlobalInfo.ScreenHeight * 0.98f) / GlobalInfo.ScreenHeight, 1.0f);
+        //public static Rect RestartButtonRect = new Rect(-MenuButtonWidth, GameMenuRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
+        //public static Rect MainMenuButtonRect = new Rect(-MenuButtonWidth, RestartButtonRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
+        //public static Rect QuitButtonRect = new Rect(-MenuButtonWidth, MainMenuButtonRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
     }
 
     public static class AssetPaths {

@@ -76,7 +76,7 @@
                 this._directionCurrent = PlayerInfo.MovementDirection.FORWARD;
                 PlayerController.instance.GetInput(this._directionCurrent, this._directionPrevious);
                 AIController.instance.GetInput(this._directionCurrent, this._directionPrevious);
-                GridController.instance.ActivateBlocks(this._directionCurrent, this._directionPrevious);
+                this.ActivateBlocks(this._directionCurrent, this._directionPrevious);
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
             } else if(Input.GetKeyDown(KeyCode.RightArrow)) {
@@ -84,7 +84,7 @@
                 this._directionCurrent = PlayerInfo.MovementDirection.RIGHT;
                 PlayerController.instance.GetInput(this._directionCurrent, this._directionPrevious);
                 AIController.instance.GetInput(this._directionCurrent, this._directionPrevious);
-                GridController.instance.ActivateBlocks(this._directionCurrent, this._directionPrevious);
+                this.ActivateBlocks(this._directionCurrent, this._directionPrevious);
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
             } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
@@ -92,7 +92,7 @@
                 this._directionCurrent = PlayerInfo.MovementDirection.BACKWARD;
                 PlayerController.instance.GetInput(this._directionCurrent, this._directionPrevious);
                 AIController.instance.GetInput(this._directionCurrent, this._directionPrevious);
-                GridController.instance.ActivateBlocks(this._directionCurrent, this._directionPrevious);
+                this.ActivateBlocks(this._directionCurrent, this._directionPrevious);
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
             } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
@@ -100,7 +100,7 @@
                 this._directionCurrent = PlayerInfo.MovementDirection.LEFT;
                 PlayerController.instance.GetInput(this._directionCurrent, this._directionPrevious);
                 AIController.instance.GetInput(this._directionCurrent, this._directionPrevious);
-                GridController.instance.ActivateBlocks(this._directionCurrent, this._directionPrevious);
+                this.ActivateBlocks(this._directionCurrent, this._directionPrevious);
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
             }
@@ -181,7 +181,6 @@
                 break;
             }
 
-            SoundController.PlayerAudio(SoundInfo.BlockDown);
             switch(previous) {
                 case PlayerInfo.MovementDirection.FORWARD:
                 if(this._upList.Count > 0) {

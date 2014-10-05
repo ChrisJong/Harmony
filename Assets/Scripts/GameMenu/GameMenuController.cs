@@ -18,7 +18,7 @@
                 this.menu = this.transform.GetChild(0).gameObject;
 
             this.menu.SetActive(false);
-            this.menu.transform.position = GameMenuInfo.MenuVector;
+            //this.menu.transform.position = GameMenuInfo.MenuVector;
         }
 
         public void SetMenu(bool set) {

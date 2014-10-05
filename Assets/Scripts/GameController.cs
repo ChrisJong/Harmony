@@ -30,10 +30,6 @@ public class GameController : MonoBehaviour {
         SoundController.FindOrCreate();
     }
 
-    void Update() {
-
-    }
-
     public void PrepareNextLevel() {
         if(MazeInfo.CurrentMaze == null)
             MazeInfo.CurrentMaze = Application.loadedLevelName;
@@ -70,9 +66,12 @@ public class GameController : MonoBehaviour {
         }
         number++;
         nextScene = MazeInfo.MazeName + number.ToString();*/
+        if(MazeInfo.NextMaze != "MainMenu")
+            Object.DontDestroyOnLoad(SoundController.instance.gameObject);
+
         MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][0] = GridController.instance.MoveCount;
         MazeInfo.CurrentMaze = MazeInfo.NextMaze;
-        Debug.Log(MazeInfo.NextMaze);
+        //Debug.Log(MazeInfo.NextMaze);
         Application.LoadLevel(MazeInfo.NextMaze);
     }
 
