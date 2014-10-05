@@ -29,8 +29,11 @@
                 for(int i = 0; i < maxColums; i++) {
                     if(count >= MazeInfo.MaxMazeCount)
                         break;
-
+#if UNITY_EDITOR
                     block = (GameObject)Instantiate(AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabMainMenu, AssetPaths.LevelNumberBlockName));
+#else
+                    block = (GameObject)Instantiate(Controller.instance.levelNumberBlock);
+#endif
                     block.GetComponent<LevelBlockButton>().SetId(count + 1);
                     block.transform.position = new Vector3(thisObject.transform.position.x + i * 1, thisObject.gameObject.transform.position.y, thisObject.transform.position.z);
                     block.transform.parent = thisObject.transform;
@@ -42,7 +45,11 @@
                         if(count >= MazeInfo.MaxMazeCount)
                             break;
 
+#if UNITY_EDITOR
                         block = (GameObject)Instantiate(AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabMainMenu, AssetPaths.LevelNumberBlockName));
+#else
+                        block = (GameObject)Instantiate(Controller.instance.levelNumberBlock);
+#endif
                         block.GetComponent<LevelBlockButton>().SetId(count + 1);
                         block.transform.position = new Vector3(thisObject.transform.position.x + j * 1, thisObject.gameObject.transform.position.y - i * 1, thisObject.transform.position.z);
                         block.transform.parent = thisObject.transform;

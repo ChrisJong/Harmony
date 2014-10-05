@@ -1,7 +1,6 @@
-﻿namespace Helpers {
-    
+﻿#if UNITY_EDITOR
+namespace Helpers {
     using UnityEngine;
-    using UnityEditor;
     using System;
     using System.IO;
     using System.Collections.Generic;
@@ -14,7 +13,7 @@
             string prefabPath = GetPrefabPath(objectLocation, objectName);
             Type prefabObject = LoadAsset<Type>(prefabPath);
 
-            return PrefabUtility.InstantiatePrefab(prefabObject) as Type;
+            return UnityEditor.PrefabUtility.InstantiatePrefab(prefabObject) as Type;
         }
 
         /// <summary>
@@ -39,8 +38,8 @@
         /// <returns></returns>
         private static Type LoadAsset<Type>(string path) where Type : UnityEngine.Object {
 
-            var temp = AssetDatabase.LoadAssetAtPath(path, typeof(Type)) as Type;
-
+            var temp = UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(Type)) as Type;
+            
             if(temp == null)
                 throw new ArgumentNullException("Object at " + path + " Not Found");
 
@@ -59,3 +58,4 @@
         }
     }
 }
+#endif

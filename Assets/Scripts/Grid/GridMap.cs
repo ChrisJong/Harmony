@@ -77,6 +77,7 @@
 
         public void Awake() {
             instance = this;
+            Instantiate(Resources.Load("Controller") as GameObject);
             GenerateWalls();
             GeneratePlayers();
             GridController.FindOrCreate();
@@ -149,11 +150,16 @@
                 humanSpawnPoint = new Vector3(humanSpawnPoint.x + (BlockInfo.BlockWidth * 0.5f), 1.5f, humanSpawnPoint.z + (BlockInfo.BlockBreadth * 0.5f));
                 aiSpawnPoint = new Vector3(aiSpawnPoint.x + (BlockInfo.BlockWidth * 0.5f), 1.5f, aiSpawnPoint.z + (BlockInfo.BlockBreadth * 0.5f));
             }
-
+#if UNITY_EDITOR
             Instantiate((GameObject)AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabPlayer, AssetPaths.PlayerName), humanSpawnPoint, Quaternion.identity);
             Instantiate((GameObject)AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabPlayer, AssetPaths.AIName), aiSpawnPoint, Quaternion.identity);
+#else
+            Instantiate((GameObject)Controller.instance.playerObject, humanSpawnPoint, Quaternion.identity);
+            Instantiate((GameObject)Controller.instance.aiObject, aiSpawnPoint, Quaternion.identity);
+#endif
         }
 
+#if UNITY_EDITOR
         /// <summary>
         /// When the game object is selected this will draw the grid.
         /// </summary>
@@ -195,6 +201,7 @@
             Gizmos.DrawWireCube(new Vector3(this.aiSpawnPoint.x + (BlockInfo.BlockWidth * 0.5f), 0.0f, this.aiSpawnPoint.z + (BlockInfo.BlockBreadth * 0.5f)), new Vector3(this._blockWidth, this._blockHeight + 0.5f, this._blockBreadth));
         }
 
+#endif
         #region
         public float BlockWidth {
             get { return this._blockWidth; }

@@ -20,9 +20,9 @@
 
         void Awake() {
             instance = this;
+            Instantiate(Resources.Load("Controller") as GameObject);
             this.currentMenuType = MainMenuInfo.MenuTypes.MAINMENU;
             this.currentMenuScreen = mainMenu;
-
             this.mainMenu.SetActive(true);
             this.levelSelect.SetActive(false);
             this.instructions.SetActive(false);

@@ -49,11 +49,14 @@
 
                 case GameMenuInfo.ButtonTypes.MAINMENU:
                 GameController.instance.gameState = GlobalInfo.GameState.MENU;
+                Object.DestroyImmediate(Sound.SoundController.instance.gameObject);
                 Application.LoadLevel("MainMenu");
                 break;
 
                 case GameMenuInfo.ButtonTypes.QUIT:
+#if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
+#endif
                 Application.Quit();
                 break;
             }

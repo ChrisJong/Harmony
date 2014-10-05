@@ -4,7 +4,9 @@ namespace GameInfo {
     using System.Collections.Generic;
     
     using UnityEngine;
+#if UNITY_EDITOR
     using UnityEditor;
+#endif
 
     public static class MazeInfo {
         public static Dictionary<int, List<int>> MazeMoveValue = new Dictionary<int, List<int>>() {

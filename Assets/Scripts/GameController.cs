@@ -80,7 +80,11 @@ public class GameController : MonoBehaviour {
         GameObject tempController = GameObject.FindGameObjectWithTag("GameController");
 
         if(tempController == null) {
+#if UNITY_EDITOR
             tempController = AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabMisc, AssetPaths.GameControllerName);
+#else
+            tempController = Controller.instance.gameController;
+#endif
             Instantiate(tempController).name = AssetPaths.GameControllerName;
             return;
         } else {

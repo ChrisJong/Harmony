@@ -38,7 +38,7 @@
             this.MusicPlayer();
         }
 
-        private void StartMusic(GlobalInfo.GameState gameState) {
+        public void StartMusic(GlobalInfo.GameState gameState) {
             if(gameState == GlobalInfo.GameState.INGAME) {
                 int randomSong = Random.Range(0, this.musicGame.Count);
                 this._currentSong.clip = musicGame[randomSong] as AudioClip;
@@ -111,7 +111,11 @@
             GameObject tempController = GameObject.FindGameObjectWithTag("SoundController");
 
             if(tempController == null) {
+#if UNITY_EDITOR
                 tempController = AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabMisc, AssetPaths.SoundControllerName);
+#else
+                tempController = Controller.instance.soundController;
+#endif
                 var audio = tempController.GetComponent<AudioSource>() as AudioSource;
                 audio.rolloffMode = AudioRolloffMode.Linear;
                 audio.minDistance = 50.0f;

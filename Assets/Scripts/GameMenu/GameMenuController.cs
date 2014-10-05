@@ -29,7 +29,11 @@
             GameObject tempController = GameObject.FindGameObjectWithTag("GameMenuController");
 
             if(tempController == null) {
+#if UNITY_EDITOR
                 tempController = AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabGameMenu, AssetPaths.GameMenuControllerName);
+#else
+                tempController = Controller.instance.gameMenuController;
+#endif
                 Instantiate(tempController).name = AssetPaths.GameMenuControllerName;
                 return;
             } else {

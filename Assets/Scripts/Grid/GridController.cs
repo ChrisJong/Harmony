@@ -294,7 +294,11 @@
             GameObject tempController = GameObject.FindGameObjectWithTag("GridController");
 
             if(tempController == null) {
+#if UNITY_EDITOR
                 tempController = AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabMisc, AssetPaths.GridControllerName);
+#else
+                tempController = Controller.instance.gridController;
+#endif
                 Instantiate(tempController).name = AssetPaths.GridControllerName;
                 return;
             } else {
