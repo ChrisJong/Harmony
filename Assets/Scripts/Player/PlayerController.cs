@@ -36,6 +36,7 @@
 
             if(this.CastCollisionRays())
                 PlayerMovement.instance.UpdateMovement();
+
         }
 
         public void GetInput(PlayerInfo.MovementDirection current, PlayerInfo.MovementDirection previous) {
@@ -118,10 +119,14 @@
                     } else {
                         if(isMoving)
                             SoundController.PlayerAudio(SoundInfo.PlayerCollision);
+
                         PlayerAudio.instance.Stop();
                         this.isMoving = false;
                         PlayerMovement.instance.VerticalVelocity = PlayerMovement.instance.MoveVector.y;
                         PlayerMovement.instance.MoveVector = Vector3.zero;
+
+                        this.GetCurrentBlock();
+                        PlayerMovement.instance.CenterPlayer(this._currentBlock.transform);
                         return true;
                     }
                 }

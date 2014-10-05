@@ -127,10 +127,14 @@
                     } else {
                         if(isMoving)
                             SoundController.PlayerAudio(SoundInfo.PlayerCollision);
+
                         AIAudio.instance.Stop();
                         this.isMoving = false;
                         AIMovement.instance.verticalVelocity = AIMovement.instance.MoveVector.y;
                         AIMovement.instance.MoveVector = Vector3.zero;
+
+                        this.GetCurrentBlock();
+                        AIMovement.instance.CenterPlayer(this._currentBlock.transform);
                         return true;
                     }
                 }

@@ -54,6 +54,10 @@
             AIController.characterController.Move(this.MoveVector * Time.deltaTime);
         }
 
+        public void CenterPlayer(Transform currentBlock) {
+            this.transform.position = new Vector3(currentBlock.transform.position.x, this.transform.position.y, currentBlock.transform.position.z + 0.5f);
+        }
+
         private void ApplyGravity() {
             if(this.MoveVector.y > -PlayerInfo.TerminalVelocity) {
                 this.MoveVector = new Vector3(this.MoveVector.x, this.MoveVector.y - PlayerInfo.Gravity * Time.deltaTime, this.MoveVector.z);

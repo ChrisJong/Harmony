@@ -21,6 +21,8 @@
         public AudioClip playerCollision;
         public AudioClip playerHover;
 
+        private static int soundMoveCount = 0;
+
         private AudioSource _currentSong;
 
         void Awake() {
@@ -70,8 +72,12 @@
                 break;
 
                 case SoundInfo.PlayerMovement:
-                int randomMove = Random.Range(0, SoundController.instance.playerMovement.Count);
-                AudioSource.PlayClipAtPoint(SoundController.instance.playerMovement[randomMove], position, 0.5f);
+                if(soundMoveCount > Random.Range(0, 4)) {
+                    int randomMove = Random.Range(0, SoundController.instance.playerMovement.Count);
+                    AudioSource.PlayClipAtPoint(SoundController.instance.playerMovement[randomMove], position, 0.5f);
+                    soundMoveCount = 0;
+                }
+                soundMoveCount++;
                 break;
             }
         }
@@ -91,8 +97,12 @@
                 break;
 
                 case SoundInfo.PlayerMovement:
-                int randomMove = Random.Range(0, SoundController.instance.playerMovement.Count);
-                AudioSource.PlayClipAtPoint(SoundController.instance.playerMovement[randomMove], Vector3.zero, 0.5f);
+                if(soundMoveCount > Random.Range(0, 4)) {
+                    int randomMove = Random.Range(0, SoundController.instance.playerMovement.Count);
+                    AudioSource.PlayClipAtPoint(SoundController.instance.playerMovement[randomMove], Vector3.zero, 0.5f);
+                    soundMoveCount = 0;
+                }
+                soundMoveCount++;
                 break;
             }
         }
