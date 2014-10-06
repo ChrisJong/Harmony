@@ -85,7 +85,6 @@
 
             Handles.BeginGUI();
             
-
             if(this._placeSpawnPoints) {
                 if(!this._humanSapwnSet) {
                     GUI.Label(new Rect(10, Screen.height - 65, 300, 100), "LEFT MOUSE BUTTON: Select Human Spawn Point");
@@ -105,6 +104,11 @@
             base.OnInspectorGUI();
 
             GUILayout.Space(20);
+
+            if(GUILayout.Button("Place Blocks")) {
+                GridMapEditorWindow blockWindow = (GridMapEditorWindow)EditorWindow.GetWindow(typeof(GridMapEditorWindow));
+                blockWindow.Init();
+            }
 
             EditorGUILayout.BeginHorizontal();
             if(!this._placeSpawnPoints) {
@@ -147,7 +151,7 @@
         private void OnEnable() {
             Tools.current = Tool.View;
             Tools.viewTool = ViewTool.Orbit;
-            _target = (GridMap)this.target;
+            this._target = (GridMap)this.target;
         }
 
         /// <summary>

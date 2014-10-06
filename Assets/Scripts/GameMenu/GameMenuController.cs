@@ -11,7 +11,7 @@
         public static GameMenuController instance;
 
         public GameObject menu;
-
+        public GameObject undoButton;
         public GUIText moveText;
 
         void Awake() {

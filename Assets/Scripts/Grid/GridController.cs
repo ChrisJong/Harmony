@@ -56,14 +56,8 @@
         }
 
         void Update() {
-            if(GameController.instance.gameState == GlobalInfo.GameState.INGAME) {
+            if(GameController.instance.gameState == GlobalInfo.GameState.INGAME)
                 this.GetInput();
-
-                if(Input.GetKeyDown(KeyCode.U)){
-                    PlayerController.instance.UndoMovement();
-                    AIController.instance.UndoMovement();
-                }
-            }
         }
 
         private void GetInput() {
@@ -106,6 +100,11 @@
             
             PlayerController.instance.CheckCurrentBlock();
             AIController.instance.CheckCurrentBlock();
+
+            if(PlayerController.instance.CanUndo & AIController.instance.CanUndo)
+                GameMenuController.instance.undoButton.SetActive(true);
+            else
+                GameMenuController.instance.undoButton.SetActive(false);
 
             if(MazeInfo.MazeMoveValue.ContainsKey(MazeInfo.CurrentMazeNumber - 1))
                 GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString() + " / " + MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][1].ToString();

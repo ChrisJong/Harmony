@@ -39,14 +39,13 @@
         public void GetInput(PlayerInfo.MovementDirection current, PlayerInfo.MovementDirection previous) {
             if(this.isMoving)
                 return;
-
+            this._canUndo = false;
             this.GetCurrentBlock();
             this.CheckCurrentBlock();
             PlayerMovement.instance.VerticalVelocity = PlayerMovement.instance.MoveVector.y;
             PlayerMovement.instance.MoveVector = Vector3.zero;
 
             PlayerMovement.instance.UndoPosition = this.transform.position;
-            this._canUndo = true;
 
             if(Input.GetKeyDown(KeyCode.UpArrow)) {
                 this._currentDirection = current;
@@ -125,7 +124,7 @@
                     } else {
                         if(isMoving)
                             SoundController.PlayerAudio(SoundInfo.PlayerCollision);
-
+                        this._canUndo = true;
                         PlayerAudio.instance.Stop();
                         this.isMoving = false;
                         PlayerMovement.instance.VerticalVelocity = PlayerMovement.instance.MoveVector.y;
@@ -152,5 +151,11 @@
                 }
             }
         }
+
+        #region Getter / Setter
+        public bool CanUndo {
+            get { return this._canUndo; }
+        }
+        #endregion
     }
 }
