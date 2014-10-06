@@ -19,6 +19,11 @@
             set;
         }
 
+        public Vector3 UndoPosition {
+            get;
+            set;
+        }
+
         private GameObject _objectRotation;
 
         void Awake() {
@@ -56,6 +61,10 @@
 
         public void CenterPlayer(Transform currentBlock) {
             this.transform.position = new Vector3(currentBlock.transform.position.x, this.transform.position.y, currentBlock.transform.position.z + 0.5f);
+        }
+
+        public void UndoMovement() {
+            this.transform.position = this.UndoPosition;
         }
 
         private void ApplyGravity() {

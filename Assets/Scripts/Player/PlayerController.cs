@@ -15,8 +15,7 @@
         
         private GameObject _currentBlock;
         private PlayerInfo.MovementDirection _currentDirection = PlayerInfo.MovementDirection.NONE;
-        private PlayerInfo.MovementDirection _previousDirection = PlayerInfo.MovementDirection.NONE;
-
+        private bool _canUndo = false;
         public bool isMoving = false;
 
         void Awake() {
@@ -25,7 +24,6 @@
 
             this._currentBlock = null;
             this._currentDirection = PlayerInfo.MovementDirection.NONE;
-            this._previousDirection = PlayerInfo.MovementDirection.NONE;
         }
 
         void Update() {
@@ -36,7 +34,6 @@
 
             if(this.CastCollisionRays())
                 PlayerMovement.instance.UpdateMovement();
-
         }
 
         public void GetInput(PlayerInfo.MovementDirection current, PlayerInfo.MovementDirection previous) {
@@ -48,26 +45,25 @@
             PlayerMovement.instance.VerticalVelocity = PlayerMovement.instance.MoveVector.y;
             PlayerMovement.instance.MoveVector = Vector3.zero;
 
+            PlayerMovement.instance.UndoPosition = this.transform.position;
+            this._canUndo = true;
+
             if(Input.GetKeyDown(KeyCode.UpArrow)) {
-                this._previousDirection = this._currentDirection;
                 this._currentDirection = current;
                 PlayerMovement.instance.RotateToMovement(270.0f);
                 PlayerMovement.instance.MoveVector = new Vector3(0, 0, 1);
                 this.isMoving = true;
             } else if(Input.GetKeyDown(KeyCode.RightArrow)) {
-                this._previousDirection = this._currentDirection;
                 this._currentDirection = current;
                 PlayerMovement.instance.RotateToMovement(0.0f);
                 PlayerMovement.instance.MoveVector = new Vector3(1, 0, 0);
                 this.isMoving = true;
             } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
-                this._previousDirection = this._currentDirection;
                 this._currentDirection = current;
                 PlayerMovement.instance.RotateToMovement(90.0f);
                 PlayerMovement.instance.MoveVector = new Vector3(0, 0, -1);
                 this.isMoving = true;
             } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
-                this._previousDirection = this._currentDirection;
                 this._currentDirection = current;
                 PlayerMovement.instance.RotateToMovement(180.0f);
                 PlayerMovement.instance.MoveVector = new Vector3(-1, 0, 0);
@@ -85,6 +81,16 @@
                 this.transform.position = new Vector3(this.transform.position.x, 2.5f, this.transform.position.z);
             else if(this._currentBlock.GetComponent<Block>().blockState == BlockInfo.BlockState.DOWN)
                 this.transform.position = new Vector3(this.transform.position.x, 1.5f, this.transform.position.z);
+        }
+
+        public void UndoMovement() {
+            if(this._canUndo) {
+                this.isMoving = false;
+                GridController.instance.UndoMovement();
+                PlayerMovement.instance.UndoMovement();
+                this._currentDirection = PlayerInfo.MovementDirection.NONE;
+                this._canUndo = false;
+            }
         }
 
         private bool CastCollisionRays() {

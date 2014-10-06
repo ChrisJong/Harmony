@@ -56,8 +56,14 @@
         }
 
         void Update() {
-            if(GameController.instance.gameState == GlobalInfo.GameState.INGAME)
+            if(GameController.instance.gameState == GlobalInfo.GameState.INGAME) {
                 this.GetInput();
+
+                if(Input.GetKeyDown(KeyCode.U)){
+                    PlayerController.instance.UndoMovement();
+                    AIController.instance.UndoMovement();
+                }
+            }
         }
 
         private void GetInput() {
@@ -105,6 +111,13 @@
                 GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString() + " / " + MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][1].ToString();
             else
                 GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString();
+        }
+
+        public void UndoMovement() {
+            this._moveCount -= 1;
+            this.ActivateBlocks(this._directionPrevious, this._directionCurrent);
+            this._directionCurrent = this._directionPrevious;
+            this._directionPrevious = PlayerInfo.MovementDirection.NONE;
         }
 
         /// <summary>
