@@ -1,73 +1,70 @@
 ﻿namespace GameMenu {
-    
-    using System.Collections.Generic;
+
+    using System.Collections;
     using UnityEngine;
 
     using GameInfo;
-    using Helpers;
+    using Player;
+    using AI;
 
     public class GameMenuButton : MonoBehaviour {
 
-        public Texture2D buttonEnterTexture;
-        public Texture2D buttonExitTexture;
-        public Texture2D bannerTexture;
-        
+        public Texture2D buttonEnter;
+        public Texture2D buttonExit;
+        public GameMenuInfo.ButtonTypes buttonType;
+
         private GUITexture _objectTexture;
-        private GUITexture _bannerObjectTexture;
 
-        private GameObject _bannerObject;
-        private bool _gameMenuToggle = false;
-
-        private void Awake() {
-            //this.transform.position = GameMenuInfo.GameMenuVector;
+        void Awake() {
             this._objectTexture = this.transform.guiTexture;
+            this.transform.position = new Vector3(0.0f, 0.0f, 1.0f);
+            this._objectTexture.texture = this.buttonExit;
 
-            this._objectTexture.texture = this.buttonExitTexture;
-            this._objectTexture.pixelInset = GameMenuInfo.GameMenuRect;
+            switch(this.buttonType) {
+                case GameMenuInfo.ButtonTypes.RESTART:
+                this._objectTexture.pixelInset = GameMenuInfo.RestartButtonRect;
+                break;
 
-            this._bannerObject = this.transform.GetChild(0).gameObject;
-            this._bannerObjectTexture = this._bannerObject.guiTexture;
-            this._bannerObjectTexture.texture = this.bannerTexture;
-            this._bannerObjectTexture.pixelInset = GameMenuInfo.BannerRect;
-            this._bannerObject.SetActive(false);
-        }
-        
-        private void OnMouseEnter() {
-            if(this._gameMenuToggle) {
-                this._objectTexture.texture = this.buttonExitTexture;
-            } else {
-                this._objectTexture.texture = this.buttonEnterTexture;
-                this._bannerObjectTexture.gameObject.SetActive(true);
+                case GameMenuInfo.ButtonTypes.MAINMENU:
+                this._objectTexture.pixelInset = GameMenuInfo.MainMenuButtonRect;
+                break;
+
+                case GameMenuInfo.ButtonTypes.UNDO:
+                this.transform.gameObject.SetActive(false);
+                this._objectTexture.pixelInset = GameMenuInfo.UndoButtonRect;
+                break;
             }
+        }
+
+        private void OnMouseEnter() {
+            this._objectTexture.texture = this.buttonEnter;
         }
 
         private void OnMouseExit() {
-            if(this._gameMenuToggle) {
-                this._objectTexture.texture = this.buttonEnterTexture;
-            } else {
-                this._objectTexture.texture = this.buttonExitTexture;
-                this._bannerObjectTexture.gameObject.SetActive(false);
-            }
+            this._objectTexture.texture = this.buttonExit;
         }
 
-        private void OnMouseUp() {
-            if(!this._gameMenuToggle) {
-                this._gameMenuToggle = true;
-                this._bannerObjectTexture.gameObject.SetActive(true);
-                GameMenuController.instance.SetMenu(true);
-                this._objectTexture.texture = this.buttonEnterTexture;
-            } else {
-                this._gameMenuToggle = false;
-                this._bannerObjectTexture.gameObject.SetActive(false);
-                GameMenuController.instance.SetMenu(false);
-                this._objectTexture.texture = this.buttonExitTexture;
+        private void OnMouseUp(){
+            switch(this.buttonType) {
+                case GameMenuInfo.ButtonTypes.RESTART:
+                this._objectTexture.texture = this.buttonExit;
+                Application.LoadLevel(Application.loadedLevelName);
+                break;
+
+                case GameMenuInfo.ButtonTypes.MAINMENU:
+                this._objectTexture.texture = this.buttonExit;
+                GameController.instance.gameState = GlobalInfo.GameState.MENU;
+                Object.DestroyImmediate(Sound.SoundController.instance.gameObject);
+                Application.LoadLevel("MainMenu");
+                break;
+
+                case GameMenuInfo.ButtonTypes.UNDO:
+                this._objectTexture.texture = this.buttonExit;
+                PlayerController.instance.UndoMovement();
+                AIController.instance.UndoMovement();
+                this.transform.gameObject.SetActive(false);
+                break;
             }
         }
-
-        #region Getter/Setters
-        public bool GameMenuToggle {
-            get { return this._gameMenuToggle; }
-        }
-        #endregion
     }
 }

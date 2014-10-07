@@ -73,28 +73,16 @@ namespace GameInfo {
         public enum ButtonTypes {
             RESTART,
             MAINMENU,
-            QUIT
+            UNDO,
+            NONE
         }
 
-        public const int GameMenuWidth = 100;
-        public const int GameMenuHeight = 100;
-        public static Rect GameMenuRect = new Rect(GlobalInfo.ScreenWidth - (GameMenuWidth + 5), GlobalInfo.ScreenHeight - (GameMenuHeight + 5), GameMenuWidth, GameMenuHeight);
-        //public static Rect GameMenuRect = new Rect(-GameMenuWidth, -GameMenuHeight, GameMenuWidth, GameMenuHeight);
-        //public static Vector3 GameMenuVector = new Vector3((GlobalInfo.ScreenWidth * 0.98f) / GlobalInfo.ScreenWidth, (GlobalInfo.ScreenHeight * 0.97f) / GlobalInfo.ScreenHeight, 1.0f);
-
-        public const int BannerWidth = 100;
-        public const int BannerHeight = 50;
-        public static Rect BannerRect = new Rect(GameMenuRect.x - (BannerWidth - 5), GameMenuRect.y + (BannerHeight * 0.5f), BannerWidth, BannerHeight);
-
-        public const int MenuButtonWidth = 75;
-        public const int MenuButtonHeight = 75;
-        public static Rect RestartButtonRect = new Rect(GlobalInfo.ScreenWidth - (MenuButtonWidth + 5), GameMenuRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
-        public static Rect MainMenuButtonRect = new Rect(RestartButtonRect.x, RestartButtonRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
-        public static Rect QuitButtonRect = new Rect(RestartButtonRect.x, MainMenuButtonRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
+        public const int GameMenuButtonWidth = 75;
+        public const int GameMenuButtonHeight = 75;
+        public static Rect RestartButtonRect = new Rect(GlobalInfo.ScreenWidth - (GameMenuButtonWidth + 5), GlobalInfo.ScreenHeight - (GameMenuButtonHeight + 5), GameMenuButtonWidth, GameMenuButtonHeight);
+        public static Rect MainMenuButtonRect = new Rect(RestartButtonRect.x, RestartButtonRect.y - (GameMenuButtonHeight + 5), GameMenuButtonWidth, GameMenuButtonHeight);
+        public static Rect UndoButtonRect = new Rect(RestartButtonRect.x, 0.0f + 5.0f, GameMenuButtonWidth, GameMenuButtonHeight);
         //public static Vector3 MenuVector = new Vector3((GlobalInfo.ScreenWidth * 0.98f) / GlobalInfo.ScreenWidth, (GlobalInfo.ScreenHeight * 0.98f) / GlobalInfo.ScreenHeight, 1.0f);
-        //public static Rect RestartButtonRect = new Rect(-MenuButtonWidth, GameMenuRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
-        //public static Rect MainMenuButtonRect = new Rect(-MenuButtonWidth, RestartButtonRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
-        //public static Rect QuitButtonRect = new Rect(-MenuButtonWidth, MainMenuButtonRect.y - (MenuButtonHeight + 5), MenuButtonWidth, MenuButtonHeight);
     }
 
     public static class AssetPaths {

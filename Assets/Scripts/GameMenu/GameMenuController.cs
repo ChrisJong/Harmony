@@ -19,14 +19,8 @@
             if(this.transform.GetChild(0).gameObject.name == "Menu")
                 this.menu = this.transform.GetChild(0).gameObject;
 
-            this.menu.SetActive(false);
-            this.moveText = this.transform.GetChild(2).gameObject.guiText as GUIText;
+            this.moveText = this.transform.GetChild(1).gameObject.guiText as GUIText;
             this.moveText.pixelOffset = new Vector2(10.0f, GlobalInfo.ScreenHeight - 10.0f);
-            //this.menu.transform.position = GameMenuInfo.MenuVector;
-        }
-
-        public void SetMenu(bool set) {
-            this.menu.SetActive(set);
         }
 
         public static void FindOrCreate() {
