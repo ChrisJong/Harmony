@@ -66,11 +66,18 @@ public class GameController : MonoBehaviour {
         }
         number++;
         nextScene = MazeInfo.MazeName + number.ToString();*/
-        if(MazeInfo.NextMaze != "MainMenu")
+        if(MazeInfo.NextMaze != "MainMenu") {
             Object.DontDestroyOnLoad(SoundController.instance.gameObject);
 
-        MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][0] = GridController.instance.MoveCount;
-        MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber][0] = 0;
+            if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][0] >= 0) {
+                MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][0] = GridController.instance.MoveCount;
+                MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber][0] = 0;
+            }
+        } else {
+            if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][0] >= 0)
+                MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][0] = GridController.instance.MoveCount;
+        }
+
         MazeInfo.CurrentMaze = MazeInfo.NextMaze;
         //Debug.Log(MazeInfo.NextMaze);
         Application.LoadLevel(MazeInfo.NextMaze);

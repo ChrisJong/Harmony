@@ -42,9 +42,8 @@
             this._canUndo = false;
             this.GetCurrentBlock();
             this.CheckCurrentBlock();
-            PlayerMovement.instance.VerticalVelocity = PlayerMovement.instance.MoveVector.y;
-            PlayerMovement.instance.MoveVector = Vector3.zero;
 
+            PlayerMovement.instance.ResetMovement();
             PlayerMovement.instance.UndoPosition = this.transform.position;
 
             if(Input.GetKeyDown(KeyCode.UpArrow)) {

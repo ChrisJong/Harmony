@@ -34,7 +34,7 @@
             this.StartMusic(GameController.instance.gameState);
         }
 
-        void FixedUpdate() {
+        void Update() {
             this.MusicPlayer();
         }
 

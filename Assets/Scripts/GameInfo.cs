@@ -137,7 +137,8 @@ namespace GameInfo {
         };
 
 
-        public const float MoveSpeed = 10.0f;
+        public const float MaxMoveSpeed = 20.0f;
+        public const float MinMoveSpeed = 5.0f;
         public const float Gravity = 1000.0f;
         public const float TerminalVelocity = 20.0f;
     }

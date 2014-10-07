@@ -14,7 +14,7 @@
             get;
             set;
         }
-        public float verticalVelocity {
+        public float VerticalVelocity {
             get;
             set;
         }
@@ -24,6 +24,7 @@
             set;
         }
 
+        private float _moveSpeed = PlayerInfo.MinMoveSpeed;
         private GameObject _objectRotation;
 
         void Awake() {
@@ -39,6 +40,12 @@
             this.ProcessMovement();
         }
 
+        public void ResetMovement() {
+            this.VerticalVelocity = MoveVector.y;
+            this.MoveVector = Vector3.zero;
+            this._moveSpeed = PlayerInfo.MinMoveSpeed;
+        }
+
         public void RotateToMovement(float newRotation) {
             this._objectRotation.transform.rotation = Quaternion.Euler(0, newRotation, 0);
         }
@@ -50,9 +57,14 @@
             if(this.MoveVector.magnitude > 1.0f)
                 this.MoveVector = Vector3.Normalize(this.MoveVector);
 
-            this.MoveVector *= PlayerInfo.MoveSpeed;
+            if(this._moveSpeed > PlayerInfo.MaxMoveSpeed)
+                this._moveSpeed = PlayerInfo.MaxMoveSpeed;
+            else
+                this._moveSpeed += PlayerInfo.MaxMoveSpeed * Time.deltaTime;
 
-            this.MoveVector = new Vector3(this.MoveVector.x, this.verticalVelocity, this.MoveVector.z);
+            this.MoveVector *= this._moveSpeed;
+
+            this.MoveVector = new Vector3(this.MoveVector.x, this.VerticalVelocity, this.MoveVector.z);
 
             this.ApplyGravity();
 

@@ -51,9 +51,8 @@
             this._canUndo = false;
             this.GetCurrentBlock();
             this.CheckCurrentBlock();
-            AIMovement.instance.verticalVelocity = AIMovement.instance.MoveVector.y;
-            AIMovement.instance.MoveVector = Vector3.zero;
 
+            AIMovement.instance.ResetMovement();
             AIMovement.instance.UndoPosition = this.transform.position;
 
             if(Input.GetKeyDown(KeyCode.UpArrow)) {
@@ -135,7 +134,7 @@
                         this._canUndo = true;
                         AIAudio.instance.Stop();
                         this.isMoving = false;
-                        AIMovement.instance.verticalVelocity = AIMovement.instance.MoveVector.y;
+                        AIMovement.instance.VerticalVelocity = AIMovement.instance.MoveVector.y;
                         AIMovement.instance.MoveVector = Vector3.zero;
 
                         this.GetCurrentBlock();
