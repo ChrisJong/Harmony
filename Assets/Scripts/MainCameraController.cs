@@ -80,12 +80,18 @@ public class MainCameraController : MonoBehaviour {
 
         if(GameController.instance.gameState == GlobalInfo.GameState.INGAME) {
             GameObject tempLight = new GameObject("Directional Light");
-            tempLight.transform.rotation = Quaternion.Euler(50.0f, -30.0f, 0.0f);
+            //tempLight.transform.rotation = Quaternion.Euler(50.0f, -30.0f, 0.0f);
+            tempLight.transform.rotation = Quaternion.Euler(45.0f, -135.0f, 0.0f);
             tempLight.AddComponent<Light>();
             Light lightDetails = tempLight.GetComponent<Light>();
             lightDetails.type = LightType.Directional;
             lightDetails.intensity = 0.50f;
+
             lightDetails.shadows = LightShadows.Soft;
+            lightDetails.shadowStrength = 0.75f;
+            lightDetails.shadowBias = 0.05f;
+            lightDetails.shadowSoftness = 5.0f;
+            lightDetails.shadowSoftnessFade = 2.0f;
 
             tempCamera.AddComponent<MainCameraController>();
         }
