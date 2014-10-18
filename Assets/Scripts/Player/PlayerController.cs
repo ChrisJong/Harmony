@@ -12,11 +12,12 @@
 
         public static PlayerController instance;
         public static CharacterController characterController;
-        
+
+        public bool isMoving = false;
+
         private GameObject _currentBlock;
         private PlayerInfo.MovementDirection _currentDirection = PlayerInfo.MovementDirection.NONE;
         private bool _canUndo = false;
-        public bool isMoving = false;
 
         void Awake() {
             instance = this;
@@ -39,6 +40,7 @@
         public void GetInput(PlayerInfo.MovementDirection current, PlayerInfo.MovementDirection previous) {
             if(this.isMoving)
                 return;
+
             this._canUndo = false;
             this.GetCurrentBlock();
             this.CheckCurrentBlock();
@@ -67,7 +69,9 @@
                 PlayerMovement.instance.MoveVector = new Vector3(-1, 0, 0);
                 this.isMoving = true;
             }
+
             this.CheckCurrentBlock();
+
             PlayerAudio.instance.Play();
         }
 
@@ -75,9 +79,9 @@
             if(this._currentBlock == null)
                 return;
 
-            if(this._currentBlock.GetComponent<Block>().blockState == BlockInfo.BlockState.UP)
+            if(this._currentBlock.GetComponent<BlockClass>().blockState == BlockInfo.BlockState.UP)
                 this.transform.position = new Vector3(this.transform.position.x, 2.5f, this.transform.position.z);
-            else if(this._currentBlock.GetComponent<Block>().blockState == BlockInfo.BlockState.DOWN)
+            else if(this._currentBlock.GetComponent<BlockClass>().blockState == BlockInfo.BlockState.DOWN)
                 this.transform.position = new Vector3(this.transform.position.x, 1.5f, this.transform.position.z);
         }
 
@@ -140,13 +144,12 @@
 
         private void GetCurrentBlock() {
             RaycastHit hitInfo;
-            this._currentBlock = null;
             Vector3 rayDirection = this.transform.TransformDirection(Vector3.down);
 
             Debug.DrawRay(this.transform.position, rayDirection * 100.0f, Color.red);
             if(Physics.Raycast(this.transform.position, rayDirection, out hitInfo, 5.0f)) {
                 if(hitInfo.transform.tag == "Block") {
-                    this._currentBlock = hitInfo.transform.gameObject;
+                    this._currentBlock = hitInfo.transform.gameObject as GameObject;
                 }
             }
         }

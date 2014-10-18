@@ -15,6 +15,7 @@
     public class GridMapEditor : Editor {
 
         private GridMap _target;
+        GridMapEditorWindow blockWindow;
 
         /// <summary>
         /// Holds the location of the mouse hit position.
@@ -106,8 +107,9 @@
             GUILayout.Space(20);
 
             if(GUILayout.Button("Place Blocks")) {
-                GridMapEditorWindow blockWindow = (GridMapEditorWindow)EditorWindow.GetWindow(typeof(GridMapEditorWindow));
+                blockWindow = (GridMapEditorWindow)EditorWindow.GetWindow(typeof(GridMapEditorWindow));
                 blockWindow.Init();
+                blockWindow.Show();
             }
 
             EditorGUILayout.BeginHorizontal();
@@ -174,49 +176,28 @@
                 block = null;
             }
                 
-
             // if no game object was found we will create one.
             if(block == null) {
-                switch(map.blockToPlace) {
-                    case BlockInfo.BlockType.EMPTYUP:
+                if(map.blockToPlace == BlockInfo.BlockTypes.NORMAL) {
+                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.NormalBlockName);
+                    block.GetComponent<NormalBlock>().blockRenderer = block.GetComponent<MeshRenderer>() as MeshRenderer;
+                    block.GetComponent<NormalBlock>().SetupType(map.blockToPlace, map.blockOneDirection, map.blockState);
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.MULTI) {
+                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.MultiBlockName);
+                    block.GetComponent<MultiBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
+                    block.GetComponent<MultiBlock>().SetupType(map.blockToPlace, map.blockOneDirection, map.blockTwoDirection, map.blockState);
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.NUMBER) {
+                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.NumberBlockName);
+                    block.GetComponent<NumberBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
+                    block.GetComponent<NumberBlock>().SetupType(map.blockToPlace,map.blockState, map.blockNumber);
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.STUN) {
+                    Debug.LogError("STUN BLOCK NOT IMPLEMENTED.");
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.EMPTY) {
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.EmptyBlockName);
-                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.EMPTYUP);
-                    break;
-
-                    case BlockInfo.BlockType.EMPTYDOWN:
-                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.EmptyBlockName);
-                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.EMPTYDOWN);
-                    break;
-
-                    case BlockInfo.BlockType.UP:
-                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.UpBlockName);
-                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.UP);
-                    break;
-
-                    case BlockInfo.BlockType.RIGHT:
-                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.RightBlockName);
-                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.RIGHT);
-                    break;
-
-                    case BlockInfo.BlockType.DOWN:
-                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.DownBlockName);
-                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.DOWN);
-                    break;
-
-                    case BlockInfo.BlockType.LEFT:
-                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.LeftBlockName);
-                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.LEFT);
-                    break;
-
-                    case BlockInfo.BlockType.MULTILEFTRIGHT:
-                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.MultiLeftRightBlockName);
-                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.MULTILEFTRIGHT);
-                    break;
-
-                    case BlockInfo.BlockType.MULTIUPDOWN:
-                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.MultiUpDownBlockName);
-                    block.GetComponent<Block>().SetType(BlockInfo.BlockType.MULTIUPDOWN);
-                    break;
+                    block.GetComponent<EmptyBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
+                    block.GetComponent<EmptyBlock>().SetupType(map.blockToPlace, map.blockState);
+                } else {
+                    Debug.LogError("NOTHING TO CREATE.");
                 }
             }
                 

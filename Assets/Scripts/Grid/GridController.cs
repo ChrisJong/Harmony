@@ -18,16 +18,20 @@
 
         private GameObject _gridMap;
 
-        private List<GameObject> _upList = new List<GameObject>();
-        private List<GameObject> _rightList = new List<GameObject>();
-        private List<GameObject> _downList = new List<GameObject>();
-        private List<GameObject> _leftList = new List<GameObject>();
-        private List<GameObject> _multiLeftRightList = new List<GameObject>();
-        private List<GameObject> _multiUpDownList = new List<GameObject>();
-        private List<GameObject> _emptyUpList = new List<GameObject>();
+        private Dictionary<BlockInfo.BlockDirection, List<BlockClass>> _directionList;
+        private List<BlockClass> _upList = new List<BlockClass>();
+        private List<BlockClass> _rightList = new List<BlockClass>();
+        private List<BlockClass> _downList = new List<BlockClass>();
+        private List<BlockClass> _leftList = new List<BlockClass>();
 
-        private PlayerInfo.MovementDirection _directionCurrent;
-        private PlayerInfo.MovementDirection _directionPrevious;
+        private List<NormalBlock> _normalBlocks = new List<NormalBlock>();
+        private List<MultiBlock> _multiBlocks = new List<MultiBlock>();
+        private List<NumberBlock> _numberBlocks = new List<NumberBlock>();
+        private List<BlockClass> _stunBlocks = new List<BlockClass>();
+        private List<EmptyBlock> _emptyBlocks = new List<EmptyBlock>();
+
+        public PlayerInfo.MovementDirection _directionCurrent;
+        public PlayerInfo.MovementDirection _directionPrevious;
 
         private int _moveCount = 0;
 
@@ -40,19 +44,26 @@
         }
 
         void Start() {
-            this._upList.Clear();
-            this._rightList.Clear();
-            this._downList.Clear();
-            this._leftList.Clear();
-            this._multiLeftRightList.Clear();
-            this._multiUpDownList.Clear();
-            this.FindBlocks();
+            this._normalBlocks.Clear();
+            this._multiBlocks.Clear();
+            this._numberBlocks.Clear();
+            this._stunBlocks.Clear();
+            this._emptyBlocks.Clear();
 
-            if(this._emptyUpList.Count > 0) {
-                foreach(GameObject obj in this._emptyUpList) {
-                    obj.GetComponent<Block>().MoveUp();
+            this.FindBlocks();
+            this.SortBlocks();
+
+            if(this._emptyBlocks.Count > 0) {
+                foreach(EmptyBlock block in this._emptyBlocks) {
+                    if(block.blockState == BlockInfo.BlockState.UP)
+                        block.MoveDown();
+                    
+                    if(block.blockState == BlockInfo.BlockState.DOWN)
+                        block.MoveUp();
                 }
             }
+
+            GridMap.instance.GeneratePlayers();
         }
 
         void Update() {
@@ -124,178 +135,217 @@
         /// </summary>
         /// <param name="current">The Current Direction The Player Is Moving At.</param>
         /// <param name="previous">The Previous Direction The Player Was Moving Before.</param>
-        public void ActivateBlocks(PlayerInfo.MovementDirection current, PlayerInfo.MovementDirection previous) {
-            if(current == previous)
+        public void ActivateBlocks(PlayerInfo.MovementDirection currentDirection, PlayerInfo.MovementDirection previousDirection) {
+            if(currentDirection == previousDirection)
                 return;
 
             SoundController.PlayerAudio(SoundInfo.BlockUp);
-            switch(current) {
-                case PlayerInfo.MovementDirection.FORWARD:
-                if(this._upList.Count > 0) {
-                    foreach(GameObject obj in this._upList) {
-                        obj.GetComponent<Block>().blockState = BlockInfo.BlockState.UP;
-                        //obj.GetComponent<Block>().MoveUp();
-                    }
-                }
 
-                if(this._multiUpDownList.Count > 0) {
-                    foreach(GameObject obj in this._multiUpDownList) {
-                        obj.GetComponent<Block>().blockState = BlockInfo.BlockState.UP;
+            switch(currentDirection) {
+                case PlayerInfo.MovementDirection.FORWARD:
+                    if(this._upList.Count > 0) {
+                        int count = this._upList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._upList[i].isUp)
+                                continue;
+
+                            this._upList[i].blockState = BlockInfo.BlockState.UP;
+                        }
                     }
-                }
-                break;
+                    break;
 
                 case PlayerInfo.MovementDirection.RIGHT:
-                if(this._rightList.Count > 0) {
-                    foreach(GameObject obj in this._rightList) {
-                        obj.GetComponent<Block>().blockState = BlockInfo.BlockState.UP;
-                        //obj.GetComponent<Block>().MoveUp();
-                    }
-                }
+                    if(this._rightList.Count > 0) {
+                        int count = this._rightList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._rightList[i].isUp)
+                                continue;
 
-                if(this._multiLeftRightList.Count > 0) {
-                    foreach(GameObject obj in this._multiLeftRightList) {
-                        obj.GetComponent<Block>().blockState = BlockInfo.BlockState.UP;
+                            this._rightList[i].blockState = BlockInfo.BlockState.UP;
+                        }
                     }
-                }
-                break;
+                    break;
 
                 case PlayerInfo.MovementDirection.BACKWARD:
-                if(this._downList.Count > 0) {
-                    foreach(GameObject obj in this._downList) {
-                        obj.GetComponent<Block>().blockState = BlockInfo.BlockState.UP;
-                        //obj.GetComponent<Block>().MoveUp();
-                    }
-                }
+                    if(this._downList.Count > 0) {
+                        int count = this._downList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._downList[i].isUp)
+                                continue;
 
-                if(this._multiUpDownList.Count > 0) {
-                    foreach(GameObject obj in this._multiUpDownList) {
-                        obj.GetComponent<Block>().blockState = BlockInfo.BlockState.UP;
+                            this._downList[i].blockState = BlockInfo.BlockState.UP;
+                        }
                     }
-                }
-                break;
+                    break;
 
                 case PlayerInfo.MovementDirection.LEFT:
-                if(this._leftList.Count > 0) {
-                    foreach(GameObject obj in this._leftList) {
-                        obj.GetComponent<Block>().blockState = BlockInfo.BlockState.UP;
-                        //obj.GetComponent<Block>().MoveUp();
-                    }
-                }
+                    if(this._leftList.Count > 0) {
+                        int count = this._leftList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._leftList[i].isUp)
+                                continue;
 
-                if(this._multiLeftRightList.Count > 0) {
-                    foreach(GameObject obj in this._multiLeftRightList) {
-                        obj.GetComponent<Block>().blockState = BlockInfo.BlockState.UP;
+                            this._leftList[i].blockState = BlockInfo.BlockState.UP;
+                        }
                     }
-                }
-                break;
+                    break;
             }
 
-            switch(previous) {
+            switch(previousDirection) {
                 case PlayerInfo.MovementDirection.FORWARD:
-                if(this._upList.Count > 0) {
-                    foreach(GameObject obj in this._upList) {
-                        obj.GetComponent<Block>().blockState = BlockInfo.BlockState.DOWN;
-                        //obj.GetComponent<Block>().MoveDown();
-                    }
-                }
+                    if(this._upList.Count > 0) {
+                        int count = this._upList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._upList[i].isUp)
+                                if((int)this._upList[i].firstDirection != (int)currentDirection && (int)this._upList[i].secondDirection != (int)currentDirection)
+                                    this._upList[i].blockState = BlockInfo.BlockState.DOWN;
 
-                if(current != PlayerInfo.MovementDirection.BACKWARD) {
-                    if(this._multiUpDownList.Count > 0) {
-                        foreach(GameObject obj in this._multiUpDownList) {
-                            obj.GetComponent<Block>().blockState = BlockInfo.BlockState.DOWN;
+                            continue;
                         }
                     }
-                }
-                break;
+                    break;
 
                 case PlayerInfo.MovementDirection.RIGHT:
-                if(this._rightList.Count > 0) {
-                    foreach(GameObject obj in this._rightList) {
-                        obj.GetComponent<Block>().blockState = BlockInfo.BlockState.DOWN;
-                        //obj.GetComponent<Block>().MoveDown();
-                    }
-                }
+                    if(this._rightList.Count > 0) {
+                        int count = this._rightList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._rightList[i].isUp)
+                                if((int)this._rightList[i].firstDirection != (int)currentDirection && (int)this._rightList[i].secondDirection != (int)currentDirection)
+                                    this._rightList[i].blockState = BlockInfo.BlockState.DOWN;
 
-                if(current != PlayerInfo.MovementDirection.LEFT){
-                    if(this._multiLeftRightList.Count > 0) {
-                        foreach(GameObject obj in this._multiLeftRightList) {
-                            obj.GetComponent<Block>().blockState = BlockInfo.BlockState.DOWN;
+                            continue;
                         }
                     }
-                }
-                break;
+                    break;
 
                 case PlayerInfo.MovementDirection.BACKWARD:
-                if(this._downList.Count > 0) {
-                    foreach(GameObject obj in this._downList) {
-                        obj.GetComponent<Block>().blockState = BlockInfo.BlockState.DOWN;
-                        //obj.GetComponent<Block>().MoveDown();
-                    }
-                }
+                    if(this._downList.Count > 0) {
+                        int count = this._downList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._downList[i].isUp)
+                                if((int)this._downList[i].firstDirection != (int)currentDirection && (int)this._downList[i].secondDirection != (int)currentDirection)
+                                    this._downList[i].blockState = BlockInfo.BlockState.DOWN;
 
-                if(current != PlayerInfo.MovementDirection.FORWARD) {
-                    if(this._multiUpDownList.Count > 0) {
-                        foreach(GameObject obj in this._multiUpDownList) {
-                            obj.GetComponent<Block>().blockState = BlockInfo.BlockState.DOWN;
+                            continue;
                         }
                     }
-                }
-                break;
+                    break;
 
                 case PlayerInfo.MovementDirection.LEFT:
-                if(this._leftList.Count > 0) {
-                    foreach(GameObject obj in this._leftList) {
-                        obj.GetComponent<Block>().blockState = BlockInfo.BlockState.DOWN;
-                        //obj.GetComponent<Block>().MoveDown();
-                    }
-                }
+                    if(this._leftList.Count > 0) {
+                        int count = this._leftList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._leftList[i].isUp)
+                                if((int)this._leftList[i].firstDirection != (int)currentDirection && (int)this._leftList[i].secondDirection != (int)currentDirection)
+                                    this._leftList[i].blockState = BlockInfo.BlockState.DOWN;
 
-                if(current != PlayerInfo.MovementDirection.RIGHT) {
-                    if(this._multiLeftRightList.Count > 0) {
-                        foreach(GameObject obj in this._multiLeftRightList) {
-                            obj.GetComponent<Block>().blockState = BlockInfo.BlockState.DOWN;
+                            continue;
                         }
                     }
+                    break;
+            }
+
+            if(this._numberBlocks.Count > 0) {
+                int count = this._numberBlocks.Count;
+                for(int i = 0; i < count; i++) {
+                    if(this._numberBlocks[i].currentCounter == 1)
+                        this._numberBlocks[i].blockState = BlockInfo.BlockState.UP;
+                    else
+                        this._numberBlocks[i].blockState = BlockInfo.BlockState.DOWN;
                 }
-                break;
             }
         }
 
         /// <summary>
-        /// On Project Start This Function Will be called to sort and group all the available blocks on the stage in a list.
+        /// This Function Will be called to sort and group all the available blocks on the stage in a list.
         /// </summary>
         private void FindBlocks() {
             foreach(Transform child in this._gridMap.transform) {
-                var childType = child.GetComponent<Block>().blockType;
+                var childType = child.GetComponent<BlockClass>().blockType;
                 switch(childType) {
-                    case BlockInfo.BlockType.UP:
-                    this._upList.Add(child.gameObject);
-                    break;
+                    case BlockInfo.BlockTypes.NORMAL:
+                        this._normalBlocks.Add(child.gameObject.GetComponent<NormalBlock>());
+                        break;
 
-                    case BlockInfo.BlockType.RIGHT:
-                    this._rightList.Add(child.gameObject);
-                    break;
+                    case BlockInfo.BlockTypes.MULTI:
+                        this._multiBlocks.Add(child.gameObject.GetComponent<MultiBlock>());
+                        break;
 
-                    case BlockInfo.BlockType.DOWN:
-                    this._downList.Add(child.gameObject);
-                    break;
+                    case BlockInfo.BlockTypes.NUMBER:
+                        this._numberBlocks.Add(child.gameObject.GetComponent<NumberBlock>());
+                        break;
 
-                    case BlockInfo.BlockType.LEFT:
-                    this._leftList.Add(child.gameObject);
-                    break;
+                    case BlockInfo.BlockTypes.STUN:
+                        this._stunBlocks.Add(child.gameObject.GetComponent<BlockClass>());
+                        break;
 
-                    case BlockInfo.BlockType.EMPTYUP:
-                    this._emptyUpList.Add(child.gameObject);
-                    break;
+                    case BlockInfo.BlockTypes.EMPTY:
+                        this._emptyBlocks.Add(child.gameObject.GetComponent<EmptyBlock>());
+                        break;
+                }
+            }
+        }
 
-                    case BlockInfo.BlockType.MULTILEFTRIGHT:
-                    this._multiLeftRightList.Add(child.gameObject);
-                    break;
+        private void SortBlocks() {
+            if(this._normalBlocks.Count > 0) {
+                foreach(NormalBlock block in this._normalBlocks) {
+                    switch(block.firstDirection){
+                        case BlockInfo.BlockDirection.UP:
+                            this._upList.Add(block);
+                            break;
 
-                    case BlockInfo.BlockType.MULTIUPDOWN:
-                    this._multiUpDownList.Add(child.gameObject);
-                    break;
+                        case BlockInfo.BlockDirection.RIGHT:
+                            this._rightList.Add(block);
+                            break;
+
+                        case BlockInfo.BlockDirection.DOWN:
+                            this._downList.Add(block);
+                            break;
+
+                        case BlockInfo.BlockDirection.LEFT:
+                            this._leftList.Add(block);
+                            break;
+                    }
+                }
+            }
+
+            if(this._multiBlocks.Count > 0) {
+                foreach(MultiBlock block in this._multiBlocks) {
+                    switch(block.firstDirection) {
+                        case BlockInfo.BlockDirection.UP:
+                            this._upList.Add(block);
+                            break;
+
+                        case BlockInfo.BlockDirection.RIGHT:
+                            this._rightList.Add(block);
+                            break;
+
+                        case BlockInfo.BlockDirection.DOWN:
+                            this._downList.Add(block);
+                            break;
+
+                        case BlockInfo.BlockDirection.LEFT:
+                            this._leftList.Add(block);
+                            break;
+                    }
+
+                    switch(block.secondDirection) {
+                        case BlockInfo.BlockDirection.UP:
+                            this._upList.Add(block);
+                            break;
+
+                        case BlockInfo.BlockDirection.RIGHT:
+                            this._rightList.Add(block);
+                            break;
+
+                        case BlockInfo.BlockDirection.DOWN:
+                            this._downList.Add(block);
+                            break;
+
+                        case BlockInfo.BlockDirection.LEFT:
+                            this._leftList.Add(block);
+                            break;
+                    }
                 }
             }
         }

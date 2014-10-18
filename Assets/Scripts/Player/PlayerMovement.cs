@@ -75,11 +75,14 @@
         }
 
         public void CenterPlayer(Transform currentBlock) {
+            if(currentBlock == null)
+                return;
+
             this.transform.position = new Vector3(currentBlock.transform.position.x, this.transform.position.y, currentBlock.transform.position.z + 0.5f);
         }
 
         public void UndoMovement() {
-            this.transform.position = this.UndoPosition;
+            this.transform.position = new Vector3(this.UndoPosition.x, this.UndoPosition.y + 1.0f, this.UndoPosition.z);
         }
 
         private void ApplyGravity() {

@@ -45,15 +45,24 @@
         private float _blockHeight;
 
         /// <summary>
+        /// gets or sets the type of block to place down onto the grid. (Every block placed will be in the down position, even if it says UP).
+        /// </summary>
+        [HideInInspector]
+        public BlockInfo.BlockTypes blockToPlace;
+        [HideInInspector]
+        public BlockInfo.BlockState blockState;
+        [HideInInspector]
+        public BlockInfo.BlockDirection blockOneDirection;
+        [HideInInspector]
+        public BlockInfo.BlockDirection blockTwoDirection;
+        [HideInInspector]
+        public int blockNumber;
+
+        /// <summary>
         /// Used by the GridMap Editor Script to indicate a grid location.
         /// </summary>
         [HideInInspector]
         public Vector3 markerPosition;
-
-        /// <summary>
-        /// gets or sets the type of block to place down onto the grid. (Every block placed will be in the down position, even if it says UP).
-        /// </summary>
-        public BlockInfo.BlockType blockToPlace;
 
         /// <summary>
         /// Spawn Locations For Player And AI.
@@ -72,14 +81,14 @@
             this._blockWidth = BlockInfo.BlockWidth;
             this._blockHeight = BlockInfo.BlockHeight;
             this._blockBreadth = BlockInfo.BlockBreadth;
-            this.blockToPlace = BlockInfo.BlockType.EMPTYDOWN;
+            this.blockToPlace = BlockInfo.BlockTypes.NONE;
         }
 
         public void Awake() {
             instance = this;
             Instantiate(Resources.Load("Controller") as GameObject);
             GenerateWalls();
-            GeneratePlayers();
+            //GeneratePlayers();
             GridController.FindOrCreate();
         }
 
@@ -139,16 +148,16 @@
         /// <summary>
         /// Finds the Spawn Blocks To Genereate The Player And AI Objects.
         /// </summary>
-        private void GeneratePlayers() {
+        public void GeneratePlayers() {
             var humanSpawnPoint = this.humanSpawnPoint;
             var aiSpawnPoint = this.aiSpawnPoint;
 
             if(humanSpawnPoint == aiSpawnPoint) {
-                humanSpawnPoint = new Vector3(0 + BlockInfo.BlockWidth * 0.5f, 1.5f, 0 + BlockInfo.BlockBreadth * 0.5f);
-                aiSpawnPoint = new Vector3((this.columns * BlockInfo.BlockWidth) - (BlockInfo.BlockWidth * 0.5f), 1.5f, (this.rows * BlockInfo.BlockBreadth) - (BlockInfo.BlockBreadth * 0.5f));
+                humanSpawnPoint = new Vector3(0 + BlockInfo.BlockWidth * 0.5f, 2.5f, 0 + BlockInfo.BlockBreadth * 0.5f);
+                aiSpawnPoint = new Vector3((this.columns * BlockInfo.BlockWidth) - (BlockInfo.BlockWidth * 0.5f), 2.5f, (this.rows * BlockInfo.BlockBreadth) - (BlockInfo.BlockBreadth * 0.5f));
             } else {
-                humanSpawnPoint = new Vector3(humanSpawnPoint.x + (BlockInfo.BlockWidth * 0.5f), 1.5f, humanSpawnPoint.z + (BlockInfo.BlockBreadth * 0.5f));
-                aiSpawnPoint = new Vector3(aiSpawnPoint.x + (BlockInfo.BlockWidth * 0.5f), 1.5f, aiSpawnPoint.z + (BlockInfo.BlockBreadth * 0.5f));
+                humanSpawnPoint = new Vector3(humanSpawnPoint.x + (BlockInfo.BlockWidth * 0.5f), 2.5f, humanSpawnPoint.z + (BlockInfo.BlockBreadth * 0.5f));
+                aiSpawnPoint = new Vector3(aiSpawnPoint.x + (BlockInfo.BlockWidth * 0.5f), 2.5f, aiSpawnPoint.z + (BlockInfo.BlockBreadth * 0.5f));
             }
 #if UNITY_EDITOR
             Instantiate((GameObject)AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabPlayer, AssetPaths.PlayerName), humanSpawnPoint, Quaternion.identity);

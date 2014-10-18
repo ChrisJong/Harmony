@@ -96,14 +96,11 @@ namespace GameInfo {
         public const string PathTextures = "Asset/Textures/";
         public const string PathTexturesGameMenu = PathTextures + "GameMenu/";
 
-        public const string UpBlockName = "UpBlock";
-        public const string RightBlockName = "RightBlock";
-        public const string DownBlockName = "DownBlock";
-        public const string LeftBlockName = "LeftBlock";
         public const string EmptyBlockName = "EmptyBlock";
-        public const string MultiLeftRightBlockName = "MultiLeftRightBlock";
-        public const string MultiUpDownBlockName = "MultiUpDownBlock";
-        public const string InvisibleBlockName = "InvisibleBlock";
+        public const string NormalBlockName = "NormalBlock";
+        public const string MultiBlockName = "MultiBlock";
+        public const string NumberBlockName = "NumberBlock";
+        public const string StunBlockName = "StunBlock";
         public const string LevelNumberBlockName = "LevelNumberBlock";
 
         public const string PlayerName = "Player";
@@ -118,10 +115,10 @@ namespace GameInfo {
     public static class PlayerInfo {
         public enum MovementDirection {
             NONE = 0,
-            FORWARD,
-            RIGHT,
-            BACKWARD,
-            LEFT
+            FORWARD = 1,
+            RIGHT = 2,
+            BACKWARD = 3,
+            LEFT = 4
         };
 
 
@@ -132,21 +129,28 @@ namespace GameInfo {
     }
 
     public static class BlockInfo {
-        public enum BlockType {
-            EMPTYUP = 0,
-            EMPTYDOWN,
-            UP,
-            RIGHT,
-            DOWN,
-            LEFT,
-            MULTILEFTRIGHT,
-            MULTIUPDOWN
+        public enum BlockTypes {
+            NONE = 0,
+            EMPTY = 1,
+            NORMAL = 2,
+            MULTI = 3,
+            NUMBER = 4,
+            STUN = 5
+            
         };
+
+        public enum BlockDirection {
+            NONE = 0,
+            UP = 1,
+            RIGHT = 2,
+            DOWN = 3,
+            LEFT = 4
+        }
 
         public enum BlockState {
             NONE = 0,
-            UP,
-            DOWN
+            UP = 1,
+            DOWN = 2
         };
 
         public const float BlockWidth = 1.0f;
