@@ -63,7 +63,7 @@
             if(this._moveSpeed > PlayerInfo.MaxMoveSpeed)
                 this._moveSpeed = PlayerInfo.MaxMoveSpeed;
             else
-                this._moveSpeed += PlayerInfo.MaxMoveSpeed * Time.deltaTime;
+                this._moveSpeed += PlayerInfo.MinMoveSpeed * Time.deltaTime;
 
             this.MoveVector *= this._moveSpeed;
 

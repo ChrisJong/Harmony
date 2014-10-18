@@ -8,7 +8,8 @@
 
     public abstract class BlockClass : MonoBehaviour {
 
-        public List<Material> blockMaterials;
+        public List<Material> blockUpMaterials;
+        public List<Material> blockDownMaterials;
         public MeshRenderer blockRenderer;
 
         public BlockInfo.BlockTypes blockType;
@@ -16,6 +17,9 @@
 
         public BlockInfo.BlockDirection firstDirection;
         public BlockInfo.BlockDirection secondDirection;
+
+        public int firstDirectionValue;
+        public int secondDirectionValue;
 
         public bool isUp;
 
@@ -60,6 +64,7 @@
             this.blockState = BlockInfo.BlockState.NONE;
 
             this.firstDirection = direction;
+            this.firstDirectionValue = (int)direction;
             this.secondDirection = BlockInfo.BlockDirection.NONE;
         }
 
@@ -68,6 +73,7 @@
             this.blockState = state;
 
             this.firstDirection = direction;
+            this.firstDirectionValue = (int)direction;
             this.secondDirection = BlockInfo.BlockDirection.NONE;
         }
 
@@ -77,7 +83,8 @@
 
             this.firstDirection = firstDirection;
             this.secondDirection = secondDirection;
-            
+            this.firstDirectionValue = (int)firstDirection;
+            this.secondDirectionValue = (int)secondDirection;
         }
 
         public virtual void SetupType(BlockInfo.BlockTypes type, BlockInfo.BlockDirection firstDirection, BlockInfo.BlockDirection secondDirection, BlockInfo.BlockState state) {
@@ -86,6 +93,8 @@
 
             this.firstDirection = firstDirection;
             this.secondDirection = secondDirection;
+            this.firstDirectionValue = (int)firstDirection;
+            this.secondDirectionValue = (int)secondDirection;
         }
     }
 }

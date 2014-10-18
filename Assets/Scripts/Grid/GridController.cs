@@ -18,7 +18,6 @@
 
         private GameObject _gridMap;
 
-        private Dictionary<BlockInfo.BlockDirection, List<BlockClass>> _directionList;
         private List<BlockClass> _upList = new List<BlockClass>();
         private List<BlockClass> _rightList = new List<BlockClass>();
         private List<BlockClass> _downList = new List<BlockClass>();
@@ -44,6 +43,10 @@
         }
 
         void Start() {
+            this._upList.Clear();
+            this._rightList.Clear();
+            this._downList.Clear();
+            this._leftList.Clear();
             this._normalBlocks.Clear();
             this._multiBlocks.Clear();
             this._numberBlocks.Clear();
@@ -52,16 +55,6 @@
 
             this.FindBlocks();
             this.SortBlocks();
-
-            if(this._emptyBlocks.Count > 0) {
-                foreach(EmptyBlock block in this._emptyBlocks) {
-                    if(block.blockState == BlockInfo.BlockState.UP)
-                        block.MoveDown();
-                    
-                    if(block.blockState == BlockInfo.BlockState.DOWN)
-                        block.MoveUp();
-                }
-            }
 
             GridMap.instance.GeneratePlayers();
         }
@@ -243,6 +236,44 @@
                         }
                     }
                     break;
+
+                case PlayerInfo.MovementDirection.NONE:
+                    if(this._upList.Count > 0) {
+                        int count = this._upList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._upList[i].isUp)
+                                if((int)this._upList[i].firstDirection != (int)currentDirection && (int)this._upList[i].secondDirection != (int)currentDirection)
+                                    this._upList[i].blockState = BlockInfo.BlockState.DOWN;
+                        }
+                    }
+
+                    if(this._rightList.Count > 0) {
+                        int count = this._rightList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._rightList[i].isUp)
+                                if((int)this._rightList[i].firstDirection != (int)currentDirection && (int)this._rightList[i].secondDirection != (int)currentDirection)
+                                    this._rightList[i].blockState = BlockInfo.BlockState.DOWN;
+                        }
+                    }
+
+                    if(this._downList.Count > 0) {
+                        int count = this._downList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._downList[i].isUp)
+                                if((int)this._downList[i].firstDirection != (int)currentDirection && (int)this._downList[i].secondDirection != (int)currentDirection)
+                                    this._downList[i].blockState = BlockInfo.BlockState.DOWN;
+                        }
+                    }
+
+                    if(this._leftList.Count > 0) {
+                        int count = this._leftList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._leftList[i].isUp)
+                                if((int)this._leftList[i].firstDirection != (int)currentDirection && (int)this._leftList[i].secondDirection != (int)currentDirection)
+                                    this._leftList[i].blockState = BlockInfo.BlockState.DOWN;
+                        }
+                    }
+                    break;
             }
 
             if(this._numberBlocks.Count > 0) {
@@ -261,25 +292,45 @@
         /// </summary>
         private void FindBlocks() {
             foreach(Transform child in this._gridMap.transform) {
-                var childType = child.GetComponent<BlockClass>().blockType;
-                switch(childType) {
+                var childType = child.GetComponent<BlockClass>();
+                switch(childType.blockType) {
                     case BlockInfo.BlockTypes.NORMAL:
+                        if(childType.blockState == BlockInfo.BlockState.UP)
+                            childType.MoveUp();
+                        else
+                            childType.MoveDown();
                         this._normalBlocks.Add(child.gameObject.GetComponent<NormalBlock>());
                         break;
 
                     case BlockInfo.BlockTypes.MULTI:
+                        if(childType.blockState == BlockInfo.BlockState.UP)
+                            childType.MoveUp();
+                        else
+                            childType.MoveDown();
                         this._multiBlocks.Add(child.gameObject.GetComponent<MultiBlock>());
                         break;
 
                     case BlockInfo.BlockTypes.NUMBER:
+                        if(childType.blockState == BlockInfo.BlockState.UP)
+                            childType.MoveUp();
+                        else
+                            childType.MoveDown();
                         this._numberBlocks.Add(child.gameObject.GetComponent<NumberBlock>());
                         break;
 
                     case BlockInfo.BlockTypes.STUN:
+                        if(childType.blockState == BlockInfo.BlockState.UP)
+                            childType.MoveUp();
+                        else
+                            childType.MoveDown();
                         this._stunBlocks.Add(child.gameObject.GetComponent<BlockClass>());
                         break;
 
                     case BlockInfo.BlockTypes.EMPTY:
+                        if(childType.blockState == BlockInfo.BlockState.UP)
+                            childType.MoveUp();
+                        else
+                            childType.MoveDown();
                         this._emptyBlocks.Add(child.gameObject.GetComponent<EmptyBlock>());
                         break;
                 }

@@ -17,33 +17,34 @@
         }
 
         public override void MoveUp() {
-            if(this.transform.position.y >= 1.0f)
-                return;
-
             this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
             this.isUp = true;
             this.blockState = BlockInfo.BlockState.NONE;
+            this.blockRenderer.material = this.blockUpMaterials[this.firstDirectionValue - 1];
+
         }
 
         public override void MoveDown() {
-            if(this.transform.position.y <= 0.0f)
-                return;
-
             this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
             this.isUp = false;
             this.blockState = BlockInfo.BlockState.NONE;
+            this.blockRenderer.material = this.blockDownMaterials[this.firstDirectionValue - 1];
+
         }
 
         public override void SetupType(BlockInfo.BlockTypes type, BlockInfo.BlockDirection direction) {
             base.SetupType(type, direction);
 
-            this.blockRenderer.material = this.blockMaterials[(int)direction - 1];
+            this.blockRenderer.material = this.blockDownMaterials[(int)direction - 1];
         }
 
         public override void SetupType(BlockInfo.BlockTypes type, BlockInfo.BlockDirection direction, BlockInfo.BlockState state) {
             base.SetupType(type, direction, state);
 
-            this.blockRenderer.material = this.blockMaterials[(int)direction - 1];
+            if(state == BlockInfo.BlockState.UP)
+                this.blockRenderer.material = this.blockUpMaterials[(int)direction - 1];
+            else
+                this.blockRenderer.material = this.blockDownMaterials[(int)direction - 1];
         }
     }
 }
