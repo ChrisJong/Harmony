@@ -76,6 +76,7 @@ namespace GameInfo {
             RESTART,
             MAINMENU,
             UNDO,
+            NEXTLEVEL,
             NONE
         }
 
@@ -85,6 +86,13 @@ namespace GameInfo {
         public static Rect MainMenuButtonRect = new Rect(RestartButtonRect.x, RestartButtonRect.y - (GameMenuButtonHeight + 5), GameMenuButtonWidth, GameMenuButtonHeight);
         public static Rect UndoButtonRect = new Rect(RestartButtonRect.x, 0.0f + 5.0f, GameMenuButtonWidth, GameMenuButtonHeight);
         //public static Vector3 MenuVector = new Vector3((GlobalInfo.ScreenWidth * 0.98f) / GlobalInfo.ScreenWidth, (GlobalInfo.ScreenHeight * 0.98f) / GlobalInfo.ScreenHeight, 1.0f);
+
+        public const int EndBillboardWidth = 450;
+        public const int EndBillboardHeight = 225;
+        public static Rect EndBillboardRect = new Rect(GlobalInfo.ScreenWidth * 0.5f - EndBillboardWidth * 0.5f, GlobalInfo.ScreenHeight * 0.6f - EndBillboardHeight * 0.5f, EndBillboardWidth, EndBillboardHeight);
+        public static Rect EndRestartButtonRect = new Rect(EndBillboardRect.x + (GameMenuButtonWidth * 3.0f + 10.0f) * 0.5f, EndBillboardRect.y - (GameMenuButtonHeight + 5.0f), GameMenuButtonWidth, GameMenuButtonHeight);
+        public static Rect EndMainMenuButtonRect = new Rect(EndRestartButtonRect.x + GameMenuButtonWidth + 5.0f, EndRestartButtonRect.y, GameMenuButtonWidth, GameMenuButtonHeight);
+        public static Rect EndNextLevelButtonRect = new Rect(EndMainMenuButtonRect.x + GameMenuButtonWidth + 5.0f, EndRestartButtonRect.y, GameMenuButtonWidth, GameMenuButtonHeight);
     }
 
     public static class AssetPaths {

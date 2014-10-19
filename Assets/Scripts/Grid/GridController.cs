@@ -64,6 +64,8 @@
             if(GameController.instance.gameState == GlobalInfo.GameState.INGAME)
                 if(!GameController.instance.isStageFinished)
                     this.GetInput();
+                else
+                    GameMenuController.instance.ActivateEndMenu();
         }
 
         private void GetInput() {
