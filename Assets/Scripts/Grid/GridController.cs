@@ -31,6 +31,7 @@
 
         public PlayerInfo.MovementDirection _directionCurrent;
         public PlayerInfo.MovementDirection _directionPrevious;
+        public bool blocksReady = false;
 
         private int _moveCount = 0;
 
@@ -61,13 +62,14 @@
 
         void Update() {
             if(GameController.instance.gameState == GlobalInfo.GameState.INGAME)
-                this.GetInput();
+                if(!GameController.instance.isStageFinished)
+                    this.GetInput();
         }
 
         private void GetInput() {
             if(PlayerController.instance.isMoving || AIController.instance.isMoving)
                 return;
-
+            
             if(Input.GetKeyDown(KeyCode.UpArrow)) {
                 this._directionPrevious = this._directionCurrent;
                 this._directionCurrent = PlayerInfo.MovementDirection.FORWARD;
@@ -100,6 +102,13 @@
                 this.ActivateBlocks(this._directionCurrent, this._directionPrevious);
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
+            } else {
+                if(MazeInfo.MazeMoveValue.ContainsKey(MazeInfo.CurrentMazeNumber - 1))
+                    GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString() + " / " + MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][1].ToString();
+                else
+                    GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString();
+                GridController.instance.blocksReady = false;
+                return;
             }
             
             PlayerController.instance.CheckCurrentBlock();
@@ -129,10 +138,37 @@
         /// <param name="current">The Current Direction The Player Is Moving At.</param>
         /// <param name="previous">The Previous Direction The Player Was Moving Before.</param>
         public void ActivateBlocks(PlayerInfo.MovementDirection currentDirection, PlayerInfo.MovementDirection previousDirection) {
-            if(currentDirection == previousDirection)
+            if(currentDirection == previousDirection) {
+                if(this._numberBlocks.Count > 0) {
+                    int count = this._numberBlocks.Count;
+                    for(int i = 0; i < count; i++) {
+                        if(this._numberBlocks[i].currentCounter == 1) {
+                            //this._numberBlocks[i].MoveUp();
+                            this._numberBlocks[i].blockState = BlockInfo.BlockState.UP;
+                        } else {
+                            //this._numberBlocks[i].MoveDown();
+                            this._numberBlocks[i].blockState = BlockInfo.BlockState.DOWN;
+                        }
+                    }
+                }
+                this.blocksReady = true;
                 return;
+            }
 
             SoundController.PlayerAudio(SoundInfo.BlockUp);
+
+            if(this._numberBlocks.Count > 0) {
+                int count = this._numberBlocks.Count;
+                for(int i = 0; i < count; i++) {
+                    if(this._numberBlocks[i].currentCounter == 1) {
+                        //this._numberBlocks[i].MoveUp();
+                        this._numberBlocks[i].blockState = BlockInfo.BlockState.UP;
+                    } else {
+                        //this._numberBlocks[i].MoveDown();
+                        this._numberBlocks[i].blockState = BlockInfo.BlockState.DOWN;
+                    }
+                }
+            }
 
             switch(currentDirection) {
                 case PlayerInfo.MovementDirection.FORWARD:
@@ -276,15 +312,7 @@
                     break;
             }
 
-            if(this._numberBlocks.Count > 0) {
-                int count = this._numberBlocks.Count;
-                for(int i = 0; i < count; i++) {
-                    if(this._numberBlocks[i].currentCounter == 1)
-                        this._numberBlocks[i].blockState = BlockInfo.BlockState.UP;
-                    else
-                        this._numberBlocks[i].blockState = BlockInfo.BlockState.DOWN;
-                }
-            }
+            this.blocksReady = true;
         }
 
         /// <summary>

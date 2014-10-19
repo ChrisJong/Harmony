@@ -34,8 +34,10 @@
 
             this.CheckCurrentBlock();
 
-            if(this.CastCollisionRays())
-                PlayerMovement.instance.UpdateMovement();
+            if(GridController.instance.blocksReady)
+                this.CastCollisionRays();
+
+            PlayerMovement.instance.UpdateMovement();
         }
 
         public void GetInput(PlayerInfo.MovementDirection current, PlayerInfo.MovementDirection previous) {
@@ -49,30 +51,27 @@
             PlayerMovement.instance.ResetMovement();
             PlayerMovement.instance.UndoPosition = this.transform.position;
 
-            if(Input.GetKeyDown(KeyCode.UpArrow)) {
+            if(current == PlayerInfo.MovementDirection.FORWARD) {
                 this._currentDirection = current;
                 PlayerMovement.instance.RotateToMovement(270.0f);
                 PlayerMovement.instance.MoveVector = new Vector3(0, 0, 1);
-                this.isMoving = true;
-            } else if(Input.GetKeyDown(KeyCode.RightArrow)) {
+            } else if(current == PlayerInfo.MovementDirection.RIGHT) {
                 this._currentDirection = current;
                 PlayerMovement.instance.RotateToMovement(0.0f);
                 PlayerMovement.instance.MoveVector = new Vector3(1, 0, 0);
-                this.isMoving = true;
-            } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
+            } else if(current == PlayerInfo.MovementDirection.BACKWARD) {
                 this._currentDirection = current;
                 PlayerMovement.instance.RotateToMovement(90.0f);
                 PlayerMovement.instance.MoveVector = new Vector3(0, 0, -1);
-                this.isMoving = true;
-            } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
+            } else if(current == PlayerInfo.MovementDirection.LEFT) {
                 this._currentDirection = current;
                 PlayerMovement.instance.RotateToMovement(180.0f);
                 PlayerMovement.instance.MoveVector = new Vector3(-1, 0, 0);
-                this.isMoving = true;
             }
 
             this.CheckCurrentBlock();
             PlayerAudio.instance.Play();
+            this.isMoving = true;
         }
 
         public void CheckCurrentBlock() {
@@ -95,7 +94,7 @@
             }
         }
 
-        private bool CastCollisionRays() {
+        private void CastCollisionRays() {
             RaycastHit hitInfo;
             Vector3 rayDirection = Vector3.zero;
             
@@ -115,15 +114,15 @@
             }
 
             Vector3 tempOrigin = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
-            Debug.DrawRay(tempOrigin, rayDirection * 0.6f, Color.red);
-            if(Physics.Raycast(tempOrigin, rayDirection, out hitInfo, 0.6f)) {
+            Debug.DrawRay(tempOrigin, rayDirection * 0.5f, Color.red);
+            if(Physics.Raycast(tempOrigin, rayDirection, out hitInfo, 0.5f)) {
                 if(hitInfo.collider != null) {
                     if(hitInfo.collider.tag == "AI") {
                         //Debug.Log("AI");
-                        GameController.instance.LoadNextLevel();
+                        //GameController.instance.LoadNextLevel();
                         //UnityEditor.EditorApplication.isPlaying = false;
                         //Application.Quit();
-                        return false;
+                        GameController.instance.isStageFinished = true;
                     } else {
                         if(isMoving)
                             SoundController.PlayerAudio(SoundInfo.PlayerCollision);
@@ -135,11 +134,9 @@
 
                         this.GetCurrentBlock();
                         PlayerMovement.instance.CenterPlayer(this._currentBlock.transform);
-                        return true;
                     }
                 }
             }
-            return true;
         }
 
         private void GetCurrentBlock() {

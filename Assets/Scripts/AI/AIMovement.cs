@@ -33,10 +33,6 @@
             this._objectRotation = this.transform.GetChild(0).gameObject;
         }
 
-        void LateUpdate() {
-            this.ApplyGravity();
-        }
-
         public void UpdateMovement() {
             this.ProcessMovement();
         }

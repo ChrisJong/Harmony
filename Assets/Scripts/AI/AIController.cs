@@ -22,7 +22,8 @@
 
         void OnTriggerEnter(Collider obj) {
             if(obj.tag.Equals("Player")) {
-                GameController.instance.LoadNextLevel();
+                GameController.instance.isStageFinished = true;
+                //GameController.instance.LoadNextLevel();
                 //Debug.Log(obj.tag);
                 //UnityEditor.EditorApplication.isPlaying = false;
                 //Application.Quit();
@@ -43,8 +44,10 @@
 
             this.CheckCurrentBlock();
 
-            if(this.CastCollisionRays())
-                AIMovement.instance.UpdateMovement();
+            if(GridController.instance.blocksReady)
+                this.CastCollisionRays();
+
+            AIMovement.instance.UpdateMovement();
         }
 
         public void GetInput(PlayerInfo.MovementDirection current, PlayerInfo.MovementDirection previous) {
@@ -58,30 +61,27 @@
             AIMovement.instance.ResetMovement();
             AIMovement.instance.UndoPosition = this.transform.position;
 
-            if(Input.GetKeyDown(KeyCode.UpArrow)) {
+            if(current == PlayerInfo.MovementDirection.FORWARD) {
                 this._currentDirection = current;
                 AIMovement.instance.RotateToMovement(90.0f);
                 AIMovement.instance.MoveVector = new Vector3(0, 0, -1);
-                this.isMoving = true;
-            } else if(Input.GetKeyDown(KeyCode.RightArrow)) {
+            } else if(current == PlayerInfo.MovementDirection.RIGHT) {
                 this._currentDirection = current;
                 AIMovement.instance.RotateToMovement(180.0f);
                 AIMovement.instance.MoveVector = new Vector3(-1, 0, 0);
-                this.isMoving = true;
-            } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
+            } else if(current == PlayerInfo.MovementDirection.BACKWARD) {
                 this._currentDirection = current;
                 AIMovement.instance.RotateToMovement(270.0f);
                 AIMovement.instance.MoveVector = new Vector3(0, 0, 1);
-                this.isMoving = true;
-            } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
+            } else if(current == PlayerInfo.MovementDirection.LEFT) {
                 this._currentDirection = current;
                 AIMovement.instance.RotateToMovement(0.0f);
                 AIMovement.instance.MoveVector = new Vector3(1, 0, 0);
-                this.isMoving = true;
             }
 
             this.CheckCurrentBlock();
             AIAudio.instance.Play();
+            this.isMoving = true;
         }
 
         public void CheckCurrentBlock() {
@@ -104,7 +104,7 @@
             }
         }
 
-        private bool CastCollisionRays() {
+        private void CastCollisionRays() {
             RaycastHit hitInfo;
             Vector3 rayDirection = Vector3.zero;
 
@@ -124,14 +124,14 @@
             }
 
             Vector3 tempOrigin = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
-            Debug.DrawRay(tempOrigin, rayDirection * 0.6f, Color.red);
-            if(Physics.Raycast(tempOrigin, rayDirection, out hitInfo, 0.6f)) {
+            Debug.DrawRay(tempOrigin, rayDirection * 0.5f, Color.red);
+            if(Physics.Raycast(tempOrigin, rayDirection, out hitInfo, 0.5f)) {
                 if(hitInfo.collider != null) {
                     if(hitInfo.collider.tag == "Player") {
                         //UnityEditor.EditorApplication.isPlaying = false;
                         //Application.Quit();
-                        GameController.instance.LoadNextLevel();
-                        return false;
+                        //GameController.instance.LoadNextLevel();
+                        GameController.instance.isStageFinished = true;
                     } else {
                         if(isMoving)
                             SoundController.PlayerAudio(SoundInfo.PlayerCollision);
@@ -143,11 +143,9 @@
 
                         this.GetCurrentBlock();
                         AIMovement.instance.CenterPlayer(this._currentBlock.transform);
-                        return true;
                     }
                 }
             }
-            return true;
         }
 
         private void GetCurrentBlock() {

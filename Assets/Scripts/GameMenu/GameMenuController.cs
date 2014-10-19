@@ -11,6 +11,7 @@
         public static GameMenuController instance;
 
         public GameObject menu;
+        public GameObject endMenu;
         public GameObject undoButton;
         public GUIText moveText;
 
@@ -19,8 +20,16 @@
             if(this.transform.GetChild(0).gameObject.name == "Menu")
                 this.menu = this.transform.GetChild(0).gameObject;
 
-            this.moveText = this.transform.GetChild(1).gameObject.guiText as GUIText;
+            this.moveText = this.menu.transform.GetChild(3).gameObject.guiText as GUIText;
             this.moveText.pixelOffset = new Vector2(10.0f, GlobalInfo.ScreenHeight - 10.0f);
+
+            this.menu.SetActive(true);
+            this.endMenu.SetActive(false);
+        }
+
+        public void ActivateEndMenu() {
+            this.menu.SetActive(false);
+            this.endMenu.SetActive(true);
         }
 
         public static void FindOrCreate() {

@@ -24,7 +24,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400008}
-  - 131: {fileID: 13100006}
   m_Layer: 0
   m_Name: Menu
   m_TagString: Untagged
@@ -68,7 +67,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &100014
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -110,7 +109,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400008}
-  - {fileID: 400014}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &400008
@@ -126,6 +124,7 @@ Transform:
   - {fileID: 400010}
   - {fileID: 400012}
   - {fileID: 400016}
+  - {fileID: 400014}
   m_Father: {fileID: 400006}
   m_RootOrder: 0
 --- !u!4 &400010
@@ -160,10 +159,10 @@ Transform:
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
-  m_Father: {fileID: 400006}
-  m_RootOrder: 1
+  m_Father: {fileID: 400008}
+  m_RootOrder: 3
 --- !u!4 &400016
 Transform:
   m_ObjectHideFlags: 1
@@ -202,6 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 100008}
+  endMenu: {fileID: 0}
   undoButton: {fileID: 100016}
   moveText: {fileID: 13200000}
 --- !u!114 &11400006
@@ -232,25 +232,6 @@ MonoBehaviour:
   buttonEnter: {fileID: 2800000, guid: 91268f15c8cc1be4fa0ca550cd8b164a, type: 3}
   buttonExit: {fileID: 2800000, guid: 6d42c8226f9ee54408939821fafc6519, type: 3}
   buttonType: 1
---- !u!131 &13100006
-GUITexture:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
-  m_Enabled: 1
-  m_Texture: {fileID: 0}
-  m_Color: {r: .5, g: .5, b: .5, a: .5}
-  m_PixelInset:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  m_LeftBorder: 0
-  m_RightBorder: 0
-  m_TopBorder: 0
-  m_BottomBorder: 0
 --- !u!131 &13100008
 GUITexture:
   m_ObjectHideFlags: 1

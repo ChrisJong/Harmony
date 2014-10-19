@@ -25,10 +25,12 @@
 
         public void Init() {
             if(this.blockState == BlockInfo.BlockState.UP) {
-                this.isUp = false;
+                //this.blockState = BlockInfo.BlockState.UP;
+                this.isUp = true;
                 this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
                 this.blockState = BlockInfo.BlockState.NONE;
             } else {
+                //this.blockState = BlockInfo.BlockState.DOWN;
                 this.isUp = false;
                 this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
                 this.blockState = BlockInfo.BlockState.NONE;
@@ -37,12 +39,14 @@
 
         public override void MoveUp() {
             if(this.isReversed) {
+                //this.blockState = BlockInfo.BlockState.DOWN;
                 this.currentCounter--;
                 this.blockRenderer.material = this.blockDownMaterials[currentCounter];
                 this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
-                this.isUp = true;
+                this.isUp = false;
                 this.blockState = BlockInfo.BlockState.NONE;
             } else {
+                //this.blockState = BlockInfo.BlockState.UP;
                 this.currentCounter--;
                 this.blockRenderer.material = this.blockUpMaterials[currentCounter];
                 this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
@@ -53,11 +57,12 @@
 
         public override void MoveDown() {
             if(this.isReversed) {
-                if(this.isUp) {
+                if(!this.isUp) {
+                    //this.blockState = BlockInfo.BlockState.UP;
                     this.currentCounter = this.maxCounter;
                     this.blockRenderer.material = this.blockUpMaterials[currentCounter];
                     this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
-                    this.isUp = false;
+                    this.isUp = true;
                     this.blockState = BlockInfo.BlockState.NONE;
                 } else {
                     this.currentCounter--;
@@ -66,6 +71,7 @@
                 }
             } else {
                 if(this.isUp) {
+                    //this.blockState = BlockInfo.BlockState.DOWN;
                     this.currentCounter = this.maxCounter;
                     this.blockRenderer.material = this.blockDownMaterials[currentCounter];
                     this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
