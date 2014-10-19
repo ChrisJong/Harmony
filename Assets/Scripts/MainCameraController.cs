@@ -75,6 +75,7 @@ public class MainCameraController : MonoBehaviour {
             tempCamera.AddComponent<Camera>();
             tempCamera.AddComponent<GUILayer>();
             tempCamera.AddComponent<AudioListener>();
+            tempCamera.camera.clearFlags = CameraClearFlags.Skybox;
             tempCamera.tag = "MainCamera";
         }
 
@@ -92,8 +93,11 @@ public class MainCameraController : MonoBehaviour {
             lightDetails.shadowBias = 0.05f;
             lightDetails.shadowSoftness = 5.0f;
             lightDetails.shadowSoftnessFade = 2.0f;
-
+            
             tempCamera.AddComponent<MainCameraController>();
+            tempCamera.AddComponent<Skybox>();
+            tempCamera.GetComponent<Skybox>().material = ResourceController.instance.skyBox;
+
         }
     }
 }

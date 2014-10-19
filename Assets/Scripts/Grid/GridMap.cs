@@ -86,7 +86,7 @@
 
         public void Awake() {
             instance = this;
-            Instantiate(Resources.Load("Controller") as GameObject);
+            Instantiate(Resources.Load("ResourceController") as GameObject);
             GenerateWalls();
             //GeneratePlayers();
             GridController.FindOrCreate();

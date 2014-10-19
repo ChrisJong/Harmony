@@ -14,6 +14,7 @@
         public static CharacterController characterController;
 
         public bool isMoving = false;
+        public bool isStunned = false;
 
         private GameObject _currentBlock;
         private PlayerInfo.MovementDirection _currentDirection = PlayerInfo.MovementDirection.NONE;
@@ -49,6 +50,7 @@
         public void GetInput(PlayerInfo.MovementDirection current, PlayerInfo.MovementDirection previous) {
             if(this.isMoving)
                 return;
+
             this._canUndo = false;
             this.GetCurrentBlock();
             this.CheckCurrentBlock();
@@ -77,6 +79,7 @@
                 AIMovement.instance.MoveVector = new Vector3(1, 0, 0);
                 this.isMoving = true;
             }
+
             this.CheckCurrentBlock();
             AIAudio.instance.Play();
         }

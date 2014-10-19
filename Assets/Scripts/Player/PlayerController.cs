@@ -14,6 +14,7 @@
         public static CharacterController characterController;
 
         public bool isMoving = false;
+        public bool isStunned = false;
 
         private GameObject _currentBlock;
         private PlayerInfo.MovementDirection _currentDirection = PlayerInfo.MovementDirection.NONE;
@@ -71,7 +72,6 @@
             }
 
             this.CheckCurrentBlock();
-
             PlayerAudio.instance.Play();
         }
 
@@ -149,7 +149,7 @@
             Debug.DrawRay(this.transform.position, rayDirection * 100.0f, Color.red);
             if(Physics.Raycast(this.transform.position, rayDirection, out hitInfo, 5.0f)) {
                 if(hitInfo.transform.tag == "Block") {
-                    this._currentBlock = hitInfo.transform.gameObject as GameObject;
+                    this._currentBlock = hitInfo.transform.gameObject;
                 }
             }
         }

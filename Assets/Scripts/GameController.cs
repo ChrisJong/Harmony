@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour {
 
     public static GameController instance;
 
+    public bool isStageFinished = false;
     public GlobalInfo.GameState gameState = GlobalInfo.GameState.MENU;
 
     void Awake() {
@@ -52,20 +53,6 @@ public class GameController : MonoBehaviour {
     }
 
     public void LoadNextLevel() {
-        /*currentScene = Application.loadedLevelName;
-        string[] words;
-        words = currentScene.Split(new string[] { MazeInfo.MazeName }, System.StringSplitOptions.RemoveEmptyEntries);
-
-        foreach(string s in words)
-            Debug.Log(s);
-
-
-        int number;
-        if(int.TryParse(words[0], out number)){
-            Debug.Log(number);
-        }
-        number++;
-        nextScene = MazeInfo.MazeName + number.ToString();*/
         if(MazeInfo.NextMaze != "MainMenu") {
             Object.DontDestroyOnLoad(SoundController.instance.gameObject);
 
@@ -79,7 +66,6 @@ public class GameController : MonoBehaviour {
         }
 
         MazeInfo.CurrentMaze = MazeInfo.NextMaze;
-        //Debug.Log(MazeInfo.NextMaze);
         Application.LoadLevel(MazeInfo.NextMaze);
     }
 

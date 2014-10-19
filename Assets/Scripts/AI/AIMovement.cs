@@ -14,6 +14,7 @@
             get;
             set;
         }
+
         public float VerticalVelocity {
             get;
             set;
@@ -53,6 +54,8 @@
         private void ProcessMovement() {
             if(AIController.instance.isMoving)
                 this.MoveVector = this.transform.TransformDirection(this.MoveVector);
+            else
+                this.MoveVector = new Vector3(0, this.MoveVector.y, 0);
 
             if(this.MoveVector.magnitude > 1.0f)
                 this.MoveVector = Vector3.Normalize(this.MoveVector);
@@ -72,11 +75,14 @@
         }
 
         public void CenterPlayer(Transform currentBlock) {
+            if(currentBlock == null)
+                return;
+
             this.transform.position = new Vector3(currentBlock.transform.position.x, this.transform.position.y, currentBlock.transform.position.z + 0.5f);
         }
 
         public void UndoMovement() {
-            this.transform.position = this.UndoPosition;
+            this.transform.position = new Vector3(this.UndoPosition.x, this.UndoPosition.y + 1.0f, this.UndoPosition.z);
         }
 
         private void ApplyGravity() {

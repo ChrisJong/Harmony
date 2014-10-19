@@ -57,7 +57,7 @@
             else
                 this.MoveVector = new Vector3(0, this.MoveVector.y, 0);
 
-            if(MoveVector.magnitude > 1.0f)
+            if(this.MoveVector.magnitude > 1.0f)
                 this.MoveVector = Vector3.Normalize(this.MoveVector);
 
             if(this._moveSpeed > PlayerInfo.MaxMoveSpeed)

@@ -311,10 +311,7 @@
                         break;
 
                     case BlockInfo.BlockTypes.NUMBER:
-                        if(childType.blockState == BlockInfo.BlockState.UP)
-                            childType.MoveUp();
-                        else
-                            childType.MoveDown();
+                        ((NumberBlock)childType).Init();
                         this._numberBlocks.Add(child.gameObject.GetComponent<NumberBlock>());
                         break;
 
