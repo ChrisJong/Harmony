@@ -105,12 +105,7 @@
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
             } else {
-                if(MazeInfo.MazeMoveValue.ContainsKey(MazeInfo.CurrentMazeNumber - 1))
-                    GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString() + " / " + MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][1].ToString();
-                else
-                    GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString();
                 GridController.instance.blocksReady = false;
-                return;
             }
             
             PlayerController.instance.CheckCurrentBlock();

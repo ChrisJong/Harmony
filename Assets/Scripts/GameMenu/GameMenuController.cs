@@ -20,9 +20,7 @@
             if(this.transform.GetChild(0).gameObject.name == "Menu")
                 this.menu = this.transform.GetChild(0).gameObject;
 
-            this.moveText = this.menu.transform.GetChild(3).gameObject.guiText as GUIText;
             this.moveText.pixelOffset = new Vector2(10.0f, GlobalInfo.ScreenHeight - 10.0f);
-
 
             this.endMenu.transform.GetChild(0).transform.guiTexture.pixelInset = GameMenuInfo.EndBillboardRect;
 
