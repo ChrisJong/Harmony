@@ -163,8 +163,8 @@
             Instantiate((GameObject)AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabPlayer, AssetPaths.PlayerName), humanSpawnPoint, Quaternion.identity);
             Instantiate((GameObject)AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabPlayer, AssetPaths.AIName), aiSpawnPoint, Quaternion.identity);
 #else
-            Instantiate((GameObject)Controller.instance.playerObject, humanSpawnPoint, Quaternion.identity);
-            Instantiate((GameObject)Controller.instance.aiObject, aiSpawnPoint, Quaternion.identity);
+            Instantiate((GameObject)ResourceController.instance.playerObject, humanSpawnPoint, Quaternion.identity);
+            Instantiate((GameObject)ResourceController.instance.aiObject, aiSpawnPoint, Quaternion.identity);
 #endif
         }
 

@@ -40,7 +40,7 @@
 #if UNITY_EDITOR
                 tempController = AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabGameMenu, AssetPaths.GameMenuControllerName);
 #else
-                tempController = Controller.instance.gameMenuController;
+                tempController = ResourceController.instance.gameMenuController;
 #endif
                 Instantiate(tempController).name = AssetPaths.GameMenuControllerName;
                 return;

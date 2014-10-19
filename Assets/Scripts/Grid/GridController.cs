@@ -430,7 +430,7 @@
 #if UNITY_EDITOR
                 tempController = AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabMisc, AssetPaths.GridControllerName);
 #else
-                tempController = Controller.instance.gridController;
+                tempController = ResourceController.instance.gridController;
 #endif
                 Instantiate(tempController).name = AssetPaths.GridControllerName;
                 return;
