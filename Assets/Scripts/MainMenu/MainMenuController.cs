@@ -20,7 +20,7 @@
 
         void Awake() {
             instance = this;
-            Instantiate(Resources.Load("ResourceController") as GameObject);
+            Instantiate(Resources.Load("ResourceManager") as GameObject);
             this.currentMenuType = MainMenuInfo.MenuTypes.MAINMENU;
             this.currentMenuScreen = mainMenu;
             this.mainMenu.SetActive(true);

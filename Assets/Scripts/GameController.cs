@@ -76,7 +76,7 @@ public class GameController : MonoBehaviour {
 #if UNITY_EDITOR
             tempController = AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabMisc, AssetPaths.GameControllerName);
 #else
-            tempController = ResourceController.instance.gameController;
+            tempController = ResourceManager.instance.gameController;
 #endif
             Instantiate(tempController).name = AssetPaths.GameControllerName;
             return;

@@ -2,9 +2,9 @@
 
 using UnityEngine;
 
-public class ResourceController : MonoBehaviour {
+public class ResourceManager : MonoBehaviour {
 
-    public static ResourceController instance;
+    public static ResourceManager instance;
 
     public GameObject gameMenuController;
     public GameObject gameController;
@@ -17,6 +17,7 @@ public class ResourceController : MonoBehaviour {
     public GameObject levelNumberBlock;
 
     public Material skyBox;
+    public Material bottomPlane;
 
     void Awake() {
         instance = this;

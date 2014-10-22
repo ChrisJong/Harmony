@@ -175,6 +175,8 @@ namespace GameInfo {
         public const float FOVSpeed = 2.0f;
         public const float FOVMultiplier = 10.0f;
         public static Quaternion CameraRotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);
+
+        public const float SkyboxRotationSpeed = 0.75f;
     }
 
     public static class SoundInfo {

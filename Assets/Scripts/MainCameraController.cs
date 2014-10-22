@@ -66,22 +66,23 @@ public class MainCameraController : MonoBehaviour {
     /// </summary>
     public static void FindOrCreate() {
 
-        GameObject tempCamera;
+        GameObject tempMainCamera;
 
         if(Camera.main != null) {
-            tempCamera = Camera.main.gameObject;
+            tempMainCamera = Camera.main.gameObject;
+            tempMainCamera.camera.clearFlags = CameraClearFlags.Depth;
         } else {
-            tempCamera = new GameObject("Main Camera");
-            tempCamera.AddComponent<Camera>();
-            tempCamera.AddComponent<GUILayer>();
-            tempCamera.AddComponent<AudioListener>();
-            tempCamera.camera.clearFlags = CameraClearFlags.Skybox;
-            tempCamera.tag = "MainCamera";
+            tempMainCamera = new GameObject("Main Camera");
+            tempMainCamera.AddComponent<Camera>();
+            tempMainCamera.AddComponent<GUILayer>();
+            tempMainCamera.AddComponent<AudioListener>();
+            tempMainCamera.tag = "MainCamera";
         }
+
+        SkyboxCameraController.CreateSkyboxCamera();
 
         if(GameController.instance.gameState == GlobalInfo.GameState.INGAME) {
             GameObject tempLight = new GameObject("Directional Light");
-            //tempLight.transform.rotation = Quaternion.Euler(50.0f, -30.0f, 0.0f);
             tempLight.transform.rotation = Quaternion.Euler(45.0f, -135.0f, 0.0f);
             tempLight.AddComponent<Light>();
             Light lightDetails = tempLight.GetComponent<Light>();
@@ -93,11 +94,9 @@ public class MainCameraController : MonoBehaviour {
             lightDetails.shadowBias = 0.05f;
             lightDetails.shadowSoftness = 5.0f;
             lightDetails.shadowSoftnessFade = 2.0f;
-            
-            tempCamera.AddComponent<MainCameraController>();
-            tempCamera.AddComponent<Skybox>();
-            tempCamera.GetComponent<Skybox>().material = ResourceController.instance.skyBox;
 
+            tempMainCamera.camera.clearFlags = CameraClearFlags.Depth;
+            tempMainCamera.AddComponent<MainCameraController>();
         }
     }
 }

@@ -34,6 +34,7 @@
         public bool blocksReady = false;
 
         private int _moveCount = 0;
+        private float _endTimer = 0.0f;
 
         void Awake() {
             instance = this;
@@ -61,11 +62,19 @@
         }
 
         void Update() {
-            if(GameController.instance.gameState == GlobalInfo.GameState.INGAME)
-                if(!GameController.instance.isStageFinished)
+            if(GameController.instance.gameState == GlobalInfo.GameState.INGAME) {
+                if(!GameController.instance.isStageFinished) {
                     this.GetInput();
-                else
-                    GameMenuController.instance.ActivateEndMenu();
+                } else {
+
+                    if(this._endTimer > 5.0f)
+                        GameMenuController.instance.ActivateEndMenu();
+                    else
+                        this._endTimer += Time.deltaTime;
+
+                    this.DeactivateBlocks();
+                }
+            }
         }
 
         private void GetInput() {
@@ -117,7 +126,7 @@
                 GameMenuController.instance.undoButton.SetActive(false);
 
             if(MazeInfo.MazeMoveValue.ContainsKey(MazeInfo.CurrentMazeNumber - 1))
-                GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString() + " / " + MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][1].ToString();
+                GameMenuController.instance.moveText.text = "Maze: " + MazeInfo.CurrentMazeNumber + " / " + MazeInfo.MaxMazeCount.ToString() + '\n' + "Moves: " + this._moveCount.ToString() + " / " + MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][1].ToString();
             else
                 GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString();
         }
@@ -312,6 +321,39 @@
             this.blocksReady = true;
         }
 
+        public void DeactivateBlocks() {
+            if(this._normalBlocks.Count > 0) {
+                int count = this._normalBlocks.Count;
+                for(int i = 0; i < count; i++)
+                    this._normalBlocks[i].blockState = BlockInfo.BlockState.DOWN;
+            }
+
+            if(this._multiBlocks.Count > 0) {
+                int count = this._multiBlocks.Count;
+                for(int i = 0; i < count; i++)
+                    this._multiBlocks[i].blockState = BlockInfo.BlockState.DOWN;
+            }
+
+            if(this._numberBlocks.Count > 0) {
+                int count = this._numberBlocks.Count;
+                for(int i = 0; i < count; i++)
+                    this._numberBlocks[i].blockState = BlockInfo.BlockState.DOWN;
+            }
+
+            if(this._stunBlocks.Count > 0) {
+                int count = this._stunBlocks.Count;
+                for(int i = 0; i < count; i++)
+                    this._stunBlocks[i].blockState = BlockInfo.BlockState.DOWN;
+            }
+
+            if(this._emptyBlocks.Count > 0) {
+                int count = this._emptyBlocks.Count;
+                for(int i = 0; i < count; i++)
+                    if(this._emptyBlocks[i].isUp)
+                        this._emptyBlocks[i].MoveDown();
+            }
+        }
+
         /// <summary>
         /// This Function Will be called to sort and group all the available blocks on the stage in a list.
         /// </summary>
@@ -430,7 +472,7 @@
 #if UNITY_EDITOR
                 tempController = AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabMisc, AssetPaths.GridControllerName);
 #else
-                tempController = ResourceController.instance.gridController;
+                tempController = ResourceManager.instance.gridController;
 #endif
                 Instantiate(tempController).name = AssetPaths.GridControllerName;
                 return;

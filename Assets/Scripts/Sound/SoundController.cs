@@ -114,7 +114,7 @@
 #if UNITY_EDITOR
                 tempController = AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabMisc, AssetPaths.SoundControllerName);
 #else
-                tempController = ResourceController.instance.soundController;
+                tempController = ResourceManager.instance.soundController;
 #endif
                 var audio = tempController.GetComponent<AudioSource>() as AudioSource;
                 audio.rolloffMode = AudioRolloffMode.Linear;

@@ -86,8 +86,8 @@
 
         public void Awake() {
             instance = this;
-            Instantiate(Resources.Load("ResourceController") as GameObject);
-            GenerateWalls();
+            Instantiate(Resources.Load("ResourceManager") as GameObject);
+            this.GenerateWalls();
             //GeneratePlayers();
             GridController.FindOrCreate();
         }
@@ -96,20 +96,28 @@
         /// Generates the outer walls for the maze.
         /// </summary>
         private void GenerateWalls() {
-            float xPos = columns * 0.5f;
-            float yPos = transform.position.y + _blockHeight;
-            float zPos = rows * 0.5f;
+            float xPos = this.columns * 0.5f;
+            float yPos = this.transform.position.y + this._blockHeight;
+            float zPos = this.rows * 0.5f;
 
-            GameObject _wallOrigin = new GameObject("WallContainer");
-            _wallOrigin.transform.position = new Vector3(xPos, yPos, zPos);
+            GameObject wallOrigin = new GameObject("WallContainer");
+            wallOrigin.transform.position = new Vector3(xPos, yPos, zPos);
+
+            GameObject bottomPlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            Destroy(bottomPlane.gameObject.GetComponent<MeshCollider>());
+            bottomPlane.GetComponent<MeshRenderer>().material = ResourceManager.instance.bottomPlane;
+            bottomPlane.transform.position = new Vector3(wallOrigin.transform.position.x, 0.0f, wallOrigin.transform.position.z);
+            bottomPlane.transform.localScale = new Vector3(this.columns * 0.1f, 1.0f, this.rows * 0.1f);
+            bottomPlane.transform.parent = wallOrigin.transform;
+
             for(int i = 0; i < 4; i++) {
                 if(i == 0) {
                     GameObject wall = new GameObject("Wall");
                     wall.AddComponent("BoxCollider");
                     wall.transform.position = Vector3.zero;
-                    wall.transform.parent = _wallOrigin.transform;
-                    wall.transform.localPosition = new Vector3(0, _blockHeight * 0.5f, -zPos);
-                    wall.GetComponent<BoxCollider>().size = new Vector3(columns, _blockHeight * 2.0f, 0);
+                    wall.transform.parent = wallOrigin.transform;
+                    wall.transform.localPosition = new Vector3(0, this._blockHeight * 0.5f, -zPos);
+                    wall.GetComponent<BoxCollider>().size = new Vector3(this.columns, this._blockHeight * 2.0f, 0);
                     wall.tag = "Wall";
                 }
 
@@ -117,9 +125,9 @@
                     GameObject wall = new GameObject("Wall");
                     wall.AddComponent("BoxCollider");
                     wall.transform.position = Vector3.zero;
-                    wall.transform.parent = _wallOrigin.transform;
-                    wall.transform.localPosition = new Vector3(0, _blockHeight * 0.5f, zPos);
-                    wall.GetComponent<BoxCollider>().size = new Vector3(columns, _blockHeight * 2.0f, 0);
+                    wall.transform.parent = wallOrigin.transform;
+                    wall.transform.localPosition = new Vector3(0, this._blockHeight * 0.5f, zPos);
+                    wall.GetComponent<BoxCollider>().size = new Vector3(this.columns, this._blockHeight * 2.0f, 0);
                     wall.tag = "Wall";
                 }
 
@@ -127,9 +135,9 @@
                     GameObject wall = new GameObject("Wall");
                     wall.AddComponent("BoxCollider");
                     wall.transform.position = Vector3.zero;
-                    wall.transform.parent = _wallOrigin.transform;
-                    wall.transform.localPosition = new Vector3(xPos, _blockHeight * 0.5f, 0);
-                    wall.GetComponent<BoxCollider>().size = new Vector3(0, _blockHeight * 2.0f, rows);
+                    wall.transform.parent = wallOrigin.transform;
+                    wall.transform.localPosition = new Vector3(xPos, this._blockHeight * 0.5f, 0);
+                    wall.GetComponent<BoxCollider>().size = new Vector3(0, this._blockHeight * 2.0f, this.rows);
                     wall.tag = "Wall";
                 }
 
@@ -137,9 +145,9 @@
                     GameObject wall = new GameObject("Wall");
                     wall.AddComponent("BoxCollider");
                     wall.transform.position = Vector3.zero;
-                    wall.transform.parent = _wallOrigin.transform;
-                    wall.transform.localPosition = new Vector3(-xPos, _blockHeight * 0.5f, 0);
-                    wall.GetComponent<BoxCollider>().size = new Vector3(0, _blockHeight * 2.0f, rows);
+                    wall.transform.parent = wallOrigin.transform;
+                    wall.transform.localPosition = new Vector3(-xPos, this._blockHeight * 0.5f, 0);
+                    wall.GetComponent<BoxCollider>().size = new Vector3(0, this._blockHeight * 2.0f, this.rows);
                     wall.tag = "Wall";
                 }
             }
@@ -163,8 +171,8 @@
             Instantiate((GameObject)AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabPlayer, AssetPaths.PlayerName), humanSpawnPoint, Quaternion.identity);
             Instantiate((GameObject)AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabPlayer, AssetPaths.AIName), aiSpawnPoint, Quaternion.identity);
 #else
-            Instantiate((GameObject)ResourceController.instance.playerObject, humanSpawnPoint, Quaternion.identity);
-            Instantiate((GameObject)ResourceController.instance.aiObject, aiSpawnPoint, Quaternion.identity);
+            Instantiate((GameObject)ResourceManager.instance.playerObject, humanSpawnPoint, Quaternion.identity);
+            Instantiate((GameObject)ResourceManager.instance.aiObject, aiSpawnPoint, Quaternion.identity);
 #endif
         }
 

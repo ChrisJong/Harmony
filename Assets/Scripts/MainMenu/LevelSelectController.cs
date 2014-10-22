@@ -32,7 +32,7 @@
 #if UNITY_EDITOR
                     block = (GameObject)Instantiate(AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabMainMenu, AssetPaths.LevelNumberBlockName));
 #else
-                    block = (GameObject)Instantiate(ResourceController.instance.levelNumberBlock);
+                    block = (GameObject)Instantiate(ResourceManager.instance.levelNumberBlock);
 #endif
                     block.GetComponent<LevelBlockButton>().SetId(count + 1);
                     block.transform.position = new Vector3(thisObject.transform.position.x + i * 1, thisObject.gameObject.transform.position.y, thisObject.transform.position.z);
@@ -48,7 +48,7 @@
 #if UNITY_EDITOR
                         block = (GameObject)Instantiate(AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabMainMenu, AssetPaths.LevelNumberBlockName));
 #else
-                        block = (GameObject)Instantiate(ResourceController.instance.levelNumberBlock);
+                        block = (GameObject)Instantiate(ResourceManager.instance.levelNumberBlock);
 #endif
                         block.GetComponent<LevelBlockButton>().SetId(count + 1);
                         block.transform.position = new Vector3(thisObject.transform.position.x + j * 1, thisObject.gameObject.transform.position.y - i * 1, thisObject.transform.position.z);
