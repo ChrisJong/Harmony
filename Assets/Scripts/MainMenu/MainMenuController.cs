@@ -3,7 +3,8 @@
     using System.Collections;
 
     using UnityEngine;
-    
+
+    using Helpers;
     using GameInfo;
 
     public class MainMenuController : MonoBehaviour {
@@ -15,50 +16,24 @@
         public GameObject instructions;
         public GameObject credits;
 
-        public MainMenuInfo.MenuTypes currentMenuType;
-        public GameObject currentMenuScreen;
+        public MainMenuInfo.MenuTypes currentMenuScene;
 
         void Awake() {
+#if UNITY_EDITOR
+            if(!GlobalInfo.GameDataLoaded) {
+                MazeDataHelper.LoadData();
+                GlobalInfo.GameDataLoaded = true;
+            }
+#else
+            if(!GlobalInfo.GameDataLoaded) {
+                MazeDataHelper.LoadGameData();
+                GlobalInfo.GameDataLoaded = true;
+            }
+#endif
+
             instance = this;
             Instantiate(Resources.Load("ResourceManager") as GameObject);
-            this.currentMenuType = MainMenuInfo.MenuTypes.MAINMENU;
-            this.currentMenuScreen = mainMenu;
-            this.mainMenu.SetActive(true);
-            this.levelSelect.SetActive(false);
-            this.instructions.SetActive(false);
-            this.credits.SetActive(false);
-        }
-
-        public void SetMenuScreen(MainMenuInfo.MenuTypes menu) {
-            switch(menu) {
-                case MainMenuInfo.MenuTypes.MAINMENU:
-                this.currentMenuScreen.SetActive(false);
-                this.currentMenuScreen = this.mainMenu;
-                this.currentMenuType = menu;
-                this.currentMenuScreen.SetActive(true);
-                break;
-
-                case MainMenuInfo.MenuTypes.LEVELSELECT:
-                this.currentMenuScreen.SetActive(false);
-                this.currentMenuScreen = this.levelSelect;
-                this.currentMenuType = menu;
-                this.currentMenuScreen.SetActive(true);
-                break;
-
-                case MainMenuInfo.MenuTypes.INSTRUCTIONS:
-                this.currentMenuScreen.SetActive(false);
-                this.currentMenuScreen = this.instructions;
-                this.currentMenuType = menu;
-                this.currentMenuScreen.SetActive(true);
-                break;
-
-                case MainMenuInfo.MenuTypes.CREDITS:
-                this.currentMenuScreen.SetActive(false);
-                this.currentMenuScreen = this.credits;
-                this.currentMenuType = menu;
-                this.currentMenuScreen.SetActive(true);
-                break;
-            }
+            this.currentMenuScene = MainMenuInfo.MenuTypes.MAINMENU;
         }
     }
 }

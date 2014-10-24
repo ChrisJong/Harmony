@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour {
         if(int.TryParse(maze[0], out mazeNumber)) {
             MazeInfo.CurrentMazeNumber = mazeNumber;
             mazeNumber++;
-            if(mazeNumber > MazeInfo.MaxMazeCount)
+            if(mazeNumber > MazeInfo.MaxMazeLength)
                 MazeInfo.NextMaze = "MainMenu";
             else
                 MazeInfo.NextMaze = MazeInfo.MazeName + mazeNumber.ToString();
@@ -56,13 +56,13 @@ public class GameController : MonoBehaviour {
         if(MazeInfo.NextMaze != "MainMenu") {
             Object.DontDestroyOnLoad(SoundController.instance.gameObject);
 
-            if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][0] >= 0) {
-                MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][0] = GridController.instance.MoveCount;
-                MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber][0] = 0;
+            if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount >= 0) {
+                MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount = GridController.instance.MoveCount;
+                MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber].moveCount = 0;
             }
         } else {
-            if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][0] >= 0)
-                MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][0] = GridController.instance.MoveCount;
+            if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount >= 0)
+                MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount = GridController.instance.MoveCount;
         }
 
         MazeInfo.CurrentMaze = MazeInfo.NextMaze;

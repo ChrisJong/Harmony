@@ -34,6 +34,7 @@
         public bool blocksReady = false;
 
         private int _moveCount = 0;
+        private int _maxMoves = 0;
         private float _endTimer = 0.0f;
 
         void Awake() {
@@ -59,6 +60,8 @@
             this.SortBlocks();
 
             GridMap.instance.GeneratePlayers();
+
+            this._maxMoves = MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].maxMoves;
         }
 
         void Update() {
@@ -67,7 +70,7 @@
                     this.GetInput();
                 } else {
 
-                    if(this._endTimer > 5.0f)
+                    if(this._endTimer > 1.0f)
                         GameMenuController.instance.ActivateEndMenu();
                     else
                         this._endTimer += Time.deltaTime;
@@ -126,7 +129,7 @@
                 GameMenuController.instance.undoButton.SetActive(false);
 
             if(MazeInfo.MazeMoveValue.ContainsKey(MazeInfo.CurrentMazeNumber - 1))
-                GameMenuController.instance.moveText.text = "Maze: " + MazeInfo.CurrentMazeNumber + " / " + MazeInfo.MaxMazeCount.ToString() + '\n' + "Moves: " + this._moveCount.ToString() + " / " + MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1][1].ToString();
+                GameMenuController.instance.moveText.text = "Level: " + MazeInfo.CurrentMazeNumber + " of " + MazeInfo.MaxMazeLength.ToString() + '\n' + "Moves: " + this._moveCount.ToString() + " / " + this._maxMoves;
             else
                 GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString();
         }
@@ -483,7 +486,15 @@
 
         #region Getter/Setter
         public int MoveCount {
-            get { return this._moveCount; }
+            get {
+                return this._moveCount;
+            }
+        }
+
+        public int MaxMoves {
+            get {
+                return this._maxMoves;
+            }
         }
         #endregion
     }

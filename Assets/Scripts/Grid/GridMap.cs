@@ -29,6 +29,10 @@
         [SerializeField]
         public int columns = 5;
 
+        [Range(1, 20)]
+        [SerializeField]
+        public int maxMoves = 1;
+
         /// <summary>
         /// gets or sets the value of the block width.
         /// </summary>
@@ -85,6 +89,9 @@
         }
 
         public void Awake() {
+#if UNITY_EDITOR
+            MazeDataHelper.LoadData();
+#endif
             instance = this;
             Instantiate(Resources.Load("ResourceManager") as GameObject);
             this.GenerateWalls();

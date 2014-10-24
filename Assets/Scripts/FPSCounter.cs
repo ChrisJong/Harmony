@@ -12,7 +12,7 @@ public class FPSCounter : MonoBehaviour {
 
 	void Start () {
         if(!guiText) {
-            Debug.Log("FramesPerSecond needs a GUIText component!");
+            Debug.Log("framesPerSecond needs a GUIText component!");
             enabled = false;
             return;
         }

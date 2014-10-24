@@ -7,51 +7,51 @@
 
     public class MainMenuButton : MonoBehaviour {
 
+        public Material buttonEnter;
+        public Material buttonExit;
         public MainMenuInfo.MenuTypes buttonType;
 
-        public GameObject text;
+        private MeshRenderer _renderer;
 
         void Awake() {
-            if(text != null)
-                this.text.SetActive(false);
+            this._renderer = this.transform.GetComponent<MeshRenderer>() as MeshRenderer;
+            this._renderer.material = this.buttonExit;
         }
 
         private void OnMouseEnter() {
-            if(text != null)
-                text.SetActive(true);
+            this._renderer.material = this.buttonEnter;
         }
 
         private void OnMouseExit() {
-            if(text != null)
-                text.SetActive(false);
+            this._renderer.material = this.buttonExit;
         }
 
         private void OnMouseUp() {
             switch(buttonType) {
                 case MainMenuInfo.MenuTypes.NEWGAME:
-                text.SetActive(false);
-                GameController.instance.gameState = GlobalInfo.GameState.INGAME;
-                GameController.instance.LoadLevelAt(1);
-                break;
+                    this._renderer.material = this.buttonExit;
+                    MainMenuController.instance.currentMenuScene = buttonType;
+                    break;
 
                 case MainMenuInfo.MenuTypes.INSTRUCTIONS:
-                MainMenuController.instance.SetMenuScreen(MainMenuInfo.MenuTypes.INSTRUCTIONS);
-                text.SetActive(false);
-                break;
+                    this._renderer.material = this.buttonExit;
+                    MainMenuController.instance.currentMenuScene = buttonType;
+                    break;
 
                 case MainMenuInfo.MenuTypes.LEVELSELECT:
-                MainMenuController.instance.SetMenuScreen(MainMenuInfo.MenuTypes.LEVELSELECT);
-                text.SetActive(false);
-                break;
+                    this._renderer.material = this.buttonExit;
+                    MainMenuController.instance.currentMenuScene = buttonType;
+                    break;
 
                 case MainMenuInfo.MenuTypes.CREDITS:
-                MainMenuController.instance.SetMenuScreen(MainMenuInfo.MenuTypes.CREDITS);
-                text.SetActive(false);
-                break;
+                    this._renderer.material = this.buttonExit;
+                    MainMenuController.instance.currentMenuScene = buttonType;
+                    break;
 
                 case MainMenuInfo.MenuTypes.MAINMENU:
-                MainMenuController.instance.SetMenuScreen(MainMenuInfo.MenuTypes.MAINMENU);
-                break;
+                    this._renderer.material = this.buttonExit;
+                    MainMenuController.instance.currentMenuScene = buttonType;
+                    break;
             }
         }
     }

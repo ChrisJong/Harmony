@@ -32,8 +32,8 @@
             this._blockText.text = _id.ToString();
 
             this._mazeTitle = MazeInfo.MazeName + " " + this._id.ToString();
-            this._movesMade = MazeInfo.MazeMoveValue[this._id - 1][0];
-            this._maxMoves = MazeInfo.MazeMoveValue[this._id - 1][1];
+            this._movesMade = MazeInfo.MazeMoveValue[this._id - 1].moveCount;
+            this._maxMoves = MazeInfo.MazeMoveValue[this._id - 1].maxMoves;
 
             if(this._movesMade == -1) {
                 this._mazeLocked = true;

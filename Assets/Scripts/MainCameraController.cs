@@ -1,5 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+
+using UnityEngine;
+
+using MainMenu;
 using GameInfo;
 using Grid;
 
@@ -71,6 +74,8 @@ public class MainCameraController : MonoBehaviour {
         if(Camera.main != null) {
             tempMainCamera = Camera.main.gameObject;
             tempMainCamera.camera.clearFlags = CameraClearFlags.Depth;
+            if(GameController.instance.gameState == GlobalInfo.GameState.MENU)
+                tempMainCamera.AddComponent<MainMenuCameraController>();
         } else {
             tempMainCamera = new GameObject("Main Camera");
             tempMainCamera.AddComponent<Camera>();

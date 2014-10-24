@@ -120,10 +120,10 @@
                 audio.rolloffMode = AudioRolloffMode.Linear;
                 audio.minDistance = 50.0f;
                 audio.volume = 0.5f;
-                Instantiate(tempController).name = AssetPaths.SoundControllerName;
-                return;
-            } else {
-                return;
+                tempController = Instantiate(tempController) as GameObject;
+                tempController.name = AssetPaths.SoundControllerName;
+                if(GameController.instance.gameState == GlobalInfo.GameState.MENU)
+                    tempController.transform.parent = Camera.main.transform;
             }
         }
     }

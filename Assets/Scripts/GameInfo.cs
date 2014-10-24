@@ -8,44 +8,19 @@ namespace GameInfo {
     using UnityEditor;
 #endif
 
+    using Maze;
+
     public static class MazeInfo {
-        public static Dictionary<int, List<int>> MazeMoveValue = new Dictionary<int, List<int>>() {
-            // First Value Is The Maze Number (0 is Maze 1 and so on).
-            // Second Number Is The Number Of Moves The Player Has Made for that maze. 0 is a new game / unlocked content. -1 is locked content(will be implemented).
-            // Thrid Number Is The Max Number Of Moves For That Stage.
-            {0, new List<int>{0, 3}},
-            {1, new List<int>{-1, 3}},
-            {2, new List<int>{-1, 4}},
-            {3, new List<int>{-1, 3}},
-            {4, new List<int>{-1, 4}},
-            {5, new List<int>{-1, 6}},
-            {6, new List<int>{-1, 7}},
-            {7, new List<int>{-1, 5}},
-            {8, new List<int>{-1, 5}},
-            {9, new List<int>{-1, 6}},
-            {10, new List<int>{-1, 5}},
-            {11, new List<int>{-1, 5}},
-            {12, new List<int>{-1, 6}},
-            {13, new List<int>{-1, 6}},
-            {14, new List<int>{-1, 6}},
-            {15, new List<int>{-1, 10}},
-            {16, new List<int>{-1, 7}},
-            {17, new List<int>{-1, 8}},
-            {18, new List<int>{-1, 7}},
-            {19, new List<int>{-1, 10}},
-            {20, new List<int>{-1, 8}},
-            {21, new List<int>{-1, 6}},
-            {22, new List<int>{-1, 7}},
-			{23, new List<int>{-1, 7}},
-			{24, new List<int>{-1, 7}}
-        };
+
+        public static Dictionary<int, MazeData> MazeMoveValue;
+
+        public static int MaxMazeLength = 48;
 
         public const string MazeName = "Maze";
         public static string PreviousMaze;
         public static string CurrentMaze;
         public static string NextMaze;
         public static int CurrentMazeNumber;
-        public static int MaxMazeCount = Application.levelCount - 1;
     }
 
     public static class GlobalInfo {
@@ -58,6 +33,8 @@ namespace GameInfo {
 
         public static int ScreenWidth = Screen.width;
         public static int ScreenHeight = Screen.height;
+
+        public static bool GameDataLoaded = false;
     }
 
     public static class MainMenuInfo {
@@ -82,17 +59,19 @@ namespace GameInfo {
 
         public const int GameMenuButtonWidth = 75;
         public const int GameMenuButtonHeight = 75;
-        public static Rect RestartButtonRect = new Rect(GlobalInfo.ScreenWidth - (GameMenuButtonWidth + 5), GlobalInfo.ScreenHeight - (GameMenuButtonHeight + 5), GameMenuButtonWidth, GameMenuButtonHeight);
-        public static Rect MainMenuButtonRect = new Rect(RestartButtonRect.x, RestartButtonRect.y - (GameMenuButtonHeight + 5), GameMenuButtonWidth, GameMenuButtonHeight);
-        public static Rect UndoButtonRect = new Rect(RestartButtonRect.x, 0.0f + 5.0f, GameMenuButtonWidth, GameMenuButtonHeight);
-        //public static Vector3 MenuVector = new Vector3((GlobalInfo.ScreenWidth * 0.98f) / GlobalInfo.ScreenWidth, (GlobalInfo.ScreenHeight * 0.98f) / GlobalInfo.ScreenHeight, 1.0f);
+        public static Rect RestartButtonRect = new Rect(GlobalInfo.ScreenWidth - (GameMenuButtonWidth + 30.0f), GlobalInfo.ScreenHeight - (GameMenuButtonHeight + 30.0f), GameMenuButtonWidth, GameMenuButtonHeight);
+        public static Rect MainMenuButtonRect = new Rect(RestartButtonRect.x, RestartButtonRect.y - (GameMenuButtonHeight + 5.0f), GameMenuButtonWidth, GameMenuButtonHeight);
+        public static Rect UndoButtonRect = new Rect(RestartButtonRect.x, 30.0f, GameMenuButtonWidth, GameMenuButtonHeight);
 
         public const int EndBillboardWidth = 450;
         public const int EndBillboardHeight = 225;
+        public const int StartAnimationWidth = 100;
+        public const int StartAnimationHeight = 100;
         public static Rect EndBillboardRect = new Rect(GlobalInfo.ScreenWidth * 0.5f - EndBillboardWidth * 0.5f, GlobalInfo.ScreenHeight * 0.6f - EndBillboardHeight * 0.5f, EndBillboardWidth, EndBillboardHeight);
         public static Rect EndRestartButtonRect = new Rect(EndBillboardRect.x + (GameMenuButtonWidth * 3.0f - 10.0f) * 0.5f, EndBillboardRect.y - (GameMenuButtonHeight + 5.0f), GameMenuButtonWidth, GameMenuButtonHeight);
         public static Rect EndMainMenuButtonRect = new Rect(EndRestartButtonRect.x + GameMenuButtonWidth + 5.0f, EndRestartButtonRect.y, GameMenuButtonWidth, GameMenuButtonHeight);
         public static Rect EndNextLevelButtonRect = new Rect(EndMainMenuButtonRect.x + GameMenuButtonWidth + 5.0f, EndRestartButtonRect.y, GameMenuButtonWidth, GameMenuButtonHeight);
+        public static Rect StarAnimationRect = new Rect(EndBillboardRect.x + ((EndBillboardWidth * 0.5f) - (StartAnimationWidth * 0.5f)), EndBillboardRect.y + 10.0f, StartAnimationWidth, StartAnimationHeight);
     }
 
     public static class AssetPaths {
