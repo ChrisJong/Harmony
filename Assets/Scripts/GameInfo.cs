@@ -43,7 +43,10 @@ namespace GameInfo {
             NEWGAME = 1,
             LEVELSELECT = 2,
             INSTRUCTIONS = 3,
-            CREDITS = 4, 
+            CREDITS = 4,
+            NEXT = 5,
+            PREV = 6,
+            EXIT = 7,
             NONE
         }
     }

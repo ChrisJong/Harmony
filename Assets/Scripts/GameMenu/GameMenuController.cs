@@ -36,7 +36,7 @@
 
         }
 
-#if UNITY_EDTITOR || UNITY_STANDALONE_WIN
+#if UNITY_EDTITOR || UNITY_STANDALONE
         void Update() {
             if(Input.GetKeyDown(KeyCode.M)) {
                 GameController.instance.gameState = GlobalInfo.GameState.MENU;

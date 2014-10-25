@@ -4,19 +4,24 @@
 
     using UnityEngine;
 
+    using Input;
     using GameInfo;
 
+#if UNITY_IPHONE || UNITY_ANDROID
+    public class LevelBlockButton : MonoBehaviour, ITouchable {
+#else
     public class LevelBlockButton : MonoBehaviour {
+#endif
         private int _id = 0;
 
-        public Material normalMaterial;
+        public Material buttonEnter;
+        public Material buttonExit;
         public Material lockedMaterial;
-        public Material ribbonMaterial;
+        public Material starMaterial;
+        private Material[] _blockMaterials;
+        private MeshRenderer _blockRenderer;
 
         private TextMesh _blockText;
-
-        private string _mazeTitle;
-        private string _mazeInfo;
 
         private int _movesMade;
         private int _maxMoves;
@@ -25,50 +30,104 @@
 
         void Awake() {
             this._blockText = this.transform.GetChild(0).GetComponent<TextMesh>() as TextMesh;
+            this._blockMaterials = this.renderer.materials;
+            this._blockRenderer = this.renderer as MeshRenderer;
         }
 
         public void SetId(int id) {
             this._id = id;
             this._blockText.text = _id.ToString();
 
-            this._mazeTitle = MazeInfo.MazeName + " " + this._id.ToString();
             this._movesMade = MazeInfo.MazeMoveValue[this._id - 1].moveCount;
             this._maxMoves = MazeInfo.MazeMoveValue[this._id - 1].maxMoves;
 
             if(this._movesMade == -1) {
                 this._mazeLocked = true;
-                this.gameObject.renderer.material = this.lockedMaterial;
-                this._mazeInfo = "Maze " + this._id.ToString() + " Locked";
-                return;
+                this._blockMaterials[1] = this.buttonExit;
+                this._blockMaterials[0] = this.lockedMaterial;
+                this._blockRenderer.materials = this._blockMaterials;
             } else if(this._movesMade == 0) {
                 this._mazeLocked = false;
-                this.gameObject.renderer.material = normalMaterial;
-                this._mazeInfo = "New Maze: " + this._id.ToString() + '\n' + "??" + " out of " + this._maxMoves + " moves";
-                return;
+                this._blockMaterials[1] = this.buttonExit;
+                this._blockMaterials[0] = null;
+                this._blockRenderer.materials = this._blockMaterials;
             } else if(this._movesMade > 0 && this._movesMade <= this._maxMoves) {
                 this._mazeLocked = false;
-                this.gameObject.renderer.material = ribbonMaterial;
-                this._mazeInfo = "Best Record: " + this._mazeTitle + '\n' + this._movesMade + " out of " + this._maxMoves + " moves";
-                return;
+                this._blockMaterials[1] = this.buttonExit;
+                this._blockMaterials[0] = this.starMaterial;
+                this._blockRenderer.materials = this._blockMaterials;
             } else {
                 this._mazeLocked = false;
-                this.gameObject.renderer.material = normalMaterial;
-                this._mazeInfo = "Completed: " + this._mazeTitle + '\n' + this._movesMade + " out of " + this._maxMoves + " moves";
-                return;
+                this._blockMaterials[1] = this.buttonExit;
+                this._blockMaterials[0] = null;
+                this._blockRenderer.materials = this._blockMaterials;
             }
         }
 
-        public void OnMouseEnter() {
-            LevelSelectController.instance.informationField.text = this._mazeInfo;
+#if UNITY_IPHONE || UNITY_ANDROID
+        public void OnTouchBegan() {
+            this._blockMaterials[1] = this.buttonEnter;
+            this._blockRenderer.materials = this._blockMaterials;
         }
 
-        public void OnMouseExit() {
-            LevelSelectController.instance.informationField.text = null;
-        }
-
-        private void OnMouseUp() {
+        public void OnTouchEnded() {
+            this._blockMaterials[1] = this.buttonExit;
+            this._blockRenderer.materials = this._blockMaterials;
             if(!this._mazeLocked)
                 GameController.instance.LoadLevelAt(this._id);
         }
+
+        public void OnTouchMoved() {
+            this._blockMaterials[1] = this.buttonExit;
+            this._blockRenderer.materials = this._blockMaterials;
+        }
+
+        public void OnTouchStayed() {
+            this._blockMaterials[1] = this.buttonEnter;
+            this._blockRenderer.materials = this._blockMaterials;
+        }
+
+        public void OnTouchCanceled() {
+            this._blockMaterials[1] = this.buttonExit;
+            this._blockRenderer.materials = this._blockMaterials;
+        }
+
+        public void OnTouchEndedGlobal() {
+            this._blockMaterials[1] = this.buttonExit;
+            this._blockRenderer.materials = this._blockMaterials;
+        }
+
+        public void OnTouchMovedGlobal() {
+            this._blockMaterials[1] = this.buttonExit;
+            this._blockRenderer.materials = this._blockMaterials;
+        }
+
+        public void OnTouchStayedGlobal() {
+            this._blockMaterials[1] = this.buttonEnter;
+            this._blockRenderer.materials = this._blockMaterials;
+        }
+
+        public void OnTouchCanceledGlobal() {
+            this._blockMaterials[1] = this.buttonExit;
+            this._blockRenderer.materials = this._blockMaterials;
+        }
+#else
+        public void OnMouseEnter() {
+            this._blockMaterials[1] = this.buttonEnter;
+            this._blockRenderer.materials = this._blockMaterials;
+        }
+
+        public void OnMouseExit() {
+            this._blockMaterials[1] = this.buttonExit;
+            this._blockRenderer.materials = this._blockMaterials;
+        }
+
+        private void OnMouseUp() {
+            this._blockMaterials[1] = this.buttonExit;
+            this._blockRenderer.materials = this._blockMaterials;
+            if(!this._mazeLocked)
+                GameController.instance.LoadLevelAt(this._id);
+        }
+#endif
     }
 }

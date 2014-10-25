@@ -10,11 +10,16 @@
     using Sound;
     using GameInfo;
     using Helpers;
+    using Input;
     
     [DisallowMultipleComponent]
     public class GridController : MonoBehaviour {
 
         public static GridController instance;
+
+        public PlayerInfo.MovementDirection directionCurrent;
+        public PlayerInfo.MovementDirection directionPrevious;
+        public bool blocksReady = false;
 
         private GameObject _gridMap;
 
@@ -29,13 +34,11 @@
         private List<BlockClass> _stunBlocks = new List<BlockClass>();
         private List<EmptyBlock> _emptyBlocks = new List<EmptyBlock>();
 
-        public PlayerInfo.MovementDirection _directionCurrent;
-        public PlayerInfo.MovementDirection _directionPrevious;
-        public bool blocksReady = false;
-
         private int _moveCount = 0;
         private int _maxMoves = 0;
         private float _endTimer = 0.0f;
+
+        private SwipeInput _swipeController;
 
         void Awake() {
             instance = this;
@@ -43,6 +46,11 @@
             GameController.FindOrCreate();
             GameMenuController.FindOrCreate();
             GameController.instance.PrepareNextLevel();
+
+#if UNITY_IPHONE || UNITY_ANDROID
+            this.transform.gameObject.AddComponent<SwipeInput>();
+            this._swipeController = this.transform.GetComponent<SwipeInput>() as SwipeInput;
+#endif
         }
 
         void Start() {
@@ -84,42 +92,46 @@
             if(PlayerController.instance.isMoving || AIController.instance.isMoving)
                 return;
             
+#if UNITY_IPHONE || UNITY_ANDROID
+            if(!this._swipeController.GetInput())
+                GridController.instance.blocksReady = false;
+#else
             if(Input.GetKeyDown(KeyCode.UpArrow)) {
-                this._directionPrevious = this._directionCurrent;
-                this._directionCurrent = PlayerInfo.MovementDirection.FORWARD;
-                PlayerController.instance.GetInput(this._directionCurrent, this._directionPrevious);
-                AIController.instance.GetInput(this._directionCurrent, this._directionPrevious);
-                this.ActivateBlocks(this._directionCurrent, this._directionPrevious);
+                this.directionPrevious = this.directionCurrent;
+                this.directionCurrent = PlayerInfo.MovementDirection.FORWARD;
+                PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
             } else if(Input.GetKeyDown(KeyCode.RightArrow)) {
-                this._directionPrevious = this._directionCurrent;
-                this._directionCurrent = PlayerInfo.MovementDirection.RIGHT;
-                PlayerController.instance.GetInput(this._directionCurrent, this._directionPrevious);
-                AIController.instance.GetInput(this._directionCurrent, this._directionPrevious);
-                this.ActivateBlocks(this._directionCurrent, this._directionPrevious);
+                this.directionPrevious = this.directionCurrent;
+                this.directionCurrent = PlayerInfo.MovementDirection.RIGHT;
+                PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
             } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
-                this._directionPrevious = this._directionCurrent;
-                this._directionCurrent = PlayerInfo.MovementDirection.BACKWARD;
-                PlayerController.instance.GetInput(this._directionCurrent, this._directionPrevious);
-                AIController.instance.GetInput(this._directionCurrent, this._directionPrevious);
-                this.ActivateBlocks(this._directionCurrent, this._directionPrevious);
+                this.directionPrevious = this.directionCurrent;
+                this.directionCurrent = PlayerInfo.MovementDirection.BACKWARD;
+                PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
             } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
-                this._directionPrevious = this._directionCurrent;
-                this._directionCurrent = PlayerInfo.MovementDirection.LEFT;
-                PlayerController.instance.GetInput(this._directionCurrent, this._directionPrevious);
-                AIController.instance.GetInput(this._directionCurrent, this._directionPrevious);
-                this.ActivateBlocks(this._directionCurrent, this._directionPrevious);
+                this.directionPrevious = this.directionCurrent;
+                this.directionCurrent = PlayerInfo.MovementDirection.LEFT;
+                PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
             } else {
                 GridController.instance.blocksReady = false;
             }
-            
+#endif
             PlayerController.instance.CheckCurrentBlock();
             AIController.instance.CheckCurrentBlock();
 
@@ -136,9 +148,9 @@
 
         public void UndoMovement() {
             this._moveCount -= 1;
-            this.ActivateBlocks(this._directionPrevious, this._directionCurrent);
-            this._directionCurrent = this._directionPrevious;
-            this._directionPrevious = PlayerInfo.MovementDirection.NONE;
+            this.ActivateBlocks(this.directionPrevious, this.directionCurrent);
+            this.directionCurrent = this.directionPrevious;
+            this.directionPrevious = PlayerInfo.MovementDirection.NONE;
         }
 
         /// <summary>
@@ -488,6 +500,9 @@
         public int MoveCount {
             get {
                 return this._moveCount;
+            }
+            set {
+                this._moveCount = value;
             }
         }
 
