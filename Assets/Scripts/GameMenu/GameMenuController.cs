@@ -8,6 +8,7 @@
     using Grid;
     using GameInfo;
     using Helpers;
+    using Sound;
 
     public class GameMenuController : MonoBehaviour {
 

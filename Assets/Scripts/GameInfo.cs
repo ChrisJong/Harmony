@@ -60,8 +60,8 @@ namespace GameInfo {
             NONE
         }
 
-        public const int GameMenuButtonWidth = 75;
-        public const int GameMenuButtonHeight = 75;
+        public const int GameMenuButtonWidth = 100;
+        public const int GameMenuButtonHeight = 100;
         public static Rect RestartButtonRect = new Rect(GlobalInfo.ScreenWidth - (GameMenuButtonWidth + 30.0f), GlobalInfo.ScreenHeight - (GameMenuButtonHeight + 30.0f), GameMenuButtonWidth, GameMenuButtonHeight);
         public static Rect MainMenuButtonRect = new Rect(RestartButtonRect.x, RestartButtonRect.y - (GameMenuButtonHeight + 5.0f), GameMenuButtonWidth, GameMenuButtonHeight);
         public static Rect UndoButtonRect = new Rect(RestartButtonRect.x, 30.0f, GameMenuButtonWidth, GameMenuButtonHeight);
@@ -71,7 +71,7 @@ namespace GameInfo {
         public const int StartAnimationWidth = 100;
         public const int StartAnimationHeight = 100;
         public static Rect EndBillboardRect = new Rect(GlobalInfo.ScreenWidth * 0.5f - EndBillboardWidth * 0.5f, GlobalInfo.ScreenHeight * 0.6f - EndBillboardHeight * 0.5f, EndBillboardWidth, EndBillboardHeight);
-        public static Rect EndRestartButtonRect = new Rect(EndBillboardRect.x + (GameMenuButtonWidth * 3.0f - 10.0f) * 0.5f, EndBillboardRect.y - (GameMenuButtonHeight + 5.0f), GameMenuButtonWidth, GameMenuButtonHeight);
+        public static Rect EndRestartButtonRect = new Rect(EndBillboardRect.x + (GameMenuButtonWidth * 1.5f - 10.0f) * 0.5f, EndBillboardRect.y - (GameMenuButtonHeight + 50.0f), GameMenuButtonWidth, GameMenuButtonHeight);
         public static Rect EndMainMenuButtonRect = new Rect(EndRestartButtonRect.x + GameMenuButtonWidth + 5.0f, EndRestartButtonRect.y, GameMenuButtonWidth, GameMenuButtonHeight);
         public static Rect EndNextLevelButtonRect = new Rect(EndMainMenuButtonRect.x + GameMenuButtonWidth + 5.0f, EndRestartButtonRect.y, GameMenuButtonWidth, GameMenuButtonHeight);
         public static Rect StarAnimationRect = new Rect(EndBillboardRect.x + ((EndBillboardWidth * 0.5f) - (StartAnimationWidth * 0.5f)), EndBillboardRect.y + 10.0f, StartAnimationWidth, StartAnimationHeight);
@@ -166,5 +166,6 @@ namespace GameInfo {
         public const string BlockDown = "blockdown";
         public const string PlayerCollision = "playercollision";
         public const string PlayerMovement = "playermovement";
+        public const string StarAnimation = "staranimation";
     }
 }

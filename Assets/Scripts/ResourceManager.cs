@@ -19,6 +19,8 @@ public class ResourceManager : MonoBehaviour {
     public Material skyBox;
     public Material bottomPlane;
 
+    public GameObject fireworkParticle;
+
     void Awake() {
         instance = this;
     }

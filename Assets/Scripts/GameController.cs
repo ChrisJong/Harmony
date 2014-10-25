@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour {
     public GlobalInfo.GameState gameState = GlobalInfo.GameState.MENU;
 
     void Awake() {
+        MazeDataHelper.LoadGameData();
         instance = this;
         
         if(Application.loadedLevelName == "MainMenu") {
@@ -52,17 +53,28 @@ public class GameController : MonoBehaviour {
         Application.LoadLevel(MazeInfo.CurrentMaze);
     }
 
+    public void UnlockNextLevel() {
+        if(MazeInfo.NextMaze != "MainMenu") {
+            if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount >= 0) {
+                if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount == 0) {
+                    MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount = GridController.instance.MoveCount;
+                }else if(GridController.instance.MoveCount <= GridMap.instance.maxMoves){
+                    MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount = GridController.instance.MoveCount;
+                }
+                if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber].moveCount == -1) {
+                    MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber].moveCount = 0;
+                }
+            }
+        } else {
+            if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount >= 0) {
+                MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount = GridController.instance.MoveCount;
+            }
+        }
+    }
+
     public void LoadNextLevel() {
         if(MazeInfo.NextMaze != "MainMenu") {
             Object.DontDestroyOnLoad(SoundController.instance.gameObject);
-
-            if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount >= 0) {
-                MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount = GridController.instance.MoveCount;
-                MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber].moveCount = 0;
-            }
-        } else {
-            if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount >= 0)
-                MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount = GridController.instance.MoveCount;
         }
 
         MazeInfo.CurrentMaze = MazeInfo.NextMaze;

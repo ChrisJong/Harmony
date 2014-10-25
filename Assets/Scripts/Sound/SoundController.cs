@@ -21,6 +21,8 @@
         public AudioClip playerCollision;
         public AudioClip playerHover;
 
+        public AudioClip starAnimation;
+
         private static int soundMoveCount = 0;
 
         private AudioSource _currentSong;
@@ -79,6 +81,10 @@
                 }
                 soundMoveCount++;
                 break;
+
+                case SoundInfo.StarAnimation:
+                AudioSource.PlayClipAtPoint(SoundController.instance.starAnimation, position);
+                break;
             }
         }
 
@@ -103,6 +109,10 @@
                     soundMoveCount = 0;
                 }
                 soundMoveCount++;
+                break;
+
+                case SoundInfo.StarAnimation:
+                AudioSource.PlayClipAtPoint(SoundController.instance.starAnimation, Vector3.zero);
                 break;
             }
         }

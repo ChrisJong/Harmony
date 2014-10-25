@@ -39,6 +39,7 @@
         private float _endTimer = 0.0f;
 
         private SwipeInput _swipeController;
+        private bool _endMenuActive = false;
 
         void Awake() {
             instance = this;
@@ -78,10 +79,17 @@
                     this.GetInput();
                 } else {
 
-                    if(this._endTimer > 1.0f)
-                        GameMenuController.instance.ActivateEndMenu();
-                    else
-                        this._endTimer += Time.deltaTime;
+                    if(!this._endMenuActive) {
+                        if(this._endTimer > 1.0f) {
+                            GameMenuController.instance.ActivateEndMenu();
+                            GameController.instance.UnlockNextLevel();
+                            //GameObject fireworks = ResourceManager.instance.fireworkParticle;
+                            this._endMenuActive = true;
+                        } else {
+                            this._endTimer += Time.deltaTime;
+                        }
+                    }
+
 
                     this.DeactivateBlocks();
                 }
