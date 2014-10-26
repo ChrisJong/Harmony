@@ -18,6 +18,7 @@
         public GameObject endMenu;
         public GameObject undoButton;
         public GUIText moveText;
+        public GUIText buttonStateText;
 
         private GameObject _starAnimation;
 
@@ -27,6 +28,8 @@
                 this.menu = this.transform.GetChild(0).gameObject;
 
             this.moveText.pixelOffset = new Vector2(30.0f, GlobalInfo.ScreenHeight - 20.0f);
+            this.buttonStateText.pixelOffset = new Vector2(GameMenuInfo.EndMainMenuButtonRect.x + 55.0f, GameMenuInfo.EndRestartButtonRect.y - 40.0f);
+            this.buttonStateText.text = "";
 
             this.endMenu.transform.GetChild(4).transform.guiTexture.pixelInset = GameMenuInfo.EndBillboardRect;
             this._starAnimation = this.endMenu.transform.GetChild(0).gameObject;
@@ -39,13 +42,13 @@
 
 #if UNITY_EDTITOR || UNITY_STANDALONE
         void Update() {
-            if(Input.GetKeyDown(KeyCode.M)) {
+            if(Input.GetKeyDown(KeyCode.F)) {
                 GameController.instance.gameState = GlobalInfo.GameState.MENU;
                 Object.DestroyImmediate(Sound.SoundController.instance.gameObject);
                 Application.LoadLevel("MainMenu");
             }
 
-            if(Input.GetKeyDown(KeyCode.N)) {
+            if(Input.GetKeyDown(KeyCode.D)) {
                 Application.LoadLevel(Application.loadedLevelName);
             }
 

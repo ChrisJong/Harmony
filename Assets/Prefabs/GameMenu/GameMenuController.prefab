@@ -126,7 +126,7 @@ GameObject:
   - 4: {fileID: 400014}
   - 132: {fileID: 13200000}
   m_Layer: 0
-  m_Name: MovesText
+  m_Name: ButtonStateText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -198,6 +198,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100024
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400024}
+  - 132: {fileID: 13200002}
+  m_Layer: 0
+  m_Name: MovesText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -261,7 +277,7 @@ Transform:
   - {fileID: 400004}
   - {fileID: 400002}
   - {fileID: 400016}
-  - {fileID: 400014}
+  - {fileID: 400024}
   m_Father: {fileID: 400006}
   m_RootOrder: 0
 --- !u!4 &400010
@@ -298,8 +314,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
-  m_Father: {fileID: 400008}
-  m_RootOrder: 3
+  m_Father: {fileID: 400018}
+  m_RootOrder: 5
 --- !u!4 &400016
 Transform:
   m_ObjectHideFlags: 1
@@ -327,6 +343,7 @@ Transform:
   - {fileID: 400000}
   - {fileID: 400010}
   - {fileID: 400020}
+  - {fileID: 400014}
   m_Father: {fileID: 400006}
   m_RootOrder: 1
 --- !u!4 &400020
@@ -353,6 +370,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 400018}
   m_RootOrder: 0
+--- !u!4 &400024
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100024}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 400008}
+  m_RootOrder: 3
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 1
@@ -369,7 +398,7 @@ AudioSource:
   Mute: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 3.5
+  MinDistance: 2.5
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 1
@@ -453,7 +482,8 @@ MonoBehaviour:
   menu: {fileID: 100008}
   endMenu: {fileID: 100018}
   undoButton: {fileID: 100016}
-  moveText: {fileID: 13200000}
+  moveText: {fileID: 13200002}
+  buttonStateText: {fileID: 13200000}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -734,6 +764,29 @@ GUIText:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Text: Gui Text
+  m_Anchor: 4
+  m_Alignment: 1
+  m_PixelOffset: {x: 0, y: 0}
+  m_LineSpacing: 1
+  m_TabSize: 4
+  m_Font: {fileID: 12800000, guid: ebed82050604f4748a2904b64d2b4a67, type: 3}
+  m_Material: {fileID: 0}
+  m_FontSize: 40
+  m_FontStyle: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_PixelCorrect: 1
+  m_RichText: 1
+--- !u!132 &13200002
+GUIText:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100024}
   m_Enabled: 1
   serializedVersion: 3
   m_Text: Gui Text

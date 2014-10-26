@@ -115,7 +115,6 @@
         public void OnMouseEnter() {
             this._blockMaterials[1] = this.buttonEnter;
             this._blockRenderer.materials = this._blockMaterials;
-            Debug.Log(this._movesMade);
         }
 
         public void OnMouseExit() {

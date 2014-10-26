@@ -83,13 +83,16 @@
                         if(this._endTimer > 1.0f) {
                             GameMenuController.instance.ActivateEndMenu();
                             GameController.instance.UnlockNextLevel();
-                            //GameObject fireworks = ResourceManager.instance.fireworkParticle;
+                            if(this._moveCount <= this._maxMoves) {
+                                GameObject fireworks = ResourceManager.instance.fireworkParticle;
+                                fireworks.transform.position = new Vector3(GridMap.instance.columns * 0.5f, -5.5f, GridMap.instance.rows * 0.5f);
+                                fireworks = Instantiate(fireworks) as GameObject;
+                            }
                             this._endMenuActive = true;
                         } else {
                             this._endTimer += Time.deltaTime;
                         }
                     }
-
 
                     this.DeactivateBlocks();
                 }

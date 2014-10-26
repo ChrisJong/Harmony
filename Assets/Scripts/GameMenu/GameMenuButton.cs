@@ -8,17 +8,22 @@
     using AI;
     using Input;
 
-    public class GameMenuButton : MonoBehaviour {
+    public class GameMenuButton : GUITouchInput {
 
         public Texture2D buttonEnter;
         public Texture2D buttonExit;
         public GameMenuInfo.ButtonTypes buttonType;
 
+        private bool _disableTouch = false;
         private GUITexture _objectTexture;
-        public static int currentTouchID = 0;
-        private int touchID = 64;
 
         void Awake() {
+#if UNITY_IPHONE || UNITY_ANDROID
+            this._disableTouch = false;
+#else
+            this._disableTouch = true;
+#endif
+
             this._objectTexture = this.transform.guiTexture;
             this.transform.position = new Vector3(0.0f, 0.0f, 1.0f);
             this._objectTexture.texture = this.buttonExit;
@@ -55,56 +60,24 @@
             }
         }
 
-#if UNITY_IPHONE || UNITY_ANDROID
-        void Update() {
-            if(Input.touchCount > 0) {
-                foreach(Touch touch in Input.touches) {
-                    currentTouchID = touch.fingerId;
-                    if(this._objectTexture != null && (this._objectTexture.HitTest(touch.position))) {
-                        if(touch.phase == TouchPhase.Began) {
-                            this.OnTouchBegan();
-                            this.touchID = currentTouchID;
-                        }
-                        if(touch.phase == TouchPhase.Ended) {
-                            this.OnTouchEnded();
-                        }
-                        if(touch.phase == TouchPhase.Moved) {
-                            this.OnTouchMoved();
-                        }
-                        if(touch.phase == TouchPhase.Stationary) {
-                            this.OnTouchStayed();
-                        }
-                        if(touch.phase == TouchPhase.Canceled) {
-                            this.OnTouchCanceled();
-                        }
-                    }
-
-                    switch(touch.phase) {
-                        case TouchPhase.Ended:
-                        this.OnTouchEndedGlobal();
-                        break;
-
-                        case TouchPhase.Moved:
-                        this.OnTouchMovedGlobal();
-                        break;
-
-                        case TouchPhase.Stationary:
-                        this.OnTouchStayedGlobal();
-                        break;
-
-                        case TouchPhase.Canceled:
-                        this.OnTouchCanceledGlobal();
-                        break;
-                    }
-                }
+        public override void Update() {
+            if(!this._disableTouch) {
+                return;
+            } else {
+                base.Update();
             }
         }
 
-        public void OnTouchBegan() {
+#if UNITY_IPHONE || UNITY_ANDROID
+        public override void OnNoTouch() {
+            this._objectTexture.texture = this.buttonExit;
+        }
+
+        public override void OnTouchBegan() {
             this._objectTexture.texture = this.buttonEnter;
         }
 
-        public void OnTouchEnded() {
+        public override void OnTouchEnded() {
             switch(this.buttonType) {
                 case GameMenuInfo.ButtonTypes.RESTART:
                 this._objectTexture.texture = this.buttonExit;
@@ -131,41 +104,51 @@
             }
         }
 
-        public void OnTouchMoved() {
+        public override void OnTouchMoved() {
             this._objectTexture.texture = this.buttonExit;
         }
 
-        public void OnTouchStayed() {
+        public override void OnTouchStayed() {
             this._objectTexture.texture = this.buttonEnter;
         }
 
-        public void OnTouchCanceled() {
+        public override void OnTouchBeganGlobal() {
             this._objectTexture.texture = this.buttonExit;
         }
 
-        public void OnTouchEndedGlobal() {
+        public override void OnTouchEndedGlobal() {
             this._objectTexture.texture = this.buttonExit;
         }
 
-        public void OnTouchMovedGlobal() {
+        public override void OnTouchMovedGlobal() {
             this._objectTexture.texture = this.buttonEnter;
         }
 
-        public void OnTouchStayedGlobal() {
+        public override void OnTouchStayedGlobal() {
             this._objectTexture.texture = this.buttonEnter;
-        }
-
-        public void OnTouchCanceledGlobal() {
-            this._objectTexture.texture = this.buttonExit;
         }
 #else
-
         private void OnMouseEnter() {
             this._objectTexture.texture = this.buttonEnter;
+            switch(this.buttonType) {
+                case GameMenuInfo.ButtonTypes.RESTART:
+                    GameMenuController.instance.buttonStateText.text = "RESTART";
+                    break;
+
+                case GameMenuInfo.ButtonTypes.MAINMENU:
+                    GameMenuController.instance.buttonStateText.text = "MAIN MENU";
+                    break;
+
+                case GameMenuInfo.ButtonTypes.NEXTLEVEL:
+                    GameMenuController.instance.buttonStateText.text = "NEXT LEVEL";
+                    break;
+            }
+            
         }
 
         private void OnMouseExit() {
             this._objectTexture.texture = this.buttonExit;
+            GameMenuController.instance.buttonStateText.text = "";
         }
 
         private void OnMouseUp(){
