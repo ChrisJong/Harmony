@@ -159,7 +159,7 @@
 
         public void UndoMovement() {
             this._moveCount -= 1;
-            this.ActivateBlocks(this.directionPrevious, this.directionCurrent);
+            this.UndoBlocks(this.directionPrevious, this.directionCurrent);
             this.directionCurrent = this.directionPrevious;
             this.directionPrevious = PlayerInfo.MovementDirection.NONE;
         }
@@ -199,6 +199,164 @@
                         //this._numberBlocks[i].MoveDown();
                         this._numberBlocks[i].blockState = BlockInfo.BlockState.DOWN;
                     }
+                }
+            }
+
+            switch(currentDirection) {
+                case PlayerInfo.MovementDirection.FORWARD:
+                    if(this._upList.Count > 0) {
+                        int count = this._upList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._upList[i].isUp)
+                                continue;
+
+                            this._upList[i].blockState = BlockInfo.BlockState.UP;
+                        }
+                    }
+                    break;
+
+                case PlayerInfo.MovementDirection.RIGHT:
+                    if(this._rightList.Count > 0) {
+                        int count = this._rightList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._rightList[i].isUp)
+                                continue;
+
+                            this._rightList[i].blockState = BlockInfo.BlockState.UP;
+                        }
+                    }
+                    break;
+
+                case PlayerInfo.MovementDirection.BACKWARD:
+                    if(this._downList.Count > 0) {
+                        int count = this._downList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._downList[i].isUp)
+                                continue;
+
+                            this._downList[i].blockState = BlockInfo.BlockState.UP;
+                        }
+                    }
+                    break;
+
+                case PlayerInfo.MovementDirection.LEFT:
+                    if(this._leftList.Count > 0) {
+                        int count = this._leftList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._leftList[i].isUp)
+                                continue;
+
+                            this._leftList[i].blockState = BlockInfo.BlockState.UP;
+                        }
+                    }
+                    break;
+            }
+
+            switch(previousDirection) {
+                case PlayerInfo.MovementDirection.FORWARD:
+                    if(this._upList.Count > 0) {
+                        int count = this._upList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._upList[i].isUp)
+                                if((int)this._upList[i].firstDirection != (int)currentDirection && (int)this._upList[i].secondDirection != (int)currentDirection)
+                                    this._upList[i].blockState = BlockInfo.BlockState.DOWN;
+
+                            continue;
+                        }
+                    }
+                    break;
+
+                case PlayerInfo.MovementDirection.RIGHT:
+                    if(this._rightList.Count > 0) {
+                        int count = this._rightList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._rightList[i].isUp)
+                                if((int)this._rightList[i].firstDirection != (int)currentDirection && (int)this._rightList[i].secondDirection != (int)currentDirection)
+                                    this._rightList[i].blockState = BlockInfo.BlockState.DOWN;
+
+                            continue;
+                        }
+                    }
+                    break;
+
+                case PlayerInfo.MovementDirection.BACKWARD:
+                    if(this._downList.Count > 0) {
+                        int count = this._downList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._downList[i].isUp)
+                                if((int)this._downList[i].firstDirection != (int)currentDirection && (int)this._downList[i].secondDirection != (int)currentDirection)
+                                    this._downList[i].blockState = BlockInfo.BlockState.DOWN;
+
+                            continue;
+                        }
+                    }
+                    break;
+
+                case PlayerInfo.MovementDirection.LEFT:
+                    if(this._leftList.Count > 0) {
+                        int count = this._leftList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._leftList[i].isUp)
+                                if((int)this._leftList[i].firstDirection != (int)currentDirection && (int)this._leftList[i].secondDirection != (int)currentDirection)
+                                    this._leftList[i].blockState = BlockInfo.BlockState.DOWN;
+
+                            continue;
+                        }
+                    }
+                    break;
+
+                case PlayerInfo.MovementDirection.NONE:
+                    if(this._upList.Count > 0) {
+                        int count = this._upList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._upList[i].isUp)
+                                if((int)this._upList[i].firstDirection != (int)currentDirection && (int)this._upList[i].secondDirection != (int)currentDirection)
+                                    this._upList[i].blockState = BlockInfo.BlockState.DOWN;
+                        }
+                    }
+
+                    if(this._rightList.Count > 0) {
+                        int count = this._rightList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._rightList[i].isUp)
+                                if((int)this._rightList[i].firstDirection != (int)currentDirection && (int)this._rightList[i].secondDirection != (int)currentDirection)
+                                    this._rightList[i].blockState = BlockInfo.BlockState.DOWN;
+                        }
+                    }
+
+                    if(this._downList.Count > 0) {
+                        int count = this._downList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._downList[i].isUp)
+                                if((int)this._downList[i].firstDirection != (int)currentDirection && (int)this._downList[i].secondDirection != (int)currentDirection)
+                                    this._downList[i].blockState = BlockInfo.BlockState.DOWN;
+                        }
+                    }
+
+                    if(this._leftList.Count > 0) {
+                        int count = this._leftList.Count;
+                        for(int i = 0; i < count; i++) {
+                            if(this._leftList[i].isUp)
+                                if((int)this._leftList[i].firstDirection != (int)currentDirection && (int)this._leftList[i].secondDirection != (int)currentDirection)
+                                    this._leftList[i].blockState = BlockInfo.BlockState.DOWN;
+                        }
+                    }
+                    break;
+            }
+
+            this.blocksReady = true;
+        }
+
+        public void UndoBlocks(PlayerInfo.MovementDirection currentDirection, PlayerInfo.MovementDirection previousDirection) {
+            if(currentDirection == previousDirection) {
+                this.blocksReady = true;
+                return;
+            }
+
+            if(this._numberBlocks.Count > 0) {
+                int count = this._numberBlocks.Count;
+                for(int i = 0; i < count; i++) {
+                    this._numberBlocks[i].Undo();
                 }
             }
 

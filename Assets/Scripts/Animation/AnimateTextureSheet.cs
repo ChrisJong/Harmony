@@ -9,6 +9,7 @@
         public int rows = 5;
         public float framesPerSecond = 10.0f;
         public bool runOnce = true;
+        public bool isPlaying = true;
 
         public float RunTimeInSeconds {
             get {
@@ -27,7 +28,23 @@
         }
 
         void OnEnable() {
-            StartCoroutine(this.UpdateTiling());
+            this.isPlaying = true;
+            this.StartCoroutine("UpdateTiling");
+        }
+
+        void OnDisable() {
+            this.isPlaying = false;
+            this.StopCoroutine("UpdateTiling");
+        }
+
+        public void StartCoroutineAnimation() {
+            this.isPlaying = true;
+            this.StartCoroutine("UpdateTiling");
+        }
+
+        public void StopCoroutineAnimation() {
+            this.isPlaying = false;
+            this.StopCoroutine("UpdateTiling");
         }
 
         private IEnumerator UpdateTiling() {
@@ -52,8 +69,10 @@
                     }
                 }
 
-                if(this.runOnce)
+                if(this.runOnce) {
+                    this.isPlaying = false;
                     yield break;
+                }
             }
         }
     }

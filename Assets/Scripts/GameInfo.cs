@@ -14,6 +14,8 @@ namespace GameInfo {
 
         public static Dictionary<int, MazeData> MazeMoveValue;
 
+        public static Dictionary<int, MazeData> SnackBar;
+
         public static int MaxMazeLength = 48;
 
         public const string MazeName = "Maze";

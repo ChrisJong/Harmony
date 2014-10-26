@@ -7,11 +7,15 @@
     using GameInfo;
     using Blocks;
     using Sound;
+    using Animation;
 
     public class PlayerController : MonoBehaviour {
 
         public static PlayerController instance;
         public static CharacterController characterController;
+
+        public GameObject indication;
+        public AnimateTextureSheet indicationTexture;
 
         public bool isMoving = false;
         public bool isStunned = false;
@@ -24,6 +28,7 @@
             instance = this;
             characterController = GetComponent<CharacterController>() as CharacterController;
 
+            this.indicationTexture = this.indication.GetComponent<AnimateTextureSheet>() as AnimateTextureSheet;
             this._currentBlock = null;
             this._currentDirection = PlayerInfo.MovementDirection.NONE;
         }
@@ -33,6 +38,11 @@
                 return;
 
             this.CheckCurrentBlock();
+
+            if(!this.isMoving) {
+                if(!this.indicationTexture.isPlaying)
+                    this.indication.SetActive(true);
+            }
 
             if(GridController.instance.blocksReady)
                 this.CastCollisionRays();
@@ -44,10 +54,13 @@
             if(this.isMoving)
                 return;
 
+            if(this.indicationTexture.isPlaying)
+                this.indication.SetActive(false);
+
             this._canUndo = false;
             this.GetCurrentBlock();
             this.CheckCurrentBlock();
-
+            
             PlayerMovement.instance.ResetMovement();
             PlayerMovement.instance.UndoPosition = this.transform.position;
 
