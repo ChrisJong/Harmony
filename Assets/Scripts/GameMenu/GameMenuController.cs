@@ -17,10 +17,13 @@
         public GameObject menu;
         public GameObject endMenu;
         public GameObject undoButton;
+        public GameObject nextLevelButton;
         public GUIText moveText;
         public GUIText buttonStateText;
+        public GUIText billboardText;
 
         private GameObject _starAnimation;
+        private GameObject _noStar;
 
         void Awake() {
             instance = this;
@@ -28,12 +31,15 @@
                 this.menu = this.transform.GetChild(0).gameObject;
 
             this.moveText.pixelOffset = new Vector2(30.0f, GlobalInfo.ScreenHeight - 20.0f);
-            this.buttonStateText.pixelOffset = new Vector2(GameMenuInfo.EndMainMenuButtonRect.x + 55.0f, GameMenuInfo.EndRestartButtonRect.y - 40.0f);
+            this.buttonStateText.pixelOffset = new Vector2(GameMenuInfo.EndMainMenuButtonRect.x + 55.0f, GameMenuInfo.EndRestartButtonRect.y);
             this.buttonStateText.text = "";
+            this.billboardText.pixelOffset = new Vector2(GameMenuInfo.EndMainMenuButtonRect.x + 55.0f, GameMenuInfo.EndBillboardRect.y + (GameMenuInfo.EndBillboardHeight - 35));
 
-            this.endMenu.transform.GetChild(4).transform.guiTexture.pixelInset = GameMenuInfo.EndBillboardRect;
-            this._starAnimation = this.endMenu.transform.GetChild(0).gameObject;
+            this._starAnimation = this.endMenu.transform.GetChild(1).gameObject;
             this._starAnimation.transform.guiTexture.pixelInset = GameMenuInfo.StarAnimationRect;
+
+            this._noStar = this.endMenu.transform.GetChild(2).gameObject;
+            this._noStar.transform.guiTexture.pixelInset = GameMenuInfo.NoStarRect;
 
             this.menu.SetActive(true);
             this.endMenu.SetActive(false);
@@ -68,9 +74,19 @@
         public void ActivateEndMenu() {
             this.menu.SetActive(false);
             this.endMenu.SetActive(true);
-
+            this._noStar.SetActive(false);
+            this.billboardText.text = "PERFECT RUN!";
             if(GridController.instance.MoveCount > GridController.instance.MaxMoves) {
-                this._starAnimation.SetActive(false);
+                if(GridController.instance.MoveCount > GridController.instance.MaxMoves * 3) {
+                    this.billboardText.text = "YOU AIN'T GOING ANYWHERE WITH THAT SCORE!" + '\n' + (GridController.instance.MoveCount - GridController.instance.MaxMoves).ToString() + " MOVE(S) OVER";
+                    this.nextLevelButton.SetActive(false);
+                    this._starAnimation.SetActive(false);
+                    this._noStar.SetActive(true);
+                } else {
+                    this.billboardText.text = "YOU CAN DO BETTER!" + '\n' + (GridController.instance.MoveCount - GridController.instance.MaxMoves).ToString() + " MOVE(S) OVER";
+                    this._starAnimation.SetActive(false);
+                    this._noStar.SetActive(true);
+                }
             }
         }
 

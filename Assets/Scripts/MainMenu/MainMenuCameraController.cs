@@ -12,9 +12,9 @@
 
         private Vector3 _mainMenuPosition = new Vector3(0.0f, 0.0f, -10.0f);
         public Vector3 _newGamePosition = new Vector3(0.0f, 20.0f, 10.0f);
-        private Vector3 _creditsPosition = new Vector3(20.0f, 0.0f, -10.0f);
+        private Vector3 _creditsPosition = new Vector3(-20.0f, 0.0f, -10.0f);
         private Vector3 _levelSelectPosition = new Vector3(0.0f, -20.0f, -10.0f);
-        private Vector3 _instructionsPosition = new Vector3(-20.0f, 0.0f, -10.0f);
+        private Vector3 _instructionsPosition = new Vector3(20.0f, 0.0f, -10.0f);
 
         private Transform _transform;
 
@@ -28,39 +28,6 @@
             this.transform.gameObject.AddComponent<TouchInput>();
 #endif
         }
-
-        /*void Update() {
-            if(Input.touchCount > 0) {
-
-                touchOld = touchCurrent;
-
-                Touch touch = Input.GetTouch(0);
-                Ray ray = Camera.main.ScreenPointToRay(touch.position);
-                RaycastHit hit;
-
-                if(Physics.Raycast(ray, out hit)) {
-
-                    touchCurrent = hit.transform.gameObject;
-
-                    if(touch.phase == TouchPhase.Began) {
-                        hit.transform.GetComponent<MainMenuButton>().OnTouchEnter();
-                    }
-                    if(touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved) {
-                        hit.transform.GetComponent<MainMenuButton>().OnTouchEnter();
-                    }
-                    if(touch.phase == TouchPhase.Canceled) {
-                        hit.transform.GetComponent<MainMenuButton>().OnTouchExit();
-                    }
-                    if(touch.phase == TouchPhase.Ended) {
-                        hit.transform.GetComponent<MainMenuButton>().OnTouchUp();
-                    }
-                }
-
-                if(!touchCurrent.Equals(touchOld)) {
-                    touchOld.transform.GetComponent<MainMenuButton>().OnTouchExit();
-                }
-            }
-        }*/
 
         void LateUpdate() {
             this.PanCamera();

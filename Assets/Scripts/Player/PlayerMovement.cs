@@ -9,6 +9,7 @@
     public class PlayerMovement : MonoBehaviour {
 
         public static PlayerMovement instance;
+        public GameObject characterModel;
 
         public Vector3 MoveVector {
             get;
@@ -26,11 +27,10 @@
         }
 
         private float _moveSpeed = PlayerInfo.MinMoveSpeed;
-        private GameObject _objectRotation;
 
         void Awake() {
             instance = this;
-            this._objectRotation = this.transform.GetChild(0).gameObject;
+            this.characterModel = this.transform.GetChild(0).gameObject;
         }
 
         public void UpdateMovement() {
@@ -44,7 +44,7 @@
         }
 
         public void RotateToMovement(float newRotation) {
-            this._objectRotation.transform.rotation = Quaternion.Euler(0, newRotation, 0);
+            this.characterModel.transform.rotation = Quaternion.Euler(0, newRotation, 0);
         }
 
         private void ProcessMovement() {

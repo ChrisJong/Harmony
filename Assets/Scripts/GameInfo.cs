@@ -14,8 +14,6 @@ namespace GameInfo {
 
         public static Dictionary<int, MazeData> MazeMoveValue;
 
-        public static Dictionary<int, MazeData> SnackBar;
-
         public static int MaxMazeLength = 48;
 
         public const string MazeName = "Maze";
@@ -73,10 +71,13 @@ namespace GameInfo {
         public const int StartAnimationWidth = 100;
         public const int StartAnimationHeight = 100;
         public static Rect EndBillboardRect = new Rect(GlobalInfo.ScreenWidth * 0.5f - EndBillboardWidth * 0.5f, GlobalInfo.ScreenHeight * 0.6f - EndBillboardHeight * 0.5f, EndBillboardWidth, EndBillboardHeight);
-        public static Rect EndRestartButtonRect = new Rect(EndBillboardRect.x + (GameMenuButtonWidth * 1.5f - 10.0f) * 0.5f, EndBillboardRect.y - (GameMenuButtonHeight + 50.0f), GameMenuButtonWidth, GameMenuButtonHeight);
+        public static Rect EndRestartButtonRect = new Rect(EndBillboardRect.x + (GameMenuButtonWidth * 1.5f - 10.0f) * 0.5f, EndBillboardRect.y - (GameMenuButtonHeight + 30.0f), GameMenuButtonWidth, GameMenuButtonHeight);
         public static Rect EndMainMenuButtonRect = new Rect(EndRestartButtonRect.x + GameMenuButtonWidth + 5.0f, EndRestartButtonRect.y, GameMenuButtonWidth, GameMenuButtonHeight);
         public static Rect EndNextLevelButtonRect = new Rect(EndMainMenuButtonRect.x + GameMenuButtonWidth + 5.0f, EndRestartButtonRect.y, GameMenuButtonWidth, GameMenuButtonHeight);
         public static Rect StarAnimationRect = new Rect(EndBillboardRect.x + ((EndBillboardWidth * 0.5f) - (StartAnimationWidth * 0.5f)), EndBillboardRect.y + 10.0f, StartAnimationWidth, StartAnimationHeight);
+        public static Rect NoStarRect = new Rect(EndBillboardRect.x + ((EndBillboardWidth * 0.5f) - (StartAnimationWidth * 0.5f)), EndBillboardRect.y + 10.0f, StartAnimationWidth, StartAnimationHeight);
+
+        public static Rect EndRestartButtonRect2 = new Rect(EndBillboardRect.x + (GameMenuButtonWidth * 1.5f - 10.0f) * 0.5f, EndBillboardRect.y - (GameMenuButtonHeight + 30.0f), GameMenuButtonWidth, GameMenuButtonHeight);
     }
 
     public static class AssetPaths {

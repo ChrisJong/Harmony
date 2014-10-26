@@ -13,6 +13,9 @@
         public static LevelSelectController instance;
         public GUIText informationField;
 
+        public GameObject previousButton;
+        public GameObject nextButton;
+
         public int currentPage = 0;
         public int totalPages = 2;
         public float distanceBetweenPage = 20;
@@ -39,6 +42,17 @@
                 this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(-2.5f, this.transform.position.y, this.transform.position.z), 6.0f * Time.deltaTime);
             } else if(this.currentPage == 1) {
                 this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(-this.distanceBetweenPage + -2.5f, this.transform.position.y, this.transform.position.z), 6.0f * Time.deltaTime);
+            }
+
+            if(this.currentPage <= 0) {
+                this.previousButton.SetActive(false);
+                this.nextButton.SetActive(true);
+            } else if(this.currentPage >= (totalPages - 1)) {
+                this.previousButton.SetActive(true);
+                this.nextButton.SetActive(false);
+            } else {
+                this.previousButton.SetActive(true);
+                this.nextButton.SetActive(true);
             }
         }
 

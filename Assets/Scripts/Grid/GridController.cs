@@ -40,6 +40,7 @@
 
         private SwipeInput _swipeController;
         private bool _endMenuActive = false;
+        private bool _startEndAnimation = false;
 
         void Awake() {
             instance = this;
@@ -80,14 +81,22 @@
                 } else {
 
                     if(!this._endMenuActive) {
-                        if(this._endTimer > 1.0f) {
-                            GameMenuController.instance.ActivateEndMenu();
-                            GameController.instance.UnlockNextLevel();
+                        if(!this._startEndAnimation) {
                             if(this._moveCount <= this._maxMoves) {
                                 GameObject fireworks = ResourceManager.instance.fireworkParticle;
                                 fireworks.transform.position = new Vector3(GridMap.instance.columns * 0.5f, -5.5f, GridMap.instance.rows * 0.5f);
                                 fireworks = Instantiate(fireworks) as GameObject;
                             }
+
+                            PlayerController.instance.SpawnEndAnimation();
+                            PlayerController.instance.gameObject.SetActive(false);
+                            AIController.instance.gameObject.SetActive(false);
+                            this._startEndAnimation = true;
+                        }
+                        if(this._endTimer > 3.0f) {
+                            GameMenuController.instance.ActivateEndMenu();
+                            if(GridController.instance.MoveCount <= GridController.instance.MaxMoves * 3)
+                                GameController.instance.UnlockNextLevel();
                             this._endMenuActive = true;
                         } else {
                             this._endTimer += Time.deltaTime;
@@ -678,6 +687,12 @@
         public int MaxMoves {
             get {
                 return this._maxMoves;
+            }
+        }
+
+        public bool EndMenuActive {
+            get {
+                return this._endMenuActive;
             }
         }
         #endregion

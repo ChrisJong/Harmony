@@ -20,6 +20,7 @@ public class ResourceManager : MonoBehaviour {
     public Material bottomPlane;
 
     public GameObject fireworkParticle;
+    public GameObject endAnimation;
 
     void Awake() {
         instance = this;

@@ -50,6 +50,12 @@
             PlayerMovement.instance.UpdateMovement();
         }
 
+        public void SpawnEndAnimation() {
+            GameObject endAnimation = Instantiate(ResourceManager.instance.endAnimation) as GameObject;
+            endAnimation.transform.rotation = PlayerMovement.instance.characterModel.transform.rotation;
+            endAnimation.transform.position = PlayerMovement.instance.characterModel.transform.position;
+        }
+
         public void GetInput(PlayerInfo.MovementDirection current, PlayerInfo.MovementDirection previous) {
             if(this.isMoving)
                 return;

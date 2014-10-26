@@ -126,7 +126,7 @@ GameObject:
   - 4: {fileID: 400014}
   - 132: {fileID: 13200000}
   m_Layer: 0
-  m_Name: ButtonStateText
+  m_Name: BillboardText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -173,8 +173,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 400020}
   - 131: {fileID: 13100006}
+  - 114: {fileID: 11400014}
+  - 82: {fileID: 8200000}
   m_Layer: 0
-  m_Name: BillBoard
+  m_Name: StarAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,10 +191,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 400022}
   - 131: {fileID: 13100014}
-  - 114: {fileID: 11400014}
-  - 82: {fileID: 8200000}
   m_Layer: 0
-  m_Name: StarAnimation
+  m_Name: NoStar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -214,6 +214,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100026
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400026}
+  - 132: {fileID: 13200004}
+  m_Layer: 0
+  m_Name: ButtonStateText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -225,7 +241,7 @@ Transform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 400018}
-  m_RootOrder: 2
+  m_RootOrder: 4
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -291,7 +307,7 @@ Transform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 400018}
-  m_RootOrder: 3
+  m_RootOrder: 5
 --- !u!4 &400012
 Transform:
   m_ObjectHideFlags: 1
@@ -303,7 +319,7 @@ Transform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 400018}
-  m_RootOrder: 1
+  m_RootOrder: 3
 --- !u!4 &400014
 Transform:
   m_ObjectHideFlags: 1
@@ -315,7 +331,7 @@ Transform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 400018}
-  m_RootOrder: 5
+  m_RootOrder: 0
 --- !u!4 &400016
 Transform:
   m_ObjectHideFlags: 1
@@ -338,12 +354,13 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 400014}
+  - {fileID: 400020}
   - {fileID: 400022}
   - {fileID: 400012}
   - {fileID: 400000}
   - {fileID: 400010}
-  - {fileID: 400020}
-  - {fileID: 400014}
+  - {fileID: 400026}
   m_Father: {fileID: 400006}
   m_RootOrder: 1
 --- !u!4 &400020
@@ -354,10 +371,10 @@ Transform:
   m_GameObject: {fileID: 100020}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 400018}
-  m_RootOrder: 4
+  m_RootOrder: 1
 --- !u!4 &400022
 Transform:
   m_ObjectHideFlags: 1
@@ -369,7 +386,7 @@ Transform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 400018}
-  m_RootOrder: 0
+  m_RootOrder: 2
 --- !u!4 &400024
 Transform:
   m_ObjectHideFlags: 1
@@ -382,12 +399,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 400008}
   m_RootOrder: 3
+--- !u!4 &400026
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100026}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 400018}
+  m_RootOrder: 6
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100022}
+  m_GameObject: {fileID: 100020}
   m_Enabled: 1
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: 5b41a325122f563478631c81feb689ef, type: 3}
@@ -451,9 +480,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079678e6bc7a3d5498c2c0395758e652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  touchID: 64
   buttonEnter: {fileID: 2800000, guid: 4bfa2ec5e1af70b45aeafdeeb44356f2, type: 3}
   buttonExit: {fileID: 2800000, guid: 7e1d25559597a294c8bd7ba47c1636cb, type: 3}
   buttonType: 2
+  _disableTouch: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -465,9 +496,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079678e6bc7a3d5498c2c0395758e652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  touchID: 64
   buttonEnter: {fileID: 2800000, guid: 014f28ff1cbfe0643bf4a543ab59421e, type: 3}
   buttonExit: {fileID: 2800000, guid: afcf0b94897822040a68881e6e686188, type: 3}
   buttonType: 0
+  _disableTouch: 0
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -482,8 +515,10 @@ MonoBehaviour:
   menu: {fileID: 100008}
   endMenu: {fileID: 100018}
   undoButton: {fileID: 100016}
+  nextLevelButton: {fileID: 100010}
   moveText: {fileID: 13200002}
-  buttonStateText: {fileID: 13200000}
+  buttonStateText: {fileID: 13200004}
+  billboardText: {fileID: 13200000}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -495,9 +530,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079678e6bc7a3d5498c2c0395758e652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  touchID: 64
   buttonEnter: {fileID: 2800000, guid: 91412b67fdd502a4cb17c13f847e0429, type: 3}
   buttonExit: {fileID: 2800000, guid: bb4e4c0a6802d484dba7a22990f75560, type: 3}
   buttonType: 3
+  _disableTouch: 0
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -509,9 +546,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079678e6bc7a3d5498c2c0395758e652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  touchID: 64
   buttonEnter: {fileID: 2800000, guid: 91268f15c8cc1be4fa0ca550cd8b164a, type: 3}
   buttonExit: {fileID: 2800000, guid: 6d42c8226f9ee54408939821fafc6519, type: 3}
   buttonType: 1
+  _disableTouch: 0
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -523,9 +562,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079678e6bc7a3d5498c2c0395758e652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  touchID: 64
   buttonEnter: {fileID: 2800000, guid: 91268f15c8cc1be4fa0ca550cd8b164a, type: 3}
   buttonExit: {fileID: 2800000, guid: 6d42c8226f9ee54408939821fafc6519, type: 3}
   buttonType: 1
+  _disableTouch: 0
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -537,15 +578,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079678e6bc7a3d5498c2c0395758e652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  touchID: 64
   buttonEnter: {fileID: 2800000, guid: 014f28ff1cbfe0643bf4a543ab59421e, type: 3}
   buttonExit: {fileID: 2800000, guid: afcf0b94897822040a68881e6e686188, type: 3}
   buttonType: 0
+  _disableTouch: 0
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100022}
+  m_GameObject: {fileID: 100020}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ed48afcb18b8c84b966f610101699b2, type: 3}
@@ -670,14 +713,14 @@ GUITexture:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100020}
   m_Enabled: 1
-  m_Texture: {fileID: 2800000, guid: 7705dffd5493c5b498ec95c70c23a04f, type: 3}
+  m_Texture: {fileID: 0}
   m_Color: {r: .5, g: .5, b: .5, a: .5}
   m_PixelInset:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 450
-    height: 300
+    width: 0
+    height: 0
   m_LeftBorder: 0
   m_RightBorder: 0
   m_TopBorder: 0
@@ -746,7 +789,7 @@ GUITexture:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100022}
   m_Enabled: 1
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 69e292b08fdb49c409586df95c998c14, type: 3}
   m_Color: {r: .5, g: .5, b: .5, a: .5}
   m_PixelInset:
     serializedVersion: 2
@@ -767,14 +810,14 @@ GUIText:
   m_Enabled: 1
   serializedVersion: 3
   m_Text: Gui Text
-  m_Anchor: 4
+  m_Anchor: 1
   m_Alignment: 1
   m_PixelOffset: {x: 0, y: 0}
   m_LineSpacing: 1
   m_TabSize: 4
   m_Font: {fileID: 12800000, guid: ebed82050604f4748a2904b64d2b4a67, type: 3}
   m_Material: {fileID: 0}
-  m_FontSize: 40
+  m_FontSize: 30
   m_FontStyle: 0
   m_Color:
     serializedVersion: 2
@@ -792,6 +835,29 @@ GUIText:
   m_Text: Gui Text
   m_Anchor: 0
   m_Alignment: 0
+  m_PixelOffset: {x: 0, y: 0}
+  m_LineSpacing: 1
+  m_TabSize: 4
+  m_Font: {fileID: 12800000, guid: ebed82050604f4748a2904b64d2b4a67, type: 3}
+  m_Material: {fileID: 0}
+  m_FontSize: 40
+  m_FontStyle: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_PixelCorrect: 1
+  m_RichText: 1
+--- !u!132 &13200004
+GUIText:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100026}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Text: Gui Text
+  m_Anchor: 4
+  m_Alignment: 1
   m_PixelOffset: {x: 0, y: 0}
   m_LineSpacing: 1
   m_TabSize: 4
