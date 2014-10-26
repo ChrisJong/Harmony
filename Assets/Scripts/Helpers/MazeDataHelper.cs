@@ -61,6 +61,7 @@
 
         public static void CreateGameData() {
             try {
+                MazeInfo.MazeMoveValue = new Dictionary<int, MazeData>();
                 var data = Resources.Load("Data") as TextAsset;
                 using(var stream = new StringReader(data.text)) {
                     string line;
@@ -101,10 +102,9 @@
         }
 
         public static void LoadGameData() {
-            MazeInfo.MazeMoveValue = new Dictionary<int, MazeData>();
-
             if(GameDataExists()) {
                 try {
+                    MazeInfo.MazeMoveValue = new Dictionary<int, MazeData>();
                     using(var stream = new StreamReader(Application.persistentDataPath + "/GameData.csv")) {
                         string line;
 

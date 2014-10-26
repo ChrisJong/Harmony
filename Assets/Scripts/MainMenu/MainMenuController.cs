@@ -19,21 +19,15 @@
         public MainMenuInfo.MenuTypes currentMenuScene;
 
         void Awake() {
-#if UNITY_EDITOR
-            if(!GlobalInfo.GameDataLoaded) {
-                MazeDataHelper.LoadData();
-                GlobalInfo.GameDataLoaded = true;
-            }
-#else
             if(!GlobalInfo.GameDataLoaded) {
                 MazeDataHelper.LoadGameData();
                 GlobalInfo.GameDataLoaded = true;
             }
-#endif
 
             instance = this;
             Instantiate(Resources.Load("ResourceManager") as GameObject);
             this.currentMenuScene = MainMenuInfo.MenuTypes.MAINMENU;
+            MazeDataHelper.SaveGameData();
         }
     }
 }

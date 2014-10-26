@@ -14,7 +14,7 @@
         public Texture2D buttonExit;
         public GameMenuInfo.ButtonTypes buttonType;
 
-        private bool _disableTouch = false;
+        public bool _disableTouch = false;
         private GUITexture _objectTexture;
 
         void Awake() {
@@ -61,7 +61,7 @@
         }
 
         public override void Update() {
-            if(!this._disableTouch) {
+            if(this._disableTouch) {
                 return;
             } else {
                 base.Update();
@@ -71,10 +71,24 @@
 #if UNITY_IPHONE || UNITY_ANDROID
         public override void OnNoTouch() {
             this._objectTexture.texture = this.buttonExit;
+            GameMenuController.instance.buttonStateText.text = "";
         }
 
         public override void OnTouchBegan() {
             this._objectTexture.texture = this.buttonEnter;
+            switch(this.buttonType) {
+                case GameMenuInfo.ButtonTypes.RESTART:
+                    GameMenuController.instance.buttonStateText.text = "RESTART";
+                    break;
+
+                case GameMenuInfo.ButtonTypes.MAINMENU:
+                    GameMenuController.instance.buttonStateText.text = "MAIN MENU";
+                    break;
+
+                case GameMenuInfo.ButtonTypes.NEXTLEVEL:
+                    GameMenuController.instance.buttonStateText.text = "NEXT LEVEL";
+                    break;
+            }
         }
 
         public override void OnTouchEnded() {
@@ -102,30 +116,20 @@
                 GameController.instance.LoadNextLevel();
                 break;
             }
+            GameMenuController.instance.buttonStateText.text = "";
         }
 
         public override void OnTouchMoved() {
-            this._objectTexture.texture = this.buttonExit;
+            this._objectTexture.texture = this.buttonEnter;
         }
 
         public override void OnTouchStayed() {
             this._objectTexture.texture = this.buttonEnter;
         }
 
-        public override void OnTouchBeganGlobal() {
+        public override void OnTouchCanceled(){
             this._objectTexture.texture = this.buttonExit;
-        }
-
-        public override void OnTouchEndedGlobal() {
-            this._objectTexture.texture = this.buttonExit;
-        }
-
-        public override void OnTouchMovedGlobal() {
-            this._objectTexture.texture = this.buttonEnter;
-        }
-
-        public override void OnTouchStayedGlobal() {
-            this._objectTexture.texture = this.buttonEnter;
+            GameMenuController.instance.buttonStateText.text = "";
         }
 #else
         private void OnMouseEnter() {
@@ -143,7 +147,6 @@
                     GameMenuController.instance.buttonStateText.text = "NEXT LEVEL";
                     break;
             }
-            
         }
 
         private void OnMouseExit() {

@@ -89,9 +89,6 @@
         }
 
         public void Awake() {
-#if UNITY_EDITOR
-            //MazeDataHelper.LoadData();
-#endif
             instance = this;
             Instantiate(Resources.Load("ResourceManager") as GameObject);
             this.GenerateWalls();

@@ -19,7 +19,6 @@ public class GameController : MonoBehaviour {
     public GlobalInfo.GameState gameState = GlobalInfo.GameState.MENU;
 
     void Awake() {
-        MazeDataHelper.LoadGameData();
         instance = this;
         
         if(Application.loadedLevelName == "MainMenu") {

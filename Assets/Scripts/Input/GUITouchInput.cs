@@ -29,21 +29,8 @@
                         if(touch.phase == TouchPhase.Stationary) {
                             this.OnTouchStayed();
                         }
-                    }
-
-                    switch(touch.phase) {
-                        case TouchPhase.Began:
-                            this.OnTouchBeganGlobal();
-                            break;
-                        case TouchPhase.Ended:
-                            this.OnTouchEndedGlobal();
-                            break;
-                        case TouchPhase.Moved:
-                            this.OnTouchMovedGlobal();
-                            break;
-                        case TouchPhase.Stationary:
-                            this.OnTouchStayedGlobal();
-                            break;
+                    } else {
+                        this.OnTouchCanceled();
                     }
                 }
             }
@@ -59,13 +46,7 @@
         }
         public virtual void OnTouchStayed() {
         }
-        public virtual void OnTouchBeganGlobal() {
-        }
-        public virtual void OnTouchEndedGlobal() {
-        }
-        public virtual void OnTouchMovedGlobal() {
-        }
-        public virtual void OnTouchStayedGlobal() {
+        public virtual void OnTouchCanceled() {
         }
     }
 }
