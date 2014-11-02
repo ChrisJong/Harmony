@@ -94,13 +94,14 @@
         }
 
         public void CheckCurrentBlock() {
+            this.GetCurrentBlock();
             if(this._currentBlock == null)
                 return;
 
-            if(this._currentBlock.GetComponent<BlockClass>().blockState == BlockInfo.BlockState.UP)
-                this.transform.position = new Vector3(this.transform.position.x, 2.5f, this.transform.position.z);
-            else if(this._currentBlock.GetComponent<BlockClass>().blockState == BlockInfo.BlockState.DOWN)
-                this.transform.position = new Vector3(this.transform.position.x, 1.5f, this.transform.position.z);
+            if(this._currentBlock.GetComponent<BlockClass>().BlockState == BlockInfo.BlockState.UP)
+                this.transform.position = new Vector3(this.transform.position.x, 2.8f, this.transform.position.z);
+            else if(this._currentBlock.GetComponent<BlockClass>().BlockState == BlockInfo.BlockState.DOWN)
+                this.transform.position = new Vector3(this.transform.position.x, 1.8f, this.transform.position.z);
         }
 
         public void UndoMovement() {

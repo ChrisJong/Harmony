@@ -4,9 +4,6 @@ namespace GameInfo {
     using System.Collections.Generic;
     
     using UnityEngine;
-#if UNITY_EDITOR
-    using UnityEditor;
-#endif
 
     using Maze;
 
@@ -74,10 +71,8 @@ namespace GameInfo {
         public static Rect EndRestartButtonRect = new Rect(EndBillboardRect.x + (GameMenuButtonWidth * 1.5f - 10.0f) * 0.5f, EndBillboardRect.y - (GameMenuButtonHeight + 30.0f), GameMenuButtonWidth, GameMenuButtonHeight);
         public static Rect EndMainMenuButtonRect = new Rect(EndRestartButtonRect.x + GameMenuButtonWidth + 5.0f, EndRestartButtonRect.y, GameMenuButtonWidth, GameMenuButtonHeight);
         public static Rect EndNextLevelButtonRect = new Rect(EndMainMenuButtonRect.x + GameMenuButtonWidth + 5.0f, EndRestartButtonRect.y, GameMenuButtonWidth, GameMenuButtonHeight);
-        public static Rect StarAnimationRect = new Rect(EndBillboardRect.x + ((EndBillboardWidth * 0.5f) - (StartAnimationWidth * 0.5f)), EndBillboardRect.y + 10.0f, StartAnimationWidth, StartAnimationHeight);
-        public static Rect NoStarRect = new Rect(EndBillboardRect.x + ((EndBillboardWidth * 0.5f) - (StartAnimationWidth * 0.5f)), EndBillboardRect.y + 10.0f, StartAnimationWidth, StartAnimationHeight);
-
-        public static Rect EndRestartButtonRect2 = new Rect(EndBillboardRect.x + (GameMenuButtonWidth * 1.5f - 10.0f) * 0.5f, EndBillboardRect.y - (GameMenuButtonHeight + 30.0f), GameMenuButtonWidth, GameMenuButtonHeight);
+        public static Rect StarAnimationRect = new Rect(EndBillboardRect.x + ((EndBillboardWidth * 0.5f) - (StartAnimationWidth * 0.5f)), EndBillboardRect.y - 30.0f, StartAnimationWidth, StartAnimationHeight);
+        public static Rect NoStarRect = new Rect(EndBillboardRect.x + ((EndBillboardWidth * 0.5f) - (StartAnimationWidth * 0.5f)), EndBillboardRect.y - 30.0f, StartAnimationWidth, StartAnimationHeight);
     }
 
     public static class AssetPaths {

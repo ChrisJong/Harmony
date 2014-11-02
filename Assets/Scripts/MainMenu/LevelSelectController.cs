@@ -75,6 +75,9 @@
 
                         block.transform.parent = thisObject.transform;
                         this._count++;
+
+                        if(this._count >= MazeInfo.MaxMazeLength)
+                            break;
                     }
                 }
             }

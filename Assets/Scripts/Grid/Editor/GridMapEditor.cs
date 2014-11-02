@@ -181,21 +181,21 @@
                 if(map.blockToPlace == BlockInfo.BlockTypes.NORMAL) {
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.NormalBlockName);
                     block.GetComponent<NormalBlock>().blockRenderer = block.GetComponent<MeshRenderer>() as MeshRenderer;
-                    block.GetComponent<NormalBlock>().SetupType(map.blockToPlace, map.blockOneDirection, map.blockState);
+                    block.GetComponent<NormalBlock>().SetupBlock(map.blockToPlace, map.blockOneDirection, map.blockState);
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.MULTI) {
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.MultiBlockName);
                     block.GetComponent<MultiBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
-                    block.GetComponent<MultiBlock>().SetupType(map.blockToPlace, map.blockOneDirection, map.blockTwoDirection, map.blockState);
+                    block.GetComponent<MultiBlock>().SetupBlock(map.blockToPlace, map.blockOneDirection, map.blockTwoDirection, map.blockState);
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.NUMBER) {
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.NumberBlockName);
                     block.GetComponent<NumberBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
-                    block.GetComponent<NumberBlock>().SetupType(map.blockToPlace,map.blockState, map.blockNumber);
+                    block.GetComponent<NumberBlock>().SetupBlock(map.blockToPlace,map.blockState, map.blockNumber);
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.STUN) {
                     Debug.LogError("STUN BLOCK NOT IMPLEMENTED.");
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.EMPTY) {
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.EmptyBlockName);
                     block.GetComponent<EmptyBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
-                    block.GetComponent<EmptyBlock>().SetupType(map.blockToPlace, map.blockState);
+                    block.GetComponent<EmptyBlock>().SetupBlock(map.blockToPlace, map.blockState);
                 } else {
                     Debug.LogError("NOTHING TO CREATE.");
                 }

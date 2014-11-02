@@ -46,44 +46,19 @@
 
         }
 
-#if UNITY_EDTITOR || UNITY_STANDALONE
-        void Update() {
-            if(Input.GetKeyDown(KeyCode.F)) {
-                GameController.instance.gameState = GlobalInfo.GameState.MENU;
-                Object.DestroyImmediate(Sound.SoundController.instance.gameObject);
-                Application.LoadLevel("MainMenu");
-            }
-
-            if(Input.GetKeyDown(KeyCode.D)) {
-                Application.LoadLevel(Application.loadedLevelName);
-            }
-
-            if(Input.GetKeyDown(KeyCode.Space)) {
-                PlayerController.instance.UndoMovement();
-                AIController.instance.UndoMovement();
-                this.undoButton.transform.gameObject.SetActive(false);
-            }
-
-            if(GameController.instance.isStageFinished) {
-                if(Input.GetKeyDown(KeyCode.RightArrow)) {
-                    GameController.instance.LoadNextLevel();
-                }
-            }
-        }
-#endif
         public void ActivateEndMenu() {
             this.menu.SetActive(false);
             this.endMenu.SetActive(true);
             this._noStar.SetActive(false);
-            this.billboardText.text = "PERFECT RUN!";
+            this.billboardText.text = "You have attained the path to true Harmony!" + '\n' + "Perfect score!";
             if(GridController.instance.MoveCount > GridController.instance.MaxMoves) {
                 if(GridController.instance.MoveCount > GridController.instance.MaxMoves * 3) {
-                    this.billboardText.text = "YOU AIN'T GOING ANYWHERE WITH THAT SCORE!" + '\n' + (GridController.instance.MoveCount - GridController.instance.MaxMoves).ToString() + " MOVE(S) OVER";
+                    this.billboardText.text = "Your actions have disrupted the balance" + '\n' + "You must reunite the forces of the universe!" + '\n' + (GridController.instance.MoveCount - GridController.instance.MaxMoves).ToString() + " moves(s) over" + '\n' + "Try Again";
                     this.nextLevelButton.SetActive(false);
                     this._starAnimation.SetActive(false);
                     this._noStar.SetActive(true);
                 } else {
-                    this.billboardText.text = "YOU CAN DO BETTER!" + '\n' + (GridController.instance.MoveCount - GridController.instance.MaxMoves).ToString() + " MOVE(S) OVER";
+                    this.billboardText.text = "Unification process complete" + '\n' + "Although you have strayed from the light" + '\n' + (GridController.instance.MoveCount - GridController.instance.MaxMoves).ToString() + " moves(s) over" + '\n' + "Try to find the path to Harmony";
                     this._starAnimation.SetActive(false);
                     this._noStar.SetActive(true);
                 }

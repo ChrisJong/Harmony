@@ -15,26 +15,26 @@
         public bool wasUp;
 
         void Update() {
-            if(this.blockState == BlockInfo.BlockState.NONE)
+            if(this.BlockState == BlockInfo.BlockState.NONE)
                 return;
 
-            if(this.blockState == BlockInfo.BlockState.UP)
+            if(this.BlockState == BlockInfo.BlockState.UP)
                 this.MoveUp();
-            if(this.blockState == BlockInfo.BlockState.DOWN)
+            if(this.BlockState == BlockInfo.BlockState.DOWN)
                 this.MoveDown();
         }
 
         public void Init() {
-            if(this.blockState == BlockInfo.BlockState.UP) {
-                //this.blockState = BlockInfo.BlockState.UP;
+            if(this.BlockState == BlockInfo.BlockState.UP) {
+                //this._blockState = BlockInfo.BlockState.UP;
                 this.isUp = true;
                 this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
-                this.blockState = BlockInfo.BlockState.NONE;
+                this.BlockState = BlockInfo.BlockState.NONE;
             } else {
-                //this.blockState = BlockInfo.BlockState.DOWN;
+                //this._blockState = BlockInfo.BlockState.DOWN;
                 this.isUp = false;
                 this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
-                this.blockState = BlockInfo.BlockState.NONE;
+                this.BlockState = BlockInfo.BlockState.NONE;
             }
         }
 
@@ -44,7 +44,7 @@
                 this.blockRenderer.material = this.blockDownMaterials[currentCounter];
                 this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
                 this.isUp = false;
-                this.blockState = BlockInfo.BlockState.NONE;
+                this.BlockState = BlockInfo.BlockState.NONE;
             } else {
                 this.currentCounter = previousCounter;
                 if(this.previousCounter == 0) {
@@ -56,63 +56,63 @@
                     this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
                     this.isUp = false;
                 }
-                this.blockState = BlockInfo.BlockState.NONE;
+                this.BlockState = BlockInfo.BlockState.NONE;
             }
         }
 
         public override void MoveUp() {
             if(this.isReversed) {
-                //this.blockState = BlockInfo.BlockState.DOWN;
+                //this._blockState = BlockInfo.BlockState.DOWN;
                 this.currentCounter--;
                 this.blockRenderer.material = this.blockDownMaterials[currentCounter];
                 this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
                 this.isUp = false;
-                this.blockState = BlockInfo.BlockState.NONE;
+                this.BlockState = BlockInfo.BlockState.NONE;
             } else {
-                //this.blockState = BlockInfo.BlockState.UP;
+                //this._blockState = BlockInfo.BlockState.UP;
                 this.previousCounter = currentCounter;
                 this.currentCounter--;
                 this.blockRenderer.material = this.blockUpMaterials[currentCounter];
                 this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
                 this.isUp = true;
-                this.blockState = BlockInfo.BlockState.NONE;
+                this.BlockState = BlockInfo.BlockState.NONE;
             }
         }
 
         public override void MoveDown() {
             if(this.isReversed) {
                 if(!this.isUp) {
-                    //this.blockState = BlockInfo.BlockState.UP;
+                    //this._blockState = BlockInfo.BlockState.UP;
                     this.currentCounter = this.maxCounter;
                     this.blockRenderer.material = this.blockUpMaterials[currentCounter];
                     this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
                     this.isUp = true;
-                    this.blockState = BlockInfo.BlockState.NONE;
+                    this.BlockState = BlockInfo.BlockState.NONE;
                 } else {
                     this.currentCounter--;
                     this.blockRenderer.material = this.blockUpMaterials[currentCounter];
-                    this.blockState = BlockInfo.BlockState.NONE;
+                    this.BlockState = BlockInfo.BlockState.NONE;
                 }
             } else {
                 if(this.isUp) {
-                    //this.blockState = BlockInfo.BlockState.DOWN;
+                    //this._blockState = BlockInfo.BlockState.DOWN;
                     this.previousCounter = currentCounter;
                     this.currentCounter = this.maxCounter;
                     this.blockRenderer.material = this.blockDownMaterials[currentCounter];
                     this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
                     this.isUp = false;
-                    this.blockState = BlockInfo.BlockState.NONE;
+                    this.BlockState = BlockInfo.BlockState.NONE;
                 } else {
                     this.previousCounter = currentCounter;
                     this.currentCounter--;
                     this.blockRenderer.material = this.blockDownMaterials[currentCounter];
-                    this.blockState = BlockInfo.BlockState.NONE;
+                    this.BlockState = BlockInfo.BlockState.NONE;
                 }
             }
         }
 
-        public override void SetupType(BlockInfo.BlockTypes type, int initCounter) {
-            base.SetupType(type, initCounter);
+        public override void SetupBlock(BlockInfo.BlockTypes type, int initCounter) {
+            base.SetupBlock(type, initCounter);
 
             this.currentCounter = initCounter;
             this.previousCounter = initCounter;
@@ -121,14 +121,15 @@
             this.isReversed = false;
         }
 
-        public override void SetupType(BlockInfo.BlockTypes type, BlockInfo.BlockState state, int initCounter) {
-            base.SetupType(type, state, initCounter);
+        public override void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockState state, int initCounter) {
+            base.SetupBlock(type, state, initCounter);
 
             this.currentCounter = initCounter;
             this.previousCounter = initCounter;
             this.maxCounter = initCounter;
 
             if(state == BlockInfo.BlockState.UP) {
+                this.isUp = true;
                 this.blockRenderer.material = this.blockUpMaterials[initCounter];
                 this.isReversed = true;
             } else {

@@ -88,9 +88,9 @@
             if(this._currentBlock == null)
                 return;
 
-            if(this._currentBlock.GetComponent<BlockClass>().blockState == BlockInfo.BlockState.UP) {
+            if(this._currentBlock.GetComponent<BlockClass>().BlockState == BlockInfo.BlockState.UP) {
                 this.transform.position = new Vector3(this.transform.position.x, 3.0f, this.transform.position.z);
-            } else if(this._currentBlock.GetComponent<BlockClass>().blockState == BlockInfo.BlockState.DOWN) {
+            } else if(this._currentBlock.GetComponent<BlockClass>().BlockState == BlockInfo.BlockState.DOWN) {
                 this.transform.position = new Vector3(this.transform.position.x, 2.0f, this.transform.position.z);
             }
         }

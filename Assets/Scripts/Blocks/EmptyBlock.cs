@@ -11,21 +11,21 @@
         public override void MoveUp() {
             this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
             this.isUp = true;
-            this.blockState = BlockInfo.BlockState.NONE;
+            this.BlockState = BlockInfo.BlockState.NONE;
         }
 
         public override void MoveDown() {
             this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
             this.isUp = false;
-            this.blockState = BlockInfo.BlockState.NONE;
+            this.BlockState = BlockInfo.BlockState.NONE;
         }
 
-        public override void SetupType(BlockInfo.BlockTypes type) {
-            base.SetupType(type);
+        public override void SetupBlock(BlockInfo.BlockTypes type) {
+            base.SetupBlock(type);
         }
 
-        public override void SetupType(BlockInfo.BlockTypes type, BlockInfo.BlockState state) {
-            base.SetupType(type, state);
+        public override void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockState state) {
+            base.SetupBlock(type, state);
 
             if(state == BlockInfo.BlockState.UP)
                 this.blockRenderer.material = this.blockUpMaterials[0];
