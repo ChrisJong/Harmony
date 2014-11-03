@@ -21,6 +21,9 @@
         public PlayerInfo.MovementDirection directionPrevious;
         public bool blocksReady = false;
 
+        public Color warningColor;
+        private GUITexture _warningTexture;
+
         private GameObject _gridMap;
 
         private List<BlockClass> _upList = new List<BlockClass>();
@@ -49,6 +52,11 @@
             GameMenuController.FindOrCreate();
             GameController.instance.PrepareNextLevel();
 
+            this._warningTexture = ((GameObject)Instantiate(ResourceManager.instance.warningTexture) as GameObject).GetComponent<GUITexture>();
+            this._warningTexture.pixelInset = new Rect(0.0f, 0.0f, GlobalInfo.ScreenWidth, GlobalInfo.ScreenHeight);
+            this.warningColor = new Color(0.8f, 0.1f, 0.1f, 0.0f);
+            this._warningTexture.color = this.warningColor;
+
 #if UNITY_IPHONE || UNITY_ANDROID
             this.transform.gameObject.AddComponent<SwipeInput>();
             this._swipeController = this.transform.GetComponent<SwipeInput>() as SwipeInput;
@@ -76,6 +84,8 @@
         }
 
         void Update() {
+            this.warningColor.a -= 0.3f;
+            this._warningTexture.color = this.warningColor;
             if(GameController.instance.gameState == GlobalInfo.GameState.INGAME) {
                 if(!GameController.instance.isStageFinished) {
                     this.GetInput();
@@ -118,7 +128,19 @@
         private void GetInput() {
             if(PlayerController.instance.isMoving || AIController.instance.isMoving)
                 return;
-            
+
+#if UNITY_EDITOR
+            if(this._moveCount >= (this._maxMoves * 3)) {
+                PlayerController.instance.isMoving = false;
+                AIController.instance.isMoving = false;
+                PlayerController.instance.isDeath = true;
+
+                PlayerController.instance.charactorAnimator.SetBool("IsDeath", PlayerController.instance.isDeath);
+                AIController.instance.charactorAnimator.SetBool("IsDeath", PlayerController.instance.isDeath);
+                GameController.instance.isStageFinished = true;
+            }
+#endif
+
 #if UNITY_IPHONE || UNITY_ANDROID
             if(!this._swipeController.GetInput())
                 GridController.instance.blocksReady = false;
@@ -131,6 +153,9 @@
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
+                if(this._moveCount >= this._maxMoves * 2) {
+                    this.warningColor.a = (this._moveCount / this._maxMoves);
+                }
             } else if(Input.GetKeyDown(KeyCode.RightArrow)) {
                 this.directionPrevious = this.directionCurrent;
                 this.directionCurrent = PlayerInfo.MovementDirection.RIGHT;
@@ -139,6 +164,9 @@
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
+                if(this._moveCount >= this._maxMoves * 2) {
+                    this.warningColor.a = (this._moveCount / this._maxMoves);
+                }
             } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
                 this.directionPrevious = this.directionCurrent;
                 this.directionCurrent = PlayerInfo.MovementDirection.BACKWARD;
@@ -147,6 +175,9 @@
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
+                if(this._moveCount >= this._maxMoves * 2) {
+                    this.warningColor.a = (this._moveCount / this._maxMoves);
+                }
             } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
                 this.directionPrevious = this.directionCurrent;
                 this.directionCurrent = PlayerInfo.MovementDirection.LEFT;
@@ -155,21 +186,13 @@
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
                 SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                 this._moveCount++;
+                if(this._moveCount >= this._maxMoves * 2) {
+                    this.warningColor.a = (this._moveCount / this._maxMoves);
+                }
             } else {
                 GridController.instance.blocksReady = false;
             }
 #endif
-
-            if(GridController.instance.MoveCount > GridController.instance.MaxMoves * 3) {
-                PlayerController.instance.isMoving = false;
-                AIController.instance.isMoving = false;
-                PlayerController.instance.isDeath = true;
-
-                PlayerController.instance.charactorAnimator.SetBool("IsDeath", PlayerController.instance.isDeath);
-                AIController.instance.charactorAnimator.SetBool("IsDeath", PlayerController.instance.isDeath);
-                GameController.instance.isStageFinished = true;
-
-            }
 
             PlayerController.instance.CheckCurrentBlock();
             AIController.instance.CheckCurrentBlock();

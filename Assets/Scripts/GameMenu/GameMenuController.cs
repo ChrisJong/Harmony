@@ -24,6 +24,7 @@
 
         public GameObject starAnimation;
         public GameObject noStar;
+        public GameObject fade;
 
         void Awake() {
             instance = this;
@@ -44,6 +45,7 @@
         public void ActivateEndMenu() {
             this.menu.SetActive(false);
             this.endMenu.SetActive(true);
+            this.fade.SetActive(true);
             this.noStar.SetActive(false);
             this.starAnimation.SetActive(false);
 

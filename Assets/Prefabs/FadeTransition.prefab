@@ -8,10 +8,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
+  - 131: {fileID: 13100000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: ResourceManager
-  m_TagString: Controller
+  m_Name: FadeTransition
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23,7 +24,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: .5, y: .5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -36,21 +37,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 133df4ab1c52db54892e23e84363c676, type: 3}
+  m_Script: {fileID: 11500000, guid: 8606110bb2ff80c408fa1931ae474919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMenuController: {fileID: 100006, guid: 285cff07a7fc2d64ba9261f1c4d30a40, type: 2}
-  gameController: {fileID: 100000, guid: 70ee97e946262be42ab2c14eb352e557, type: 2}
-  gridController: {fileID: 100000, guid: bae8428c9853a6c48857f622c519c1cc, type: 2}
-  soundController: {fileID: 100000, guid: 9b9b5ff8f296693478372d63bdda369a, type: 2}
-  playerObject: {fileID: 100000, guid: 0235512207d8c6343bd87c83e3ab7e57, type: 2}
-  aiObject: {fileID: 100000, guid: 3d9644b26d3520a4e8465bc58e8d21a6, type: 2}
-  levelNumberBlock: {fileID: 100000, guid: 948a4427b24319542b864e5e79940473, type: 2}
-  skyBox: {fileID: 2100000, guid: fcf6925c698d41948bdff4a8bc5eea7f, type: 2}
-  bottomPlane: {fileID: 2100000, guid: 4391aedca2c33b64a83d97af35cd66d6, type: 2}
-  fireworkParticle: {fileID: 100006, guid: 049956f15b241db43bf19bc613153669, type: 2}
-  endAnimation: {fileID: 100920, guid: 43e1151faf7d87f4db80ab97fac89a6c, type: 2}
-  warningTexture: {fileID: 100000, guid: 4e759045cbdb3e54e984229409b2730c, type: 2}
+  fadeToMax: 0
+  isActive: 1
+  duration: 1
+--- !u!131 &13100000
+GUITexture:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: d442f3aa50f5caa4ab3de85f4bf20da0, type: 3}
+  m_Color: {r: .5, g: .5, b: .5, a: .5}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

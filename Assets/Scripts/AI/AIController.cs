@@ -3,6 +3,7 @@
     using UnityEngine;
     using System.Collections;
 
+    using Player;
     using Grid;
     using GameInfo;
     using Blocks;

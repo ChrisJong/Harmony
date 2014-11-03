@@ -40,6 +40,9 @@
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                             GridController.instance.MoveCount += 1;
+                            if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
+                                GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
+                            }
                             return true;
                         } else if(swipeValue < 0.0f) {
                             GridController.instance.directionPrevious = GridController.instance.directionCurrent;
@@ -49,6 +52,9 @@
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                             GridController.instance.MoveCount += 1;
+                            if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
+                                GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
+                            }
                             return true;
                         }
                     }
@@ -66,6 +72,9 @@
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                             GridController.instance.MoveCount += 1;
+                            if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
+                                GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
+                            }
                             return true;
                         } else if(swipeValue < 0.0f) {
                             GridController.instance.directionPrevious = GridController.instance.directionCurrent;
@@ -75,6 +84,9 @@
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             SoundController.PlayerAudio(SoundInfo.PlayerMovement);
                             GridController.instance.MoveCount += 1;
+                            if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
+                                GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
+                            }
                             return true;
                         }
                     }

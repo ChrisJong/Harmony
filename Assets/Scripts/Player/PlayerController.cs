@@ -3,6 +3,7 @@
     using UnityEngine;
     using System.Collections;
 
+    using AI;
     using Grid;
     using GameInfo;
     using Blocks;

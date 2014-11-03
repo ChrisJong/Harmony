@@ -21,6 +21,7 @@ public class ResourceManager : MonoBehaviour {
 
     public GameObject fireworkParticle;
     public GameObject endAnimation;
+    public GameObject warningTexture;
 
     void Awake() {
         instance = this;
