@@ -9,9 +9,6 @@ public class SkyboxCameraController : MonoBehaviour {
 
     private Camera _skyboxCamera;
     private Transform _targetToLookAt;
-    
-    //private Vector3 _rotationTo;
-    //private float _rotationX;
 
     void Awake() {
         if(GameController.instance.gameState == GlobalInfo.GameState.INGAME)
@@ -26,20 +23,13 @@ public class SkyboxCameraController : MonoBehaviour {
             UpdateCamera();
             StartCoroutine(StartCamera());
         }
+
+        this.transform.rotation = Quaternion.Euler(Random.Range(-180.0f, 180.0f), Random.Range(-180.0f, 180.0f), Random.Range(-180.0f, 180.0f));
     }
 
     void LateUpdate() {
-        /*this._rotationTo.y += CameraInfo.SkyboxRotationSpeed * Time.deltaTime;
-
-        if(this._rotationTo.y > 360.0f){
-            this._rotationTo.y -= 360.0f;
-        } else if(this._rotationTo.y < 360.0f) {
-            this._rotationTo.y += 360.0f;
-        }
-
-        this.transform.eulerAngles = this._rotationTo;*/
-
-        this.transform.Rotate(0, CameraInfo.SkyboxRotationSpeed * Time.deltaTime, CameraInfo.SkyboxRotationSpeed * Time.deltaTime);
+        //this.transform.Rotate(this.transform.rotation.eulerAngles, CameraInfo.SkyboxRotationSpeed * Time.deltaTime);
+        this.transform.Rotate(CameraInfo.SkyboxRotationSpeed * Time.deltaTime, CameraInfo.SkyboxRotationSpeed * Time.deltaTime, CameraInfo.SkyboxRotationSpeed * Time.deltaTime);
     }
 
     /// <summary>
@@ -73,7 +63,6 @@ public class SkyboxCameraController : MonoBehaviour {
                 yield return null;
             } else {
                 this._skyboxCamera.fieldOfView = CameraInfo.MinFOV;
-                //this._rotationTo = this.transform.eulerAngles;
                 yield break;
             }
         }

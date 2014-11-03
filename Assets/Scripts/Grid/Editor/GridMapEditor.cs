@@ -53,7 +53,7 @@
             // calculates the location of the marker based on the location of the mouse.
             this.RecalculateMarkerPosition();
 
-            // gets a reference to the current event (used to keyboard presses and mouse presses, mainly input related for now).
+            // gets a reference to the currentDirection event (used to keyboard presses and mouse presses, mainly input related for now).
             Event currentEvent = Event.current;
 
             // if the mouse is positioned over the grid map allow drawing actions to occur.
@@ -148,7 +148,7 @@
         }
 
         /// <summary>
-        /// when the <see cref="GameObject"/> is selected set the current tool to the view tool.
+        /// when the <see cref="GameObject"/> is selected set the currentDirection tool to the view tool.
         /// </summary>
         private void OnEnable() {
             Tools.current = Tool.View;
@@ -308,7 +308,7 @@
             // gets the reference to the grid map component/gameobject the script is connected to (GridController).
             var map = (GridMap)this.target;
 
-            // stores the grid location (Vector3(Column/0/Row)) based on the current location of the mouse pointer.
+            // stores the grid location (Vector3(Column/0/Row)) based on the currentDirection location of the mouse pointer.
             var gridPosition = this.GetGridPositionFromMouseLocation();
 
             // stores the grid position in world space.
@@ -330,7 +330,7 @@
             // builds a plane object that will help us get the coordinates for the mouse input.
             var p = new Plane(map.transform.TransformDirection(Vector3.up), map.transform.position);
 
-            // builds a ray type from the current mouse position, will help us get information of the coorindates and if the ray hit an object.
+            // builds a ray type from the currentDirection mouse position, will help us get information of the coorindates and if the ray hit an object.
             var ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
 
             // stores the hit information/location of the ray cast.
@@ -346,7 +346,7 @@
             // converts the hit location from world space to local space.
             var value = map.transform.InverseTransformPoint(hit);
 
-            // if the value is differernt than the current mouse hit location.
+            // if the value is differernt than the currentDirection mouse hit location.
             // we set the new mouse location with the new loction and return true that it has hit something.
             if(value != this._mouseHitPosition) {
                 this._mouseHitPosition = value;

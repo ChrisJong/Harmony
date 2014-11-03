@@ -125,6 +125,19 @@
 
         public override void OnTouchStayed() {
             this._objectTexture.texture = this.buttonEnter;
+            switch(this.buttonType) {
+                case GameMenuInfo.ButtonTypes.RESTART:
+                    GameMenuController.instance.buttonStateText.text = "RESTART";
+                    break;
+
+                case GameMenuInfo.ButtonTypes.MAINMENU:
+                    GameMenuController.instance.buttonStateText.text = "MAIN MENU";
+                    break;
+
+                case GameMenuInfo.ButtonTypes.NEXTLEVEL:
+                    GameMenuController.instance.buttonStateText.text = "NEXT LEVEL";
+                    break;
+            }
         }
 
         public override void OnTouchCanceled(){

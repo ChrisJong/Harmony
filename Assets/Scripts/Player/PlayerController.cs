@@ -16,9 +16,11 @@
 
         public GameObject indication;
         public AnimateTextureSheet indicationTexture;
+        public Animator charactorAnimator;
 
         public bool isMoving = false;
         public bool isStunned = false;
+        public bool isDeath = false;
 
         private GameObject _currentBlock;
         private PlayerInfo.MovementDirection _currentDirection = PlayerInfo.MovementDirection.NONE;
@@ -30,7 +32,7 @@
 
             this.indicationTexture = this.indication.GetComponent<AnimateTextureSheet>() as AnimateTextureSheet;
             this._currentBlock = null;
-            this._currentDirection = PlayerInfo.MovementDirection.NONE;
+            this._currentDirection = PlayerInfo.MovementDirection.NONE;            
         }
 
         void Update() {
@@ -39,7 +41,7 @@
 
             this.CheckCurrentBlock();
 
-            if(!this.isMoving) {
+            if(!this.isMoving && !this.isDeath) {
                 if(!this.indicationTexture.isPlaying)
                     this.indication.SetActive(true);
             }
@@ -59,6 +61,7 @@
         public void GetInput(PlayerInfo.MovementDirection current, PlayerInfo.MovementDirection previous) {
             if(this.isMoving)
                 return;
+
 
             if(this.indicationTexture.isPlaying)
                 this.indication.SetActive(false);
@@ -94,14 +97,13 @@
         }
 
         public void CheckCurrentBlock() {
-            this.GetCurrentBlock();
             if(this._currentBlock == null)
                 return;
 
             if(this._currentBlock.GetComponent<BlockClass>().BlockState == BlockInfo.BlockState.UP)
-                this.transform.position = new Vector3(this.transform.position.x, 2.8f, this.transform.position.z);
+                this.transform.position = new Vector3(this.transform.position.x, 2.85f, this.transform.position.z);
             else if(this._currentBlock.GetComponent<BlockClass>().BlockState == BlockInfo.BlockState.DOWN)
-                this.transform.position = new Vector3(this.transform.position.x, 1.8f, this.transform.position.z);
+                this.transform.position = new Vector3(this.transform.position.x, 1.85f, this.transform.position.z);
         }
 
         public void UndoMovement() {

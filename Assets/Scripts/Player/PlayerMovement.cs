@@ -31,6 +31,7 @@
         void Awake() {
             instance = this;
             this.characterModel = this.transform.GetChild(0).gameObject;
+            PlayerController.instance.charactorAnimator = this.characterModel.GetComponent<Animator>() as Animator;
         }
 
         public void UpdateMovement() {

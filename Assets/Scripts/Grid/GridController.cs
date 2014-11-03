@@ -79,11 +79,20 @@
             if(GameController.instance.gameState == GlobalInfo.GameState.INGAME) {
                 if(!GameController.instance.isStageFinished) {
                     this.GetInput();
-
-                    /*if(this._moveCount > this._maxMoves * 3)
-                        GameController.instance.isStageFinished = true;*/
                 } else {
                     if(!this._endMenuActive) {
+                        if(this._endTimer > 4.0f) {
+                            GameMenuController.instance.ActivateEndMenu();
+                            if(!PlayerController.instance.isDeath)
+                                GameController.instance.UnlockNextLevel();
+                            this._endMenuActive = true;
+                        } else {
+                            GameMenuController.instance.menu.SetActive(false);
+                            this._endTimer += Time.deltaTime;
+                        }
+                    }
+
+                    if(!PlayerController.instance.isDeath) {
                         if(!this._startEndAnimation) {
                             if(this._moveCount <= this._maxMoves) {
                                 GameObject fireworks = ResourceManager.instance.fireworkParticle;
@@ -93,8 +102,6 @@
                                 PlayerController.instance.gameObject.SetActive(false);
                                 AIController.instance.gameObject.SetActive(false);
                                 this._startEndAnimation = true;
-                            } else if(this._moveCount > this._maxMoves * 3) {
-                                Debug.Log("DEAD");
                             } else {
                                 PlayerController.instance.SpawnEndAnimation();
                                 PlayerController.instance.gameObject.SetActive(false);
@@ -102,16 +109,7 @@
                                 this._startEndAnimation = true;
                             }
                         }
-                        if(this._endTimer > 3.0f) {
-                            GameMenuController.instance.ActivateEndMenu();
-                            if(GridController.instance.MoveCount <= GridController.instance.MaxMoves * 3)
-                                GameController.instance.UnlockNextLevel();
-                            this._endMenuActive = true;
-                        } else {
-                            this._endTimer += Time.deltaTime;
-                        }
                     }
-
                     this.DeactivateBlocks();
                 }
             }
@@ -161,6 +159,18 @@
                 GridController.instance.blocksReady = false;
             }
 #endif
+
+            if(GridController.instance.MoveCount > GridController.instance.MaxMoves * 3) {
+                PlayerController.instance.isMoving = false;
+                AIController.instance.isMoving = false;
+                PlayerController.instance.isDeath = true;
+
+                PlayerController.instance.charactorAnimator.SetBool("IsDeath", PlayerController.instance.isDeath);
+                AIController.instance.charactorAnimator.SetBool("IsDeath", PlayerController.instance.isDeath);
+                GameController.instance.isStageFinished = true;
+
+            }
+
             PlayerController.instance.CheckCurrentBlock();
             AIController.instance.CheckCurrentBlock();
 
@@ -173,7 +183,7 @@
                 GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString();
             } else {
                 if(MazeInfo.MazeMoveValue.ContainsKey(MazeInfo.CurrentMazeNumber - 1))
-                    GameMenuController.instance.moveText.text = "Level: " + MazeInfo.CurrentMazeNumber + " of " + MazeInfo.MaxMazeLength.ToString() + '\n' + "Moves: " + this._moveCount.ToString() + " / " + this._maxMoves;
+                    GameMenuController.instance.moveText.text = "Level: " + MazeInfo.CurrentMazeNumber.ToString() + " of " + MazeInfo.MaxMazeLength.ToString() + '\n' + "Moves: " + this._moveCount.ToString() + " / " + (this._maxMoves * 3).ToString();
                 else
                     GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString();
             }
@@ -189,16 +199,19 @@
         /// <summary>
         /// This Function is called whenever the player moves around, so that we can activate the blocks connnected to each movement.
         /// </summary>
-        /// <param name="current">The Current Direction The Player Is Moving At.</param>
-        /// <param name="previous">The Previous Direction The Player Was Moving Before.</param>
+        /// <param name="currentDirection">The Current Direction The Player Is Moving At.</param>
+        /// <param name="previousDirection">The Previous Direction The Player Was Moving Before.</param>
         public void ActivateBlocks(PlayerInfo.MovementDirection currentDirection, PlayerInfo.MovementDirection previousDirection) {
+            int i = 0;
+            int count = 0;
+
             BlockInfo.BlockDirection current = (BlockInfo.BlockDirection)((int)currentDirection);
             BlockInfo.BlockDirection previous = (BlockInfo.BlockDirection)((int)previousDirection);
 
             if(currentDirection == previousDirection) {
                 if(this._numberBlocks.Count > 0) {
-                    int count = this._numberBlocks.Count;
-                    for(int i = 0; i < count; i++) {
+                    count = this._numberBlocks.Count;
+                    for(i = 0; i < count; i++) {
                         if(this._numberBlocks[i].currentCounter == 1)
                             this._numberBlocks[i].BlockState = BlockInfo.BlockState.UP;
                         else
@@ -212,8 +225,8 @@
             SoundController.PlayerAudio(SoundInfo.BlockUp);
 
             if(this._numberBlocks.Count > 0) {
-                int count = this._numberBlocks.Count;
-                for(int i = 0; i < count; i++) {
+                count = this._numberBlocks.Count;
+                for(i = 0; i < count; i++) {
                     if(this._numberBlocks[i].currentCounter == 1)
                         this._numberBlocks[i].BlockState = BlockInfo.BlockState.UP;
                     else
@@ -221,46 +234,32 @@
                 }
             }
 
-            if(this._multiBlocks.Count > 0) {
-                int count = this._multiBlocks.Count;
-                for(int i = 0; i < count; i++) {
-                    if(!this._multiBlocks[i].BlockDirections.Contains(current)){
-                        if(this._multiBlocks[i].isUp)
-                            this._multiBlocks[i].BlockState = BlockInfo.BlockState.DOWN;
-                    }
-                }
-            }
-
             if(this._normalBlocks.Count > 0) {
-                int count = this._normalBlocks.Count;
-                for(int i = 0; i < count; i++) {
-                    if(this._normalBlocks[i].FirstDirection != current){
+                count = this._normalBlocks.Count;
+                for(i = 0; i < count; i++) {
+                    if(this._normalBlocks[i].FirstDirection == current){
+                        if(this._normalBlocks[i].isUp)
+                            continue;
+                        else
+                            this._normalBlocks[i].BlockState = BlockInfo.BlockState.UP;
+                    } else {
                         if(this._normalBlocks[i].isUp)
                             this._normalBlocks[i].BlockState = BlockInfo.BlockState.DOWN;
                     }
                 }
             }
 
-            if(this._normalBlocks.Count > 0) {
-                int count = this._normalBlocks.Count;
-                for(int i = 0; i < count; i++) {
-                    if(this._normalBlocks[i].FirstDirection == current){
-                        if(this._normalBlocks[i].isUp)
-                            continue;
-                        else
-                            this._normalBlocks[i].BlockState = BlockInfo.BlockState.UP;
-                    }
-                }
-            }
-
             if(this._multiBlocks.Count > 0) {
-                int count = this._multiBlocks.Count;
-                for(int i = 0; i < count; i++) {
+                count = this._multiBlocks.Count;
+                for(i = 0; i < count; i++) {
                     if(this._multiBlocks[i].BlockDirections.Contains(current)){
                         if(this._multiBlocks[i].isUp)
                             continue;
                         else
                             this._multiBlocks[i].BlockState = BlockInfo.BlockState.UP;
+                    } else {
+                        if(this._multiBlocks[i].isUp)
+                            this._multiBlocks[i].BlockState = BlockInfo.BlockState.DOWN;
                     }
                 }
             }
@@ -268,12 +267,14 @@
             this.blocksReady = true;
         }
 
-        public void UndoBlocks(PlayerInfo.MovementDirection current, PlayerInfo.MovementDirection previous) {
+        public void UndoBlocks(PlayerInfo.MovementDirection currentDirection, PlayerInfo.MovementDirection previousDirection) {
             int i = 0;
             int count = 0;
+
+            BlockInfo.BlockDirection current = (BlockInfo.BlockDirection)((int)currentDirection);
+            BlockInfo.BlockDirection previous = (BlockInfo.BlockDirection)((int)previousDirection);
             
-            if(current == previous) {
-                // Number Blocks
+            if(currentDirection == previousDirection) {
                 if(this._numberBlocks.Count > 0) {
                     count = this._numberBlocks.Count;
                     for(i = 0; i < count; i++) {
@@ -284,7 +285,6 @@
                 return;
             }
 
-            // Number Blocks
             if(this._numberBlocks.Count > 0) {
                 count = this._numberBlocks.Count;
                 for(i = 0; i < count; i++) {
@@ -292,123 +292,38 @@
                 }
             }
 
-            // Arrow Blocks - Down To Up (Previous)
-            switch(previous) {
-                case PlayerInfo.MovementDirection.FORWARD:
-                    if(this._upList.Count > 0) {
-                        count = this._upList.Count;
-                        for(i = 0; i < count; i++) {
-                            if(this._upList[i].isUp)
-                                continue;
-
-                            this._upList[i].BlockState = BlockInfo.BlockState.UP;
-                        }
+            if(this._normalBlocks.Count > 0) {
+                count = this._normalBlocks.Count;
+                for(i = 0; i < count; i++) {
+                    if(this._normalBlocks[i].FirstDirection == current) {
+                        if(this._normalBlocks[i].isUp)
+                            this._normalBlocks[i].BlockState = BlockInfo.BlockState.DOWN;
                     }
-                    break;
 
-                case PlayerInfo.MovementDirection.RIGHT:
-                    if(this._rightList.Count > 0) {
-                        count = this._rightList.Count;
-                        for(i = 0; i < count; i++) {
-                            if(this._rightList[i].isUp)
-                                continue;
-
-                            this._rightList[i].BlockState = BlockInfo.BlockState.UP;
-                        }
+                    if(this._normalBlocks[i].FirstDirection == previous) {
+                        if(!this._normalBlocks[i].isUp)
+                            this._normalBlocks[i].BlockState = BlockInfo.BlockState.UP;
+                    } else if(previous == BlockInfo.BlockDirection.NONE) {
+                        Debug.Log("First Move");
                     }
-                    break;
-
-                case PlayerInfo.MovementDirection.BACKWARD:
-                    if(this._downList.Count > 0) {
-                        count = this._downList.Count;
-                        for(i = 0; i < count; i++) {
-                            if(this._downList[i].isUp)
-                                continue;
-
-                            this._downList[i].BlockState = BlockInfo.BlockState.UP;
-                        }
-                    }
-                    break;
-
-
-                case PlayerInfo.MovementDirection.LEFT:
-                    if(this._leftList.Count > 0) {
-                        count = this._leftList.Count;
-                        for(i = 0; i < count; i++) {
-                            if(this._leftList[i].isUp)
-                                continue;
-
-                            this._leftList[i].BlockState = BlockInfo.BlockState.UP;
-                        }
-                    }
-                    break;
+                }
             }
 
-            // Arrow Blocks - Up To Down (Current)
-            switch(current) {
-                case PlayerInfo.MovementDirection.FORWARD:
-                    if(this._upList.Count > 0) {
-                        count = this._upList.Count;
-                        for(i = 0; i < count; i++) {
-                            if(this._upList[i].isUp) {
-                                if(this._upList[i].GetType() == typeof(MultiBlock)) {
-                                    if((int)this._upList[i].FirstDirection != (int)current && (int)this._upList[i].SecondDirection != (int)current)
-                                        this._upList[i].BlockState = BlockInfo.BlockState.DOWN;
-                                }else
-                                    this._upList[i].BlockState = BlockInfo.BlockState.DOWN;
-                            }
-
-                            continue;
-                        }
+            if(this._multiBlocks.Count > 0) {
+                count = this._multiBlocks.Count;
+                for(i = 0; i < count; i++) {
+                    if(this._multiBlocks[i].BlockDirections.Contains(current) && !this._multiBlocks[i].BlockDirections.Contains(previous)) {
+                        if(this._multiBlocks[i].isUp)
+                            this._multiBlocks[i].BlockState = BlockInfo.BlockState.DOWN;
                     }
-                    break;
 
-                case PlayerInfo.MovementDirection.RIGHT:
-                    if(this._rightList.Count > 0) {
-                        count = this._rightList.Count;
-                        for(i = 0; i < count; i++) {
-                            if(this._rightList[i].isUp) {
-                                if(this._rightList[i].GetType() == typeof(MultiBlock)) {
-                                    if((int)this._rightList[i].FirstDirection != (int)current && (int)this._rightList[i].SecondDirection != (int)current)
-                                        this._rightList[i].BlockState = BlockInfo.BlockState.DOWN;
-                                } else
-                                    this._rightList[i].BlockState = BlockInfo.BlockState.DOWN;
-                            }
-
-                            continue;
-                        }
+                    if(this._multiBlocks[i].BlockDirections.Contains(previous)) {
+                        if(!this._multiBlocks[i].isUp)
+                            this._multiBlocks[i].BlockState = BlockInfo.BlockState.UP;
+                    } else if(previous == BlockInfo.BlockDirection.NONE) {
+                        Debug.Log("First Move");
                     }
-                    break;
-
-                case PlayerInfo.MovementDirection.BACKWARD:
-                    if(this._downList.Count > 0) {
-                        count = this._downList.Count;
-                        for(i = 0; i < count; i++) {
-                            if(this._downList[i].isUp) {
-                                if(this._downList[i].GetType() == typeof(MultiBlock)) {
-                                    if((int)this._downList[i].FirstDirection != (int)current && (int)this._downList[i].SecondDirection != (int)current)
-                                        this._downList[i].BlockState = BlockInfo.BlockState.DOWN;
-                                } else
-                                    this._downList[i].BlockState = BlockInfo.BlockState.DOWN;
-                            }
-                        }
-                    }
-                    break;
-
-                case PlayerInfo.MovementDirection.LEFT:
-                    if(this._leftList.Count > 0) {
-                        count = this._leftList.Count;
-                        for(i = 0; i < count; i++) {
-                            if(this._leftList[i].isUp) {
-                                if(this._leftList[i].GetType() == typeof(MultiBlock)) {
-                                    if((int)this._leftList[i].FirstDirection != (int)current && (int)this._leftList[i].SecondDirection != (int)current)
-                                        this._leftList[i].BlockState = BlockInfo.BlockState.DOWN;
-                                } else
-                                    this._leftList[i].BlockState = BlockInfo.BlockState.DOWN;
-                            }
-                        }
-                    }
-                    break;
+                }
             }
 
             this.blocksReady = true;

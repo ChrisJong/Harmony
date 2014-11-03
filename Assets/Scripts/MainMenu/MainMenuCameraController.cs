@@ -11,13 +11,14 @@
     public class MainMenuCameraController : MonoBehaviour {
 
         private Vector3 _mainMenuPosition = new Vector3(0.0f, 0.0f, -10.0f);
-        public Vector3 _newGamePosition = new Vector3(0.0f, 20.0f, 10.0f);
+        private Vector3 _newGamePosition = new Vector3(0.0f, 20.0f, 10.0f);
         private Vector3 _creditsPosition = new Vector3(-20.0f, 0.0f, -10.0f);
         private Vector3 _levelSelectPosition = new Vector3(0.0f, -20.0f, -10.0f);
         private Vector3 _instructionsPosition = new Vector3(20.0f, 0.0f, -10.0f);
 
         private Transform _transform;
 
+        private SwipeInput _swipeMenuController;
         private GameObject touchCurrent;
         private GameObject touchOld;
 
@@ -26,10 +27,15 @@
 
 #if UNITY_IPHONE || UNITY_ANDROID
             this.transform.gameObject.AddComponent<TouchInput>();
+            this.transform.gameObject.AddComponent<SwipeMenuInput>();
+            this._swipeMenuController = this.transform.GetComponent<SwipeMenuInput>() as SwipeInput;
 #endif
         }
 
-        void LateUpdate() {
+        void Update() {
+#if UNITY_IPHONE || UNITY_ANDROID
+            this._swipeMenuController.GetInput()
+#endif
             this.PanCamera();
         }
 

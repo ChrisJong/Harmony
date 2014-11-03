@@ -26,11 +26,12 @@
         }
 
         private float _moveSpeed = PlayerInfo.MinMoveSpeed;
-        private GameObject _objectRotation;
+        private GameObject _characterModel;
 
         void Awake() {
             instance = this;
-            this._objectRotation = this.transform.GetChild(0).gameObject;
+            this._characterModel = this.transform.GetChild(0).gameObject;
+            AIController.instance.charactorAnimator = this._characterModel.GetComponent<Animator>() as Animator;
         }
 
         public void UpdateMovement() {
@@ -44,7 +45,7 @@
         }
 
         public void RotateToMovement(float newRotation) {
-            this._objectRotation.transform.rotation = Quaternion.Euler(0, newRotation, 0);
+            this._characterModel.transform.rotation = Quaternion.Euler(0, newRotation, 0);
         }
 
         private void ProcessMovement() {

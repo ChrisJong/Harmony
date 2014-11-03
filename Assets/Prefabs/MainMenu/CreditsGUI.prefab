@@ -44,6 +44,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400004}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: CreditsGUI
   m_TagString: Untagged
@@ -231,7 +232,6 @@ GameObject:
   - 4: {fileID: 400026}
   - 23: {fileID: 2300024}
   - 102: {fileID: 10200002}
-  - 114: {fileID: 11400004}
   m_Layer: 0
   m_Name: CreditsRoleText
   m_TagString: Untagged
@@ -485,7 +485,6 @@ GameObject:
   - 4: {fileID: 400056}
   - 23: {fileID: 2300052}
   - 102: {fileID: 10200004}
-  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: CreditsNameText
   m_TagString: Untagged
@@ -595,7 +594,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: -3.09086232e-08, y: .707106829, z: -.707106829, w: -3.09086232e-08}
-  m_LocalPosition: {x: 0, y: .600000024, z: 0}
+  m_LocalPosition: {x: 0, y: -.5, z: 0}
   m_LocalScale: {x: .5, y: 1, z: .123000003}
   m_Children: []
   m_Father: {fileID: 400004}
@@ -715,8 +714,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100026}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.29999995, y: -2.20000005, z: 0}
-  m_LocalScale: {x: .0649999976, y: .0649999976, z: 1}
+  m_LocalPosition: {x: -2.29999995, y: -1.89999998, z: 0}
+  m_LocalScale: {x: .0500000007, y: .0500000007, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
   m_RootOrder: 0
@@ -920,7 +919,7 @@ Transform:
   m_GameObject: {fileID: 100056}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2, y: -2.5999999, z: 0}
-  m_LocalScale: {x: .0500000007, y: .0500000007, z: 1}
+  m_LocalScale: {x: .0350000001, y: .0350000001, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
   m_RootOrder: 1
@@ -1856,65 +1855,50 @@ MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100056}
+  m_GameObject: {fileID: 100004}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 050128998fadf97459847b5908e029f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  credText:
-  - Daniel Liang
-  - Juan Flores
-  - Daniel Liang
-  - Christian Jong
-  - Juan Flores
-  - Ashley Wood
-  - Christian Jong
-  - Christian Jong
-  - Ashley Wood
-  - Christian Jong
-  - Christian Jong
-  - Daniel Liang
-  - Clay Ingram
-  - Kevin McLeod
-  - Unity Engine
-  startPos: {x: -18, y: -2.5999999, z: 0}
-  endPos: {x: -18, y: -.800000012, z: 0}
-  fadeOutPos: {x: -18, y: -1.20000005, z: 0}
-  fadeInPos: {x: -18, y: -2.20000005, z: 0}
-  cycle: 0
---- !u!114 &11400004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 050128998fadf97459847b5908e029f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  credText:
+  teamLogo: {fileID: 100006}
+  credRole: {fileID: 100026}
+  credName: {fileID: 100056}
+  roleText:
   - Game Design
   - Concept Art
   - Level Design
   - Engineering
   - Lead Artist
-  - 3D Models
-  - Interface
   - Technical Artist
-  - Animations
+  - Lead Programmer
+  - 3D Models
+  - Animation
   - Lead Developer
-  - Programming
-  - Sound Effects
+  - Sound
   - Makey Makey
   - Music
   - Powered by
-  startPos: {x: -22.2999992, y: -2.20000005, z: 0}
-  endPos: {x: -22.2999992, y: -.400000006, z: 0}
-  fadeOutPos: {x: -22.2999992, y: -.800000012, z: 0}
-  fadeInPos: {x: -22.2999992, y: -1.70000005, z: 0}
-  cycle: 0
+  nameText:
+  - Daniel Liang
+  - Juan Flores
+  - Daniel Liang
+  - Christian Jong
+  - Juan Flores
+  - Christian Jong
+  - Christian Jong
+  - Ashley Wood
+  - Ashley Wood
+  - Christian Jong
+  - Daniel Liang
+  - Clay Ingram
+  - "Kevin McLeod\r\nwww.incompetech.com"
+  - Unity Engine
+  roleStartPos: {x: -22.2999992, y: -1.89999998, z: 0}
+  roleEndPos: {x: -22.2999992, y: .5, z: 0}
+  roleFadeOutPos: {x: -22.2999992, y: .100000001, z: 0}
+  roleFadeInPos: {x: -22.2999992, y: -1.5, z: 0}
+  nameStartPos: {x: -18, y: -2.5999999, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

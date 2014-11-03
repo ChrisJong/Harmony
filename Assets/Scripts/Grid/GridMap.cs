@@ -211,7 +211,7 @@
                 Gizmos.DrawLine(position + new Vector3(0, 0, i * this._blockBreadth), position + new Vector3(mapWidth, 0, i * this._blockBreadth));
 
             // draws the marker position. (in this case a red wireframe block).
-            Gizmos.color = Color.cyan;
+            Gizmos.color = Color.green;
             //Gizmos.DrawWireCube(this.markerPosition, new Vector3(this._blockWidth, this._blockHeight, this._blockBreadth));
             Gizmos.DrawCube(this.markerPosition, new Vector3(this._blockWidth, this._blockHeight + 0.1f, this._blockBreadth));
 
@@ -223,7 +223,7 @@
         }
 
 #endif
-        #region
+        #region Getter/Setter
         public float BlockWidth {
             get { return this._blockWidth; }
         }

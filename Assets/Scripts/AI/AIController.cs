@@ -13,6 +13,8 @@
         public static AIController instance;
         public static CharacterController characterController;
 
+        public Animator charactorAnimator;
+
         public bool isMoving = false;
         public bool isStunned = false;
 

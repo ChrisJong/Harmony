@@ -22,24 +22,19 @@
         public GUIText buttonStateText;
         public GUIText billboardText;
 
-        private GameObject _starAnimation;
-        private GameObject _noStar;
+        public GameObject starAnimation;
+        public GameObject noStar;
 
         void Awake() {
             instance = this;
-            if(this.transform.GetChild(0).gameObject.name == "Menu")
-                this.menu = this.transform.GetChild(0).gameObject;
 
             this.moveText.pixelOffset = new Vector2(30.0f, GlobalInfo.ScreenHeight - 20.0f);
             this.buttonStateText.pixelOffset = new Vector2(GameMenuInfo.EndMainMenuButtonRect.x + 55.0f, GameMenuInfo.EndRestartButtonRect.y);
             this.buttonStateText.text = "";
-            this.billboardText.pixelOffset = new Vector2(GameMenuInfo.EndMainMenuButtonRect.x + 55.0f, GameMenuInfo.EndBillboardRect.y + (GameMenuInfo.EndBillboardHeight - 35));
+            this.billboardText.pixelOffset = new Vector2(GameMenuInfo.EndMainMenuButtonRect.x + 55.0f, GameMenuInfo.EndBillboardRect.y + (GameMenuInfo.EndBillboardHeight));
 
-            this._starAnimation = this.endMenu.transform.GetChild(1).gameObject;
-            this._starAnimation.transform.guiTexture.pixelInset = GameMenuInfo.StarAnimationRect;
-
-            this._noStar = this.endMenu.transform.GetChild(2).gameObject;
-            this._noStar.transform.guiTexture.pixelInset = GameMenuInfo.NoStarRect;
+            this.starAnimation.transform.guiTexture.pixelInset = GameMenuInfo.StarAnimationRect;
+            this.noStar.transform.guiTexture.pixelInset = GameMenuInfo.NoStarRect;
 
             this.menu.SetActive(true);
             this.endMenu.SetActive(false);
@@ -49,18 +44,20 @@
         public void ActivateEndMenu() {
             this.menu.SetActive(false);
             this.endMenu.SetActive(true);
-            this._noStar.SetActive(false);
-            this.billboardText.text = "You have attained the path to true Harmony!" + '\n' + "Perfect score!";
-            if(GridController.instance.MoveCount > GridController.instance.MaxMoves) {
-                if(GridController.instance.MoveCount > GridController.instance.MaxMoves * 3) {
-                    this.billboardText.text = "Your actions have disrupted the balance" + '\n' + "You must reunite the forces of the universe!" + '\n' + (GridController.instance.MoveCount - GridController.instance.MaxMoves).ToString() + " moves(s) over" + '\n' + "Try Again";
-                    this.nextLevelButton.SetActive(false);
-                    this._starAnimation.SetActive(false);
-                    this._noStar.SetActive(true);
+            this.noStar.SetActive(false);
+            this.starAnimation.SetActive(false);
+
+            if(PlayerController.instance.isDeath) {
+                this.billboardText.text = "Your Actions Have Disrupted The Balance" + '\n' + "You Must Reunite The Forces Of The Universe!" + '\n' + "Try Again!";
+                this.nextLevelButton.SetActive(false);
+                this.noStar.SetActive(true);
+            } else {
+                if(GridController.instance.MoveCount <= GridController.instance.MaxMoves) {
+                    this.billboardText.text = "You Have Attained The Path To True Harmony!" + '\n' + "Perfect Score!";
+                    this.starAnimation.SetActive(true);
                 } else {
-                    this.billboardText.text = "Unification process complete" + '\n' + "Although you have strayed from the light" + '\n' + (GridController.instance.MoveCount - GridController.instance.MaxMoves).ToString() + " moves(s) over" + '\n' + "Try to find the path to Harmony";
-                    this._starAnimation.SetActive(false);
-                    this._noStar.SetActive(true);
+                    this.billboardText.text = "Unification Process Complete" + '\n' + "Although You Have Strayed From The Light" + '\n' + (GridController.instance.MoveCount - GridController.instance.MaxMoves).ToString() + " Moves(s) Over" + '\n' + "Try To Find The Path To Harmony";
+                    this.noStar.SetActive(true);
                 }
             }
         }

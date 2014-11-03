@@ -7,56 +7,98 @@
 
 	public class CreditsController : MonoBehaviour {
 
-		public string[] credText;
-		public Vector3 startPos;
-		public Vector3 endPos;
-		public Vector3 fadeOutPos;
-		public Vector3 fadeInPos;
+		public GameObject teamLogo;
+		public GameObject credRole;
+		public GameObject credName;
+		public string[] roleText;
+		public string[] nameText;
 
-		public int cycle;
-		private Vector3 currentPos;
-		private TextMesh creditsText;
+		public Vector3 roleStartPos;
+		public Vector3 roleEndPos;
+		public Vector3 roleFadeOutPos;
+		public Vector3 roleFadeInPos;
+		private Vector3 rolePos;
+		public Vector3 nameStartPos;
+		private Vector3 namePos;
+
+		private int cycle;
+		private TextMesh roleTextMesh;
+		private TextMesh nameTextMesh;
 		private Color credColor;
+		private Color teamLogoColor;
+		private float timer;
 
 		void Start(){
-			currentPos = transform.position;
-			creditsText = this.transform.GetComponent<TextMesh>() as TextMesh;
-			credColor = renderer.material.color;
+			rolePos = credRole.transform.position;
+			namePos = credName.transform.position;
+			roleTextMesh = credRole.transform.GetComponent<TextMesh> () as TextMesh;
+			nameTextMesh = credName.transform.GetComponent<TextMesh> () as TextMesh;
+			credColor = credRole.renderer.material.color;
+			teamLogoColor = teamLogo.renderer.material.color;
+		}
+
+		void logoShow(){
+			if ((timer > 0.25f) && timer < 2.75f) {
+				teamLogoColor.a += 0.01f;
+				teamLogo.renderer.material.color = teamLogoColor;
+			} else {
+				teamLogoColor.a -= 0.01f;
+				teamLogo.renderer.material.color = teamLogoColor;
+			}
+
+
 		}
 
 		void rollCredits (){
-			currentPos = (currentPos + (new Vector3 (0, 0.01f, 0)));
-			transform.position = currentPos;
-			if ((currentPos.y > fadeOutPos.y) && (credColor.a != 0)) {
-				credColor.a -= 0.04f;
+			rolePos = (rolePos + (new Vector3 (0, 0.01f, 0)));
+			namePos = (namePos + (new Vector3 (0, 0.01f, 0)));
+			credRole.transform.position = rolePos;
+			credName.transform.position = namePos;
+			if ((rolePos.y > roleFadeOutPos.y) && (credColor.a >= 0)) {
+				credColor.a -= 0.02f;
 			}
 
-			if ((currentPos.y < fadeInPos.y) && (credColor.a != 1)) {
-				credColor.a += 0.04f;
+			if ((rolePos.y < roleFadeInPos.y) && (credColor.a <= 1)) {
+				credColor.a += 0.02f;
 			}
 
-			renderer.material.color = credColor;
+			credRole.renderer.material.color = credColor;
+			credName.renderer.material.color = credColor;
 
-			if (currentPos == endPos) {
-				currentPos = startPos;
+			if (rolePos == roleEndPos) {
+				rolePos = roleStartPos;
+				namePos = nameStartPos;
 				cycle++;
-				if (cycle == (credText.Length)) {
-					cycle = 0;
+				if (cycle == (roleText.Length)) {
+					restartCredits();
 				}
-			creditsText.text = credText[cycle];
+				roleTextMesh.text = roleText[cycle];
+				nameTextMesh.text = nameText[cycle];
 			}
 		}
 
 		void restartCredits(){
 			cycle = 0;
-			creditsText.text = credText[cycle];
-			currentPos = startPos;
-			credColor.a = 1.0f;
+			roleTextMesh.text = roleText [cycle];
+			nameTextMesh.text = nameText [cycle];
+			rolePos = roleStartPos;
+			credRole.transform.position = rolePos;
+			namePos = nameStartPos;
+			credName.transform.position = namePos;
+			credColor.a = 0.0f;
+			credRole.renderer.material.color = credColor;
+			credName.renderer.material.color = credColor;
+			teamLogoColor.a = 0.0f;
+			timer = 0;
 		}
 		
 		void Update () {
 			if (MainMenuController.instance.currentMenuScene == MainMenuInfo.MenuTypes.CREDITS) {
-				rollCredits();
+				timer += Time.deltaTime;
+				logoShow ();
+				if(timer >= 5){
+					rollCredits();
+				}
 			} else {
 				restartCredits();
 			}
