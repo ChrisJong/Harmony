@@ -50,7 +50,7 @@
                 if(this.fadeToMax) {
                     this.FadeToMax();
 
-                    if(this._transitionTexture.color.a < (this._alphaMaxValue - 0.05f)) {
+                    if(this._alpha < (this._alphaMaxValue - 0.05f)) {
                         yield return null;
                     } else {
                         this._alpha = this._alphaMaxValue;
@@ -60,7 +60,7 @@
                 } else {
                     this.FadeToMin();
 
-                    if(this._transitionTexture.color.a > (this._alphaMinValue + 0.05f)) {
+                    if(this._alpha > (this._alphaMinValue + 0.02f)) {
                         yield return null;
                     } else {
                         this._alpha = this._alphaMaxValue;
