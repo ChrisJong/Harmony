@@ -25,7 +25,7 @@
 #endif
 
             this._objectTexture = this.transform.guiTexture;
-            this.transform.position = new Vector3(0.0f, 0.0f, 1.0f);
+            this.transform.position = new Vector3(0.0f, 0.0f, 0.1f);
             this._objectTexture.texture = this.buttonExit;
 
             if(GameController.instance.isStageFinished) {

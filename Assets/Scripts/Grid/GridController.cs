@@ -129,7 +129,7 @@
                             }
                         }
                     }
-                    this.DeactivateBlocks();
+                    //this.DeactivateBlocks();
                     this.DestructBlocks();
                 }
             }

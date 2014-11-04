@@ -66,19 +66,19 @@
 
             if(current == PlayerInfo.MovementDirection.FORWARD) {
                 this._currentDirection = current;
-                AIMovement.instance.RotateToMovement(90.0f);
+                AIMovement.instance.RotateToMovement(180.0f);
                 AIMovement.instance.MoveVector = new Vector3(0, 0, -1);
             } else if(current == PlayerInfo.MovementDirection.RIGHT) {
                 this._currentDirection = current;
-                AIMovement.instance.RotateToMovement(180.0f);
+                AIMovement.instance.RotateToMovement(270.0f);
                 AIMovement.instance.MoveVector = new Vector3(-1, 0, 0);
             } else if(current == PlayerInfo.MovementDirection.BACKWARD) {
                 this._currentDirection = current;
-                AIMovement.instance.RotateToMovement(270.0f);
+                AIMovement.instance.RotateToMovement(0.0f);
                 AIMovement.instance.MoveVector = new Vector3(0, 0, 1);
             } else if(current == PlayerInfo.MovementDirection.LEFT) {
                 this._currentDirection = current;
-                AIMovement.instance.RotateToMovement(0.0f);
+                AIMovement.instance.RotateToMovement(90.0f);
                 AIMovement.instance.MoveVector = new Vector3(1, 0, 0);
             }
 

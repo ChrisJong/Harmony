@@ -42,7 +42,15 @@
         }
 
         void Start() {
-            StartCoroutine(this.FadeTo());
+            StartCoroutine("FadeTo");
+        }
+
+        void OnDisable() {
+            StopCoroutine("FadeTo");
+        }
+
+        void OnDestroy() {
+            StopCoroutine("FadeTo");
         }
 
         public IEnumerator FadeTo() {
