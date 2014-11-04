@@ -10,10 +10,12 @@
         public List<Texture> textures;
 
         public float framesPerSecond = 24.0f;
+        public int inFrame = 1;
         public bool runOnce = true;
 
         private int _currentFrame = 0;
         private int _frameCount = 0;
+        private bool _beginLoop;
         private GUITexture _guiTexture;
 
         void Awake() {
@@ -34,13 +36,15 @@
 
         private IEnumerator UpdateAnimation() {
             while(true) {
-                for(this._currentFrame = 0; this._currentFrame < this._frameCount; this._currentFrame++) {
+                for(this._currentFrame = this._beginLoop ? this.inFrame : 0; this._currentFrame < this._frameCount; this._currentFrame++) {
                     this._guiTexture.texture = this.textures[this._currentFrame];
                     yield return new WaitForSeconds(1.0f / this.framesPerSecond);
                 }
 
                 if(this.runOnce)
                     yield break;
+
+                this._beginLoop = true;
             }
         }
     }

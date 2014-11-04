@@ -12,10 +12,24 @@
     using Sound;
 
     public class SwipeInput : MonoBehaviour {
+
+        public const float CM_TO_INCH = 0.393700787f;
+        public const float INCH_TO_CM = 1 / CM_TO_INCH;
+
         public float minSwipeDistY = 150.0f;
         public float minSwipeDistX = 150.0f;
 
+        private float _currentDPI;
+        private float _defaultScale = 160.0f;
+
         private Vector2 _startPosition;
+
+        void OnEnable() {
+            this._currentDPI = Screen.dpi;
+
+            if(this._currentDPI < float.Epsilon)
+                this.SetupDisplay();
+        }
 
         public bool GetInput() {
             if(Input.touchCount > 0) {
@@ -94,6 +108,54 @@
                 }
             }
             return false;
+        }
+
+        private void SetupDisplay(){
+            switch(Application.platform) {
+
+                case RuntimePlatform.Android: {
+                        var width = Mathf.Max(Screen.currentResolution.width, Screen.currentResolution.height);
+                        var height = Mathf.Min(Screen.currentResolution.width, Screen.currentResolution.height);
+
+                        if(width >= 1280) {
+                            if(height >= 800)
+                                this._currentDPI = 285.0f;
+                            else
+                                this._currentDPI = 312.0f;
+                        } else if(width >= 1024)
+                            this._currentDPI = 171.0f;
+                        else if(width >= 960)
+                            this._currentDPI = 256.0f;
+                        else if(width >= 800)
+                            this._currentDPI = 240.0f;
+                        else
+                            this._currentDPI = 160.0f;
+                        break;
+                    }
+
+                case RuntimePlatform.IPhonePlayer: {
+                        var width = Mathf.Max(Screen.currentResolution.width, Screen.currentResolution.height);
+                        var height = Mathf.Min(Screen.currentResolution.width, Screen.currentResolution.height);
+                        if(width >= 2048)
+                            this._currentDPI = 290.0f;
+                        else if(width >= 1136)
+                            this._currentDPI = 326.0f;
+                        else if(width >= 1024)
+                            this._currentDPI = 160.0f;
+                        else if(width >= 960)
+                            this._currentDPI = 326.0f;
+                        else
+                            this._currentDPI = 160.0f;
+                        break;
+                    }
+
+                default:
+                    this.minSwipeDistY = (this._defaultScale * 0.5f) * CM_TO_INCH;
+                    this.minSwipeDistX = this._defaultScale * CM_TO_INCH;
+                    return;
+            }
+            this.minSwipeDistY = (this._currentDPI * 0.5f) * CM_TO_INCH;
+            this.minSwipeDistX = this._currentDPI * CM_TO_INCH;
         }
 
     }

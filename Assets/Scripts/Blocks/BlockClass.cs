@@ -33,6 +33,11 @@
 
         public abstract void MoveDown();
 
+        public virtual void Destruction() {
+            this.gameObject.AddComponent<Rigidbody>();
+            //this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, -20, this.transform.position.z), Time.deltaTime * 50.0f);
+        }
+
         #region Setup / Init
         public virtual void SetupBlock() {
             this._blockType = BlockInfo.BlockTypes.NONE;

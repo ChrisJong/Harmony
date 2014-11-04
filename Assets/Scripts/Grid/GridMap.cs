@@ -75,6 +75,9 @@
         public Vector3 humanSpawnPoint = Vector3.zero;
         [HideInInspector]
         public Vector3 aiSpawnPoint = Vector3.zero;
+
+        [HideInInspector]
+        public GameObject wallOrigin;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="GridMap"/> class.
@@ -104,22 +107,22 @@
             float yPos = this.transform.position.y + this._blockHeight;
             float zPos = this.rows * 0.5f;
 
-            GameObject wallOrigin = new GameObject("WallContainer");
-            wallOrigin.transform.position = new Vector3(xPos, yPos, zPos);
+            this.wallOrigin = new GameObject("WallContainer");
+            this.wallOrigin.transform.position = new Vector3(xPos, yPos, zPos);
 
             GameObject bottomPlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
             Destroy(bottomPlane.gameObject.GetComponent<MeshCollider>());
             bottomPlane.GetComponent<MeshRenderer>().material = ResourceManager.instance.bottomPlane;
-            bottomPlane.transform.position = new Vector3(wallOrigin.transform.position.x, 0.0f, wallOrigin.transform.position.z);
+            bottomPlane.transform.position = new Vector3(this.wallOrigin.transform.position.x, 0.0f, this.wallOrigin.transform.position.z);
             bottomPlane.transform.localScale = new Vector3(this.columns * 0.1f, 1.0f, this.rows * 0.1f);
-            bottomPlane.transform.parent = wallOrigin.transform;
+            bottomPlane.transform.parent = this.wallOrigin.transform;
 
             for(int i = 0; i < 4; i++) {
                 if(i == 0) {
                     GameObject wall = new GameObject("Wall");
                     wall.AddComponent("BoxCollider");
                     wall.transform.position = Vector3.zero;
-                    wall.transform.parent = wallOrigin.transform;
+                    wall.transform.parent = this.wallOrigin.transform;
                     wall.transform.localPosition = new Vector3(0, this._blockHeight * 0.5f, -zPos);
                     wall.GetComponent<BoxCollider>().size = new Vector3(this.columns, this._blockHeight * 2.0f, 0);
                     wall.tag = "Wall";
@@ -129,7 +132,7 @@
                     GameObject wall = new GameObject("Wall");
                     wall.AddComponent("BoxCollider");
                     wall.transform.position = Vector3.zero;
-                    wall.transform.parent = wallOrigin.transform;
+                    wall.transform.parent = this.wallOrigin.transform;
                     wall.transform.localPosition = new Vector3(0, this._blockHeight * 0.5f, zPos);
                     wall.GetComponent<BoxCollider>().size = new Vector3(this.columns, this._blockHeight * 2.0f, 0);
                     wall.tag = "Wall";
@@ -139,7 +142,7 @@
                     GameObject wall = new GameObject("Wall");
                     wall.AddComponent("BoxCollider");
                     wall.transform.position = Vector3.zero;
-                    wall.transform.parent = wallOrigin.transform;
+                    wall.transform.parent = this.wallOrigin.transform;
                     wall.transform.localPosition = new Vector3(xPos, this._blockHeight * 0.5f, 0);
                     wall.GetComponent<BoxCollider>().size = new Vector3(0, this._blockHeight * 2.0f, this.rows);
                     wall.tag = "Wall";
@@ -149,7 +152,7 @@
                     GameObject wall = new GameObject("Wall");
                     wall.AddComponent("BoxCollider");
                     wall.transform.position = Vector3.zero;
-                    wall.transform.parent = wallOrigin.transform;
+                    wall.transform.parent = this.wallOrigin.transform;
                     wall.transform.localPosition = new Vector3(-xPos, this._blockHeight * 0.5f, 0);
                     wall.GetComponent<BoxCollider>().size = new Vector3(0, this._blockHeight * 2.0f, this.rows);
                     wall.tag = "Wall";

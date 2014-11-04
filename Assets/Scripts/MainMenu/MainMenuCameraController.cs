@@ -18,7 +18,7 @@
 
         private Transform _transform;
 
-        private SwipeInput _swipeMenuController;
+        private SwipeMenuInput _swipeMenuController;
         private GameObject touchCurrent;
         private GameObject touchOld;
 
@@ -28,13 +28,13 @@
 #if UNITY_IPHONE || UNITY_ANDROID
             this.transform.gameObject.AddComponent<TouchInput>();
             this.transform.gameObject.AddComponent<SwipeMenuInput>();
-            this._swipeMenuController = this.transform.GetComponent<SwipeMenuInput>() as SwipeInput;
+            this._swipeMenuController = this.transform.GetComponent<SwipeMenuInput>() as SwipeMenuInput;
 #endif
         }
 
         void Update() {
 #if UNITY_IPHONE || UNITY_ANDROID
-            this._swipeMenuController.GetInput()
+            this._swipeMenuController.GetInput();
 #endif
             this.PanCamera();
         }

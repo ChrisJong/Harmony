@@ -37,11 +37,17 @@
         private List<BlockClass> _stunBlocks = new List<BlockClass>();
         private List<EmptyBlock> _emptyBlocks = new List<EmptyBlock>();
 
+        private List<BlockClass> _allBlocks = new List<BlockClass>();
+
         private int _moveCount = 0;
         private int _maxMoves = 0;
         private float _endTimer = 0.0f;
 
+        private Vector3 _explosionPosition = Vector3.zero;
+        private float _explosionRadius = 0.0f;
+
         private SwipeInput _swipeController;
+        private bool _startDestruction = true;
         private bool _endMenuActive = false;
         private bool _startEndAnimation = false;
 
@@ -51,6 +57,9 @@
             GameController.FindOrCreate();
             GameMenuController.FindOrCreate();
             GameController.instance.PrepareNextLevel();
+
+            this._explosionPosition = new Vector3(GridMap.instance.columns * 0.5f, 0.5f, GridMap.instance.rows * 0.5f);
+            this._explosionRadius = (GridMap.instance.rows * GridMap.instance.columns);
 
             this._warningTexture = ((GameObject)Instantiate(ResourceManager.instance.warningTexture) as GameObject).GetComponent<GUITexture>();
             this._warningTexture.pixelInset = new Rect(0.0f, 0.0f, GlobalInfo.ScreenWidth, GlobalInfo.ScreenHeight);
@@ -121,6 +130,7 @@
                         }
                     }
                     this.DeactivateBlocks();
+                    this.DestructBlocks();
                 }
             }
         }
@@ -385,12 +395,31 @@
             }
         }
 
+        public void DestructBlocks() {
+            if(!this._startDestruction)
+                return;
+            else {
+                Destroy(GridMap.instance.wallOrigin);
+                GridMap.instance.wallOrigin = null;
+
+                this._allBlocks.ForEach(x => x.Destruction());
+                Collider[] colliders = Physics.OverlapSphere(this._explosionPosition, this._explosionRadius);
+
+                foreach(Collider hit in colliders) {
+                    if(hit && hit.rigidbody)
+                        hit.rigidbody.AddExplosionForce(50.0f, this._explosionPosition, this._explosionRadius, 3.0f);
+                }
+                this._startDestruction = false;
+            }
+        }
+
         /// <summary>
         /// This Function Will be called to sort and group all the available blocks on the stage in a list.
         /// </summary>
         private void FindBlocks() {
             foreach(Transform child in this._gridMap.transform) {
                 var childType = child.GetComponent<BlockClass>();
+                this._allBlocks.Add(childType);
                 switch(childType.BlockType) {
                     case BlockInfo.BlockTypes.NORMAL:
                         if(childType.BlockState == BlockInfo.BlockState.UP)
