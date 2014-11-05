@@ -75,7 +75,6 @@
             if(PlayerController.instance.isDeath) {
                 this.billboardText.text = "Your Actions Have Disrupted The Balance" + '\n' + "You Must Reunite The Forces Of The Universe!" + '\n' + "Try Again!";
                 this.nextLevelButton.SetActive(false);
-                this.noStar.SetActive(true);
             } else {
                 if(GridController.instance.MoveCount <= GridController.instance.MaxMoves) {
                     this.billboardText.text = "You Have Attained The Path To True Harmony!" + '\n' + "Perfect Score!";

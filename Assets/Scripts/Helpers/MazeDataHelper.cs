@@ -134,5 +134,24 @@
                 }
             }
         }
+
+        public static void CheckGameData() {
+            bool isGameDataOld = false;
+
+            if(isGameDataOld) {
+                DeleteSaveData();
+                LoadGameData();
+            }
+        }
+
+        public static void DeleteSaveData() {
+            if(File.Exists(Application.persistentDataPath + "/GameData.csv")) {
+#if UNITY_IPHONE
+                File.Delete("/private" + Application.persistentDataPath + "/GameData.csv");
+#else
+                File.Delete(Application.persistentDataPath + "/GameData.csv");
+#endif
+            }
+        }
     }
 }

@@ -11,7 +11,7 @@
         public bool isActive;
         public bool playOnStart;
 
-        public float duration = 5.0f;
+        public float duration = 2.0f;
 
         private GUITexture _transitionTexture;
 
