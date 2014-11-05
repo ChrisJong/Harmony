@@ -5,6 +5,7 @@
     using UnityEngine;
 
     using Sound;
+    using GameInfo;
 
     public class PlayerAudio : MonoBehaviour {
 
@@ -14,15 +15,23 @@
         void Awake() {
             instance = this;
             this.audioSource = this.transform.GetComponent<AudioSource>() as AudioSource;
-            
         }
 
-        void Start() {
-            this.audioSource.clip = SoundController.instance.playerHover as AudioClip;
+        public void PlayMovement() {
+            if(audioSource.isPlaying)
+                this.audioSource.Stop();
+
+            this.audioSource.clip = SoundController.GetAudioType(SoundInfo.SoundTypes.PLAYER_MOVEMENT);
+            this.audioSource.volume = 1.0f;
+            this.audioSource.Play();
         }
 
-        public void Play() {
-            //this.audioSource.PlayDelayed(0.5f);
+        public void PlayCollision() {
+            if(audioSource.isPlaying)
+                this.audioSource.Stop();
+
+            this.audioSource.clip = SoundController.GetAudioType(SoundInfo.SoundTypes.PLAYER_COLLISION);
+            this.audioSource.volume = 0.2f;
             this.audioSource.Play();
         }
 

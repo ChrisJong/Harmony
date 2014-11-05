@@ -93,7 +93,7 @@
             }
 
             this.CheckCurrentBlock();
-            PlayerAudio.instance.Play();
+            PlayerAudio.instance.PlayMovement();
             this.isMoving = true;
         }
 
@@ -148,9 +148,8 @@
                         GameController.instance.isStageFinished = true;
                     } else {
                         if(isMoving)
-                            SoundController.PlayerAudio(SoundInfo.PlayerCollision);
+                            PlayerAudio.instance.PlayCollision();
                         this._canUndo = true;
-                        PlayerAudio.instance.Stop();
                         this.isMoving = false;
                         PlayerMovement.instance.VerticalVelocity = PlayerMovement.instance.MoveVector.y;
                         PlayerMovement.instance.MoveVector = Vector3.zero;

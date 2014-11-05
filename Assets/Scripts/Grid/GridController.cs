@@ -57,7 +57,7 @@
             GameController.FindOrCreate();
             GameMenuController.FindOrCreate();
             GameController.instance.PrepareNextLevel();
-
+            GameMenuController.instance.fade.PlayFadeToMin();
             this._explosionPosition = new Vector3(GridMap.instance.columns * 0.5f, 0.5f, GridMap.instance.rows * 0.5f);
             this._explosionRadius = (GridMap.instance.rows * GridMap.instance.columns);
 
@@ -65,6 +65,8 @@
             this._warningTexture.pixelInset = new Rect(0.0f, 0.0f, GlobalInfo.ScreenWidth, GlobalInfo.ScreenHeight);
             this.warningColor = new Color(0.8f, 0.1f, 0.1f, 0.0f);
             this._warningTexture.color = this.warningColor;
+
+            this.gameObject.AddComponent<GridAudio>();
 
 #if UNITY_IPHONE || UNITY_ANDROID
             this.transform.gameObject.AddComponent<SwipeInput>();
@@ -161,7 +163,8 @@
                 PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                SoundController.PlayerAudio(SoundInfo.PlayerMovement);
+                PlayerAudio.instance.PlayMovement();
+                AIAudio.instance.PlayMovement();
                 this._moveCount++;
                 if(this._moveCount >= this._maxMoves * 2) {
                     this.warningColor.a = (this._moveCount / this._maxMoves);
@@ -172,7 +175,8 @@
                 PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                SoundController.PlayerAudio(SoundInfo.PlayerMovement);
+                PlayerAudio.instance.PlayMovement();
+                AIAudio.instance.PlayMovement();
                 this._moveCount++;
                 if(this._moveCount >= this._maxMoves * 2) {
                     this.warningColor.a = (this._moveCount / this._maxMoves);
@@ -183,7 +187,8 @@
                 PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                SoundController.PlayerAudio(SoundInfo.PlayerMovement);
+                PlayerAudio.instance.PlayMovement();
+                AIAudio.instance.PlayMovement();
                 this._moveCount++;
                 if(this._moveCount >= this._maxMoves * 2) {
                     this.warningColor.a = (this._moveCount / this._maxMoves);
@@ -194,7 +199,8 @@
                 PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                SoundController.PlayerAudio(SoundInfo.PlayerMovement);
+                PlayerAudio.instance.PlayMovement();
+                AIAudio.instance.PlayMovement();
                 this._moveCount++;
                 if(this._moveCount >= this._maxMoves * 2) {
                     this.warningColor.a = (this._moveCount / this._maxMoves);
@@ -254,8 +260,8 @@
                 this.blocksReady = true;
                 return;
             }
-
-            SoundController.PlayerAudio(SoundInfo.BlockUp);
+            if((this._numberBlocks.Count | this._normalBlocks.Count | this._multiBlocks.Count) > 0)
+                GridAudio.instance.PlayMovement();
 
             if(this._numberBlocks.Count > 0) {
                 count = this._numberBlocks.Count;

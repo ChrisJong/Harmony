@@ -14,15 +14,15 @@
         void Awake() {
             instance = this;
             this.audioSource = this.transform.GetComponent<AudioSource>() as AudioSource;
-
         }
 
-        void Start() {
-            this.audioSource.clip = SoundController.instance.playerHover as AudioClip;
+        public void PlayMovement() {
+            //this.audioSource.clip = SoundController.instance.playerHover as AudioClip;
+            this.audioSource.Play();
         }
 
-        public void Play() {
-            //this.audioSource.PlayDelayed(0.5f);
+        public void PlayCollision() {
+            //this.audioSource.clip = SoundController.instance.playerHover as AudioClip;
             this.audioSource.Play();
         }
 

@@ -14,6 +14,9 @@
 
         public static GameMenuController instance;
 
+        public GameMenuInfo.ButtonTypes buttonPressed = GameMenuInfo.ButtonTypes.NONE;
+        public bool isActive = false;
+
         public GameObject menu;
         public GameObject endMenu;
         public GameObject undoButton;
@@ -24,7 +27,7 @@
 
         public GameObject starAnimation;
         public GameObject noStar;
-        public GameObject fade;
+        public FadeTransition fade;
 
         void Awake() {
             instance = this;
@@ -42,10 +45,30 @@
 
         }
 
+        void Update() {
+            if(this.isActive) {
+                if(this.fade.FadeFinished) {
+                    switch(this.buttonPressed) {
+                        case GameMenuInfo.ButtonTypes.RESTART:
+                            Application.LoadLevel(Application.loadedLevelName);
+                            break;
+
+                        case GameMenuInfo.ButtonTypes.MAINMENU:
+                            Object.DestroyImmediate(Sound.SoundController.instance.gameObject);
+                            Application.LoadLevel("MainMenu");
+                            break;
+
+                        case GameMenuInfo.ButtonTypes.NEXTLEVEL:
+                            GameController.instance.LoadNextLevel();
+                            break;
+                    }
+                }
+            }
+        }
+
         public void ActivateEndMenu() {
             this.menu.SetActive(false);
             this.endMenu.SetActive(true);
-            this.fade.SetActive(true);
             this.noStar.SetActive(false);
             this.starAnimation.SetActive(false);
 

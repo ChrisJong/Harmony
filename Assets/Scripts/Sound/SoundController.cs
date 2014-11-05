@@ -14,16 +14,12 @@
         public List<AudioClip> musicGame;
         public List<AudioClip> musicMenu;
 
-        public AudioClip blockUp;
-        public AudioClip blockDown;
-
+        public List<AudioClip> blockMovement;
         public List<AudioClip> playerMovement;
-        public AudioClip playerCollision;
-        public AudioClip playerHover;
+        public List<AudioClip> playerCollision;
 
-        public AudioClip starAnimation;
-
-        private static int soundMoveCount = 0;
+        public List<AudioClip> fireworkEmit;
+        public List<AudioClip> fireworkExplosion;
 
         private AudioSource _currentSong;
 
@@ -59,62 +55,74 @@
                 return;
         }
 
-        public static void PlayerAudio(string type, Vector3 position) {
-            switch(type.ToLower()){
-                case SoundInfo.BlockUp:
-                AudioSource.PlayClipAtPoint(SoundController.instance.blockUp, position);
-                break;
-
-                case SoundInfo.BlockDown:
-                AudioSource.PlayClipAtPoint(SoundController.instance.blockDown, position);
-                break;
-
-                case SoundInfo.PlayerCollision:
-                AudioSource.PlayClipAtPoint(SoundController.instance.playerCollision, position, 0.5f);
-                break;
-
-                case SoundInfo.PlayerMovement:
-                if(soundMoveCount > Random.Range(0, 4)) {
-                    int randomMove = Random.Range(0, SoundController.instance.playerMovement.Count);
-                    AudioSource.PlayClipAtPoint(SoundController.instance.playerMovement[randomMove], position, 0.5f);
-                    soundMoveCount = 0;
-                }
-                soundMoveCount++;
-                break;
-
-                case SoundInfo.StarAnimation:
-                AudioSource.PlayClipAtPoint(SoundController.instance.starAnimation, position);
-                break;
+        public static void PlayerAudio(SoundInfo.SoundTypes type, Vector3 position) {
+            switch(type){
+                case SoundInfo.SoundTypes.PLAYER_MOVEMENT:
+                    int playerMovementCount = SoundController.instance.playerMovement.Count;
+                    if(playerMovementCount > 0) {
+                        int randomMove = Random.Range(0, playerMovementCount);
+                        AudioSource.PlayClipAtPoint(SoundController.instance.playerMovement[randomMove], position, 0.5f);
+                    }
+                    break;
             }
         }
 
-        public static void PlayerAudio(string type) {
-            switch(type.ToLower()) {
-                case SoundInfo.BlockUp:
-                AudioSource.PlayClipAtPoint(SoundController.instance.blockUp, Vector3.zero);
-                break;
-
-                case SoundInfo.BlockDown:
-                AudioSource.PlayClipAtPoint(SoundController.instance.blockDown, Vector3.zero);
-                break;
-
-                case SoundInfo.PlayerCollision:
-                AudioSource.PlayClipAtPoint(SoundController.instance.playerCollision, Vector3.zero, 0.5f);
-                break;
-
-                case SoundInfo.PlayerMovement:
-                if(soundMoveCount > Random.Range(0, 4)) {
-                    int randomMove = Random.Range(0, SoundController.instance.playerMovement.Count);
-                    AudioSource.PlayClipAtPoint(SoundController.instance.playerMovement[randomMove], Vector3.zero, 0.5f);
-                    soundMoveCount = 0;
-                }
-                soundMoveCount++;
-                break;
-
-                case SoundInfo.StarAnimation:
-                AudioSource.PlayClipAtPoint(SoundController.instance.starAnimation, Vector3.zero);
-                break;
+        public static void PlayerAudio(SoundInfo.SoundTypes type) {
+            switch(type) {
+                case SoundInfo.SoundTypes.PLAYER_MOVEMENT:
+                    int playerMovementCount = SoundController.instance.playerMovement.Count;
+                    if(playerMovementCount > 0) {
+                        int randomMove = Random.Range(0, playerMovementCount);
+                        AudioSource.PlayClipAtPoint(SoundController.instance.playerMovement[randomMove], Vector3.zero, 0.5f);
+                    }
+                    break;
             }
+        }
+
+        public static AudioClip GetAudioType(SoundInfo.SoundTypes type) {
+            int count = 0;
+            switch(type) {
+                case SoundInfo.SoundTypes.BLOCK_MOVEMENT:
+                    count = SoundController.instance.blockMovement.Count;
+                    if(count > 0) {
+                        int random = Random.Range(0, count);
+                        return SoundController.instance.blockMovement[random];
+                    }
+                    break;
+
+                case SoundInfo.SoundTypes.PLAYER_MOVEMENT:
+                    count = SoundController.instance.playerMovement.Count;
+                    if(count > 0) {
+                        int random = Random.Range(0, count);
+                        return SoundController.instance.playerMovement[random];
+                    }
+                    break;
+
+                case SoundInfo.SoundTypes.PLAYER_COLLISION:
+                    count = SoundController.instance.playerCollision.Count;
+                    if(count > 0) {
+                        int random = Random.Range(0, count);
+                        return SoundController.instance.playerCollision[random];
+                    }
+                    break;
+
+                case SoundInfo.SoundTypes.FIREWORK_EMIT:
+                    count = SoundController.instance.fireworkEmit.Count;
+                    if(count > 0) {
+                        int random = Random.Range(0, count);
+                        return SoundController.instance.fireworkEmit[random];
+                    }
+                    break;
+
+                case SoundInfo.SoundTypes.FIREWORK_EXPLOSION:
+                    count = SoundController.instance.fireworkExplosion.Count;
+                    if(count > 0) {
+                        int random = Random.Range(0, count);
+                        return SoundController.instance.fireworkExplosion[random];
+                    }
+                    break;
+            }
+            return null;
         }
 
         public static void FindOrCreate() {
@@ -129,7 +137,7 @@
                 var audio = tempController.GetComponent<AudioSource>() as AudioSource;
                 audio.rolloffMode = AudioRolloffMode.Linear;
                 audio.minDistance = 50.0f;
-                audio.volume = 0.5f;
+                audio.volume = 0.2f;
                 tempController = Instantiate(tempController) as GameObject;
                 tempController.name = AssetPaths.SoundControllerName;
                 if(GameController.instance.gameState == GlobalInfo.GameState.MENU)

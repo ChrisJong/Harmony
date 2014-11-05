@@ -52,7 +52,8 @@
                             PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                            SoundController.PlayerAudio(SoundInfo.PlayerMovement);
+                            PlayerAudio.instance.PlayMovement();
+                            AIAudio.instance.PlayMovement();
                             GridController.instance.MoveCount += 1;
                             if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
                                 GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
@@ -64,7 +65,8 @@
                             PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                            SoundController.PlayerAudio(SoundInfo.PlayerMovement);
+                            PlayerAudio.instance.PlayMovement();
+                            AIAudio.instance.PlayMovement();
                             GridController.instance.MoveCount += 1;
                             if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
                                 GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
@@ -84,7 +86,8 @@
                             PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                            SoundController.PlayerAudio(SoundInfo.PlayerMovement);
+                            PlayerAudio.instance.PlayMovement();
+                            AIAudio.instance.PlayMovement();
                             GridController.instance.MoveCount += 1;
                             if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
                                 GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
@@ -96,7 +99,8 @@
                             PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                            SoundController.PlayerAudio(SoundInfo.PlayerMovement);
+                            PlayerAudio.instance.PlayMovement();
+                            AIAudio.instance.PlayMovement();
                             GridController.instance.MoveCount += 1;
                             if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
                                 GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);

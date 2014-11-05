@@ -160,10 +160,13 @@ namespace GameInfo {
     }
 
     public static class SoundInfo {
-        public const string BlockUp = "blockup";
-        public const string BlockDown = "blockdown";
-        public const string PlayerCollision = "playercollision";
-        public const string PlayerMovement = "playermovement";
-        public const string StarAnimation = "staranimation";
+        public enum SoundTypes {
+            NONE,
+            BLOCK_MOVEMENT,
+            PLAYER_COLLISION,
+            PLAYER_MOVEMENT,
+            FIREWORK_EMIT,
+            FIREWORK_EXPLOSION
+        }
     }
 }
