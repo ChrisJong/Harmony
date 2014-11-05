@@ -123,10 +123,16 @@
         }
 
         private void OnMouseUp() {
+
             this._blockMaterials[1] = this.buttonExit;
             this._blockRenderer.materials = this._blockMaterials;
-            if(!this._mazeLocked)
-                GameController.instance.LoadLevelAt(this._id);
+            if(!MainMenuController.instance.isActive) {
+                if(!this._mazeLocked) {
+                    MainMenuController.instance.levelID = this._id;
+                    MainMenuController.instance.isActive = true;
+                    MainMenuController.instance.fade.PlayFadeToMax();
+                }
+            }
         }
 #endif
     }

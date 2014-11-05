@@ -50,9 +50,9 @@
                 this._transform.position = Vector3.Lerp(this._transform.position, this._mainMenuPosition, Time.deltaTime * 6.0f);
             else if(MainMenuController.instance.currentMenuScene == MainMenuInfo.MenuTypes.NEWGAME) {
                 this._transform.position = Vector3.Lerp(this._transform.position, this._newGamePosition, Time.deltaTime * 2.0f);
-                if(this._transform.position.y > (this._newGamePosition.y - 0.1f)) {
-                    GameController.instance.gameState = GlobalInfo.GameState.INGAME;
-                    GameController.instance.LoadLevelAt(1);
+                if(!MainMenuController.instance.isActive) {
+                    MainMenuController.instance.isActive = true;
+                    MainMenuController.instance.fade.PlayFadeToMax();
                 }
             }
         }
