@@ -117,7 +117,7 @@
                         if(!this._startEndAnimation) {
                             if(this._moveCount <= this._maxMoves) {
                                 GameObject fireworks = ResourceManager.instance.fireworkParticle;
-                                fireworks.transform.position = new Vector3(GridMap.instance.columns * 0.5f, -5.5f, GridMap.instance.rows * 0.5f);
+                                fireworks.transform.position = new Vector3(GridMap.instance.columns * 0.5f, Camera.main.transform.position.y - 13.0f, GridMap.instance.rows * 0.5f);
                                 fireworks = Instantiate(fireworks) as GameObject;
                                 PlayerController.instance.SpawnEndAnimation();
                                 PlayerController.instance.gameObject.SetActive(false);
@@ -141,7 +141,6 @@
             if(PlayerController.instance.isMoving || AIController.instance.isMoving)
                 return;
 
-#if UNITY_EDITOR
             if(this._moveCount >= (this._maxMoves * 3)) {
                 PlayerController.instance.isMoving = false;
                 AIController.instance.isMoving = false;
@@ -151,7 +150,6 @@
                 AIController.instance.charactorAnimator.SetBool("IsDeath", PlayerController.instance.isDeath);
                 GameController.instance.isStageFinished = true;
             }
-#endif
 
 #if UNITY_IPHONE || UNITY_ANDROID
             if(!this._swipeController.GetInput())
@@ -163,8 +161,6 @@
                 PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                PlayerAudio.instance.PlayMovement();
-                AIAudio.instance.PlayMovement();
                 this._moveCount++;
                 if(this._moveCount >= this._maxMoves * 2) {
                     this.warningColor.a = (this._moveCount / this._maxMoves);
@@ -175,8 +171,6 @@
                 PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                PlayerAudio.instance.PlayMovement();
-                AIAudio.instance.PlayMovement();
                 this._moveCount++;
                 if(this._moveCount >= this._maxMoves * 2) {
                     this.warningColor.a = (this._moveCount / this._maxMoves);
@@ -187,8 +181,6 @@
                 PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                PlayerAudio.instance.PlayMovement();
-                AIAudio.instance.PlayMovement();
                 this._moveCount++;
                 if(this._moveCount >= this._maxMoves * 2) {
                     this.warningColor.a = (this._moveCount / this._maxMoves);
@@ -199,8 +191,6 @@
                 PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                PlayerAudio.instance.PlayMovement();
-                AIAudio.instance.PlayMovement();
                 this._moveCount++;
                 if(this._moveCount >= this._maxMoves * 2) {
                     this.warningColor.a = (this._moveCount / this._maxMoves);

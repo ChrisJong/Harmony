@@ -8,7 +8,10 @@
     using GameInfo;
 
     public class ExplosionAudio : MonoBehaviour {
+
         public AudioSource audioSource;
+
+        private float _delay = 0.0f;
 
         void Awake() {
             this.audioSource = this.gameObject.GetComponent<AudioSource>() as AudioSource;
@@ -22,14 +25,19 @@
 
         void Update() {
             PlayAudio();
+
+            if(this._delay < 2.3f) {
+                this._delay += Time.deltaTime;
+            }
         }
 
         public void PlayAudio() {
             if(this.audioSource.isPlaying)
                 return;
-
-            this.audioSource.clip = SoundController.GetAudioType(SoundInfo.SoundTypes.FIREWORK_EXPLOSION);
-            this.audioSource.Play();
+            if(this._delay >= 2.3) {
+                this.audioSource.clip = SoundController.GetAudioType(SoundInfo.SoundTypes.FIREWORK_EXPLOSION);
+                this.audioSource.Play();
+            }
         }
 
         public void Stop() {

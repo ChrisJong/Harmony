@@ -83,7 +83,7 @@
             }
 
             this.CheckCurrentBlock();
-            AIAudio.instance.PlayMovement();
+            //AIAudio.instance.PlayMovement();
             this.isMoving = true;
         }
 

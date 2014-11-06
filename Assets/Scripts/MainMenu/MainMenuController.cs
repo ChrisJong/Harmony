@@ -24,6 +24,10 @@
         public MainMenuInfo.MenuTypes currentMenuScene;
 
         void Awake() {
+#if UNITY_IPHONE || UNITY_ANDROID
+            Screen.sleepTimeout = (int)SleepTimeout.NeverSleep;
+#endif
+
             if(!GlobalInfo.GameDataLoaded) {
                 MazeDataHelper.LoadGameData();
                 GlobalInfo.GameDataLoaded = true;

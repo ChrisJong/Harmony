@@ -94,16 +94,22 @@
         public override void OnTouchEnded() {
             switch(this.buttonType) {
                 case GameMenuInfo.ButtonTypes.RESTART:
-                this._objectTexture.texture = this.buttonExit;
-                Application.LoadLevel(Application.loadedLevelName);
-                break;
+                    if(!GameMenuController.instance.isActive) {
+                        this._objectTexture.texture = this.buttonExit;
+                        GameMenuController.instance.buttonPressed = GameMenuInfo.ButtonTypes.RESTART;
+                        GameMenuController.instance.isActive = true;
+                        GameMenuController.instance.fade.PlayFadeToMax();
+                    }
+                    break;
 
                 case GameMenuInfo.ButtonTypes.MAINMENU:
-                this._objectTexture.texture = this.buttonExit;
-                GameController.instance.gameState = GlobalInfo.GameState.MENU;
-                Object.DestroyImmediate(Sound.SoundController.instance.gameObject);
-                Application.LoadLevel("MainMenu");
-                break;
+                    if(!GameMenuController.instance.isActive) {
+                        this._objectTexture.texture = this.buttonExit;
+                        GameMenuController.instance.buttonPressed = GameMenuInfo.ButtonTypes.MAINMENU;
+                        GameMenuController.instance.isActive = true;
+                        GameMenuController.instance.fade.PlayFadeToMax();
+                    }
+                    break;
 
                 case GameMenuInfo.ButtonTypes.UNDO:
                 this._objectTexture.texture = this.buttonExit;
@@ -113,8 +119,13 @@
                 break;
 
                 case GameMenuInfo.ButtonTypes.NEXTLEVEL:
-                GameController.instance.LoadNextLevel();
-                break;
+                    if(!GameMenuController.instance.isActive) {
+                        this._objectTexture.texture = this.buttonExit;
+                        GameMenuController.instance.buttonPressed = GameMenuInfo.ButtonTypes.NEXTLEVEL;
+                        GameMenuController.instance.isActive = true;
+                        GameMenuController.instance.fade.PlayFadeToMax();
+                    }
+                    break;
             }
             GameMenuController.instance.buttonStateText.text = "";
         }
