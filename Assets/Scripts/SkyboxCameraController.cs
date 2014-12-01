@@ -2,6 +2,7 @@
 using System.Collections;
 using GameInfo;
 using Grid;
+using Resource;
 
 public class SkyboxCameraController : MonoBehaviour {
 

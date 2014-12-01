@@ -9,6 +9,7 @@
     using Blocks;
     using Sound;
     using Animation;
+    using Resource;
 
     public class PlayerController : MonoBehaviour {
 

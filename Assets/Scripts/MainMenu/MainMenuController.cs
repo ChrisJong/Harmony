@@ -7,6 +7,7 @@
     using GameMenu;
     using Helpers;
     using GameInfo;
+    using Resource;
 
     public class MainMenuController : MonoBehaviour {
 
@@ -35,6 +36,7 @@
 
             instance = this;
             Instantiate(Resources.Load("ResourceManager") as GameObject);
+            TileManager.FindOrCreate();
             this.currentMenuScene = MainMenuInfo.MenuTypes.MAINMENU;
             MazeDataHelper.SaveGameData();
         }
@@ -45,12 +47,14 @@
                     case MainMenuInfo.MenuTypes.NEWGAME:
                         if(this.fade.FadeFinished) {
                             GameController.instance.gameState = GlobalInfo.GameState.INGAME;
+                            Object.DontDestroyOnLoad(TileManager.instance.gameObject);
                             GameController.instance.LoadLevelAt(1);
                         }
                         break;
 
                     case MainMenuInfo.MenuTypes.LEVELSELECT:
                         if(this.fade.FadeFinished) {
+                            Object.DontDestroyOnLoad(TileManager.instance.gameObject);
                             GameController.instance.LoadLevelAt(this.levelID);
                         }
                         break;

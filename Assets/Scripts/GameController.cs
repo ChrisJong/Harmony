@@ -9,6 +9,7 @@ using Player;
 using AI;
 using GameInfo;
 using Helpers;
+using Resource;
 
 [DisallowMultipleComponent]
 public class GameController : MonoBehaviour {
@@ -76,6 +77,7 @@ public class GameController : MonoBehaviour {
             Object.DontDestroyOnLoad(SoundController.instance.gameObject);
         }
 
+        Object.DontDestroyOnLoad(TileManager.instance.gameObject);
         MazeInfo.CurrentMaze = MazeInfo.NextMaze;
         Application.LoadLevel(MazeInfo.NextMaze);
     }

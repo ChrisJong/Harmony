@@ -1,5 +1,6 @@
 ﻿namespace Blocks {
 
+    using System.Collections;
     using System.Collections.Generic;
 
     using UnityEngine;
@@ -8,11 +9,19 @@
 
     public class NumberBlock : BlockClass {
 
+        public List<Material> numberMaterials;
+
         public int previousCounter;
         public int currentCounter;
         public int maxCounter;
         public bool isReversed;
         public bool wasUp;
+
+        private Material[] _blockMaterials;
+
+        void Awake() {
+            this._blockMaterials = this.blockRenderer.materials;
+        }
 
         void Update() {
             if(this.BlockState == BlockInfo.BlockState.NONE)
@@ -41,18 +50,24 @@
         public void Undo() {
             if(this.isUp){
                 this.currentCounter = previousCounter;
-                this.blockRenderer.material = this.blockDownMaterials[currentCounter];
+                this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
+                this._blockMaterials[1] = this.numberMaterials[currentCounter];
+                this.blockRenderer.materials = this._blockMaterials;
                 this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
                 this.isUp = false;
                 this.BlockState = BlockInfo.BlockState.NONE;
             } else {
                 this.currentCounter = previousCounter;
                 if(this.previousCounter == 0) {
-                    this.blockRenderer.material = this.blockUpMaterials[currentCounter];
+                    this._blockMaterials[0] = this.tileUpMaterials[this.MaterialID];
+                    this._blockMaterials[1] = this.numberMaterials[currentCounter];
+                    this.blockRenderer.materials = this._blockMaterials;
                     this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
                     this.isUp = true;
                 } else {
-                    this.blockRenderer.material = this.blockDownMaterials[currentCounter];
+                    this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
+                    this._blockMaterials[1] = this.numberMaterials[currentCounter];
+                    this.blockRenderer.materials = this._blockMaterials;
                     this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
                     this.isUp = false;
                 }
@@ -64,7 +79,9 @@
             if(this.isReversed) {
                 //this._blockState = BlockInfo.BlockState.DOWN;
                 this.currentCounter--;
-                this.blockRenderer.material = this.blockDownMaterials[currentCounter];
+                this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
+                this._blockMaterials[1] = this.numberMaterials[currentCounter];
+                this.blockRenderer.materials = this._blockMaterials;
                 this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
                 this.isUp = false;
                 this.BlockState = BlockInfo.BlockState.NONE;
@@ -72,7 +89,9 @@
                 //this._blockState = BlockInfo.BlockState.UP;
                 this.previousCounter = currentCounter;
                 this.currentCounter--;
-                this.blockRenderer.material = this.blockUpMaterials[currentCounter];
+                this._blockMaterials[0] = this.tileUpMaterials[this.MaterialID];
+                this._blockMaterials[1] = this.numberMaterials[currentCounter];
+                this.blockRenderer.materials = this._blockMaterials;
                 this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
                 this.isUp = true;
                 this.BlockState = BlockInfo.BlockState.NONE;
@@ -84,13 +103,13 @@
                 if(!this.isUp) {
                     //this._blockState = BlockInfo.BlockState.UP;
                     this.currentCounter = this.maxCounter;
-                    this.blockRenderer.material = this.blockUpMaterials[currentCounter];
+                    this.blockRenderer.material = this.tileUpMaterials[currentCounter];
                     this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
                     this.isUp = true;
                     this.BlockState = BlockInfo.BlockState.NONE;
                 } else {
                     this.currentCounter--;
-                    this.blockRenderer.material = this.blockUpMaterials[currentCounter];
+                    this.blockRenderer.material = this.tileUpMaterials[currentCounter];
                     this.BlockState = BlockInfo.BlockState.NONE;
                 }
             } else {
@@ -98,14 +117,18 @@
                     //this._blockState = BlockInfo.BlockState.DOWN;
                     this.previousCounter = currentCounter;
                     this.currentCounter = this.maxCounter;
-                    this.blockRenderer.material = this.blockDownMaterials[currentCounter];
+                    this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
+                    this._blockMaterials[1] = this.numberMaterials[currentCounter];
+                    this.blockRenderer.materials = this._blockMaterials;
                     this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
                     this.isUp = false;
                     this.BlockState = BlockInfo.BlockState.NONE;
                 } else {
                     this.previousCounter = currentCounter;
                     this.currentCounter--;
-                    this.blockRenderer.material = this.blockDownMaterials[currentCounter];
+                    this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
+                    this._blockMaterials[1] = this.numberMaterials[currentCounter];
+                    this.blockRenderer.materials = this._blockMaterials;
                     this.BlockState = BlockInfo.BlockState.NONE;
                 }
             }
@@ -114,15 +137,23 @@
         public override void SetupBlock(BlockInfo.BlockTypes type, int initCounter) {
             base.SetupBlock(type, initCounter);
 
+            Material[] mats = this.blockRenderer.sharedMaterials;
+
             this.currentCounter = initCounter;
             this.previousCounter = initCounter;
             this.maxCounter = initCounter;
-            this.blockRenderer.material = this.blockDownMaterials[initCounter];
+
+            mats[0] = this.tileDownMaterials[this.MaterialID];
+            mats[1] = this.numberMaterials[currentCounter];
+            this.blockRenderer.materials = mats;
+
             this.isReversed = false;
         }
 
         public override void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockState state, int initCounter) {
             base.SetupBlock(type, state, initCounter);
+
+            Material[] mats = this.blockRenderer.sharedMaterials;
 
             this.currentCounter = initCounter;
             this.previousCounter = initCounter;
@@ -130,10 +161,17 @@
 
             if(state == BlockInfo.BlockState.UP) {
                 this.isUp = true;
-                this.blockRenderer.material = this.blockUpMaterials[initCounter];
+
+                mats[0] = this.tileUpMaterials[this.MaterialID];
+                mats[1] = this.numberMaterials[currentCounter];
+                this.blockRenderer.materials = mats;
+
                 this.isReversed = true;
             } else {
-                this.blockRenderer.material = this.blockDownMaterials[initCounter];
+                mats[0] = this.tileDownMaterials[this.MaterialID];
+                mats[1] = this.numberMaterials[currentCounter];
+                this.blockRenderer.materials = mats;
+
                 this.isReversed = false;
             }
         }

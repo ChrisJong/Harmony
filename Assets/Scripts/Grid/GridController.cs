@@ -11,6 +11,7 @@
     using GameInfo;
     using Helpers;
     using Input;
+    using Resource;
     
     [DisallowMultipleComponent]
     public class GridController : MonoBehaviour {
@@ -141,7 +142,7 @@
             if(PlayerController.instance.isMoving || AIController.instance.isMoving)
                 return;
 
-            if(this._moveCount >= (this._maxMoves * 3)) {
+            /*if(this._moveCount >= (this._maxMoves * 3)) {
                 PlayerController.instance.isMoving = false;
                 AIController.instance.isMoving = false;
                 PlayerController.instance.isDeath = true;
@@ -149,7 +150,7 @@
                 PlayerController.instance.charactorAnimator.SetBool("IsDeath", PlayerController.instance.isDeath);
                 AIController.instance.charactorAnimator.SetBool("IsDeath", PlayerController.instance.isDeath);
                 GameController.instance.isStageFinished = true;
-            }
+            }*/
 
 #if UNITY_IPHONE || UNITY_ANDROID
             if(!this._swipeController.GetInput())

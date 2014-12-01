@@ -10,14 +10,16 @@
     [System.Serializable]
     public abstract class BlockClass : MonoBehaviour {
 
-        public List<Material> blockUpMaterials;
-        public List<Material> blockDownMaterials;
+        public List<Material> tileUpMaterials;
+        public List<Material> tileDownMaterials;
+
         public MeshRenderer blockRenderer;
 
         public int firstDirectionValue;
         public int secondDirectionValue;
         public bool isUp;
 
+        private int _materialID;
         [SerializeField, HideInInspector]
         private BlockInfo.BlockTypes _blockType;
         [SerializeField, HideInInspector]
@@ -39,12 +41,18 @@
         }
 
         #region Setup / Init
+        public virtual void ChangeTileMaterial() {
+            throw new System.NotImplementedException();
+        }
+
         public virtual void SetupBlock() {
             this._blockType = BlockInfo.BlockTypes.NONE;
             this._blockState = BlockInfo.BlockState.NONE;
 
             this._firstDirection = BlockInfo.BlockDirection.NONE;
             this._secondDirection = BlockInfo.BlockDirection.NONE;
+
+            this.SetTileMaterial();
         }
 
         public virtual void SetupBlock(BlockInfo.BlockTypes type) {
@@ -53,6 +61,8 @@
 
             this._firstDirection = BlockInfo.BlockDirection.NONE;
             this._secondDirection = BlockInfo.BlockDirection.NONE;
+
+            this.SetTileMaterial();
         }
 
         public virtual void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockState state) {
@@ -61,6 +71,8 @@
 
             this._firstDirection = BlockInfo.BlockDirection.NONE;
             this._secondDirection = BlockInfo.BlockDirection.NONE;
+
+            this.SetTileMaterial();
         }
 
         public virtual void SetupBlock(BlockInfo.BlockTypes type, int initCounter) {
@@ -69,6 +81,8 @@
 
             this._firstDirection = BlockInfo.BlockDirection.NONE;
             this._secondDirection = BlockInfo.BlockDirection.NONE;
+
+            this.SetTileMaterial();
         }
 
         public virtual void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockState state, int initCounter) {
@@ -77,6 +91,8 @@
 
             this._firstDirection = BlockInfo.BlockDirection.NONE;
             this._secondDirection = BlockInfo.BlockDirection.NONE;
+
+            this.SetTileMaterial();
         }
 
         public virtual void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockDirection direction) {
@@ -89,6 +105,8 @@
             this._blockDirections.Add(direction);
 
             this.firstDirectionValue = (int)direction;
+
+            this.SetTileMaterial();
         }
 
         public virtual void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockDirection direction, BlockInfo.BlockState state) {
@@ -101,6 +119,8 @@
             this._blockDirections.Add(direction);
 
             this.firstDirectionValue = (int)direction;
+
+            this.SetTileMaterial();
         }
 
         public virtual void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockDirection firstDirection, BlockInfo.BlockDirection secondDirection) {
@@ -115,6 +135,8 @@
 
             this.firstDirectionValue = (int)firstDirection;
             this.secondDirectionValue = (int)secondDirection;
+
+            this.SetTileMaterial();
         }
 
         public virtual void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockDirection firstDirection, BlockInfo.BlockDirection secondDirection, BlockInfo.BlockState state) {
@@ -129,10 +151,28 @@
 
             this.firstDirectionValue = (int)firstDirection;
             this.secondDirectionValue = (int)secondDirection;
+
+            this.SetTileMaterial();
+        }
+
+        private void SetTileMaterial() {
+            if(this.tileDownMaterials.Count == this.tileUpMaterials.Count)
+                this._materialID = Random.Range(0, tileDownMaterials.Count);
+            else
+                this._materialID = 0;
+
+            if(this._blockState == BlockInfo.BlockState.UP)
+                this.blockRenderer.material = this.tileUpMaterials[this._materialID];
+            else
+                this.blockRenderer.material = this.tileDownMaterials[this._materialID];
         }
         #endregion
 
         #region Getter/Setters
+        public int MaterialID {
+            get { return this._materialID; }
+        }
+
         public BlockInfo.BlockState BlockState {
             get { return this._blockState; }
             set { this._blockState = value; }

@@ -14,9 +14,10 @@
         }
 
         void Update() {
-            if(EditorApplication.isPlaying)
+            if(EditorApplication.isPlaying) {
+                this.ResetValues();
                 this.Close();
-            else
+            } else
                 return;
         }
 
@@ -46,6 +47,13 @@
                 this._target.blockOneDirection = (BlockInfo.BlockDirection)EditorGUILayout.EnumPopup("Direction: ", this._target.blockOneDirection);
                 this._target.blockState = (BlockInfo.BlockState)EditorGUILayout.EnumPopup("Block State: ", this._target.blockState);
             }
+        }
+
+        private void ResetValues() {
+            this._target.blockToPlace = BlockInfo.BlockTypes.NONE;
+            this._target.blockOneDirection = BlockInfo.BlockDirection.NONE;
+            this._target.blockTwoDirection = BlockInfo.BlockDirection.NONE;
+            this._target.blockState = BlockInfo.BlockState.NONE;
         }
     }
 }

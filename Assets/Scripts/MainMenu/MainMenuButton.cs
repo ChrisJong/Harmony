@@ -17,10 +17,14 @@
         public MainMenuInfo.MenuTypes buttonType;
 
         private MeshRenderer _renderer;
+        private Material[] _blockMaterials;
 
         void Awake() {
             this._renderer = this.transform.GetComponent<MeshRenderer>() as MeshRenderer;
-            this._renderer.material = this.buttonExit;
+            this._blockMaterials = this._renderer.materials;
+
+            this._blockMaterials[1] = this.buttonExit;
+            this._renderer.materials = this._blockMaterials;
         }
 
 #if UNITY_IPHONE || UNITY_ANDROID
@@ -109,32 +113,38 @@
         }
 #else
         private void OnMouseEnter() {
-            this._renderer.material = this.buttonEnter;
+            this._blockMaterials[1] = this.buttonEnter;
+            this._renderer.materials = this._blockMaterials;
         }
 
         private void OnMouseExit() {
-            this._renderer.material = this.buttonExit;
+            this._blockMaterials[1] = this.buttonExit;
+            this._renderer.materials = this._blockMaterials;
         }
 
         private void OnMouseUp() {
             switch(buttonType) {
                 case MainMenuInfo.MenuTypes.NEWGAME:
-                    this._renderer.material = this.buttonExit;
+                    this._blockMaterials[1] = this.buttonExit;
+                    this._renderer.materials = this._blockMaterials;
                     MainMenuController.instance.currentMenuScene = buttonType;
                     break;
 
                 case MainMenuInfo.MenuTypes.INSTRUCTIONS:
-                    this._renderer.material = this.buttonExit;
+                    this._blockMaterials[1] = this.buttonExit;
+                    this._renderer.materials = this._blockMaterials;
                     MainMenuController.instance.currentMenuScene = buttonType;
                     break;
 
                 case MainMenuInfo.MenuTypes.LEVELSELECT:
-                    this._renderer.material = this.buttonExit;
+                    this._blockMaterials[1] = this.buttonExit;
+                    this._renderer.materials = this._blockMaterials;
                     MainMenuController.instance.currentMenuScene = buttonType;
                     break;
 
                 case MainMenuInfo.MenuTypes.CREDITS:
-                    this._renderer.material = this.buttonExit;
+                    this._blockMaterials[1] = this.buttonExit;
+                    this._renderer.materials = this._blockMaterials;
                     MainMenuController.instance.currentMenuScene = buttonType;
                     break;
 

@@ -6,6 +6,7 @@
     using GameInfo;
     using Helpers;
     using Blocks;
+    using Resource;
 
     /// <summary>
     /// Provides a component for grid mapping.
@@ -19,13 +20,13 @@
         /// <summary>
         /// gets or sets the number of rows of blocks.
         /// </summary>
-        [Range(2, 20)]
+        [Range(1, 20)]
         [SerializeField]
         public int rows = 5;
         /// <summary>
         /// gets or sets the number of columns of blocks.
         /// </summary>
-        [Range(2, 20)]
+        [Range(1, 20)]
         [SerializeField]
         public int columns = 5;
 
@@ -34,22 +35,7 @@
         public int maxMoves = 1;
 
         /// <summary>
-        /// gets or sets the value of the block width.
-        /// </summary>
-        private float _blockWidth;
-
-        /// <summary>
-        /// gets or sets the value of the block height.
-        /// </summary>
-        private float _blockBreadth;
-
-        /// <summary>
-        /// gets or sets the actual block height (Y-Coordinates).
-        /// </summary>
-        private float _blockHeight;
-
-        /// <summary>
-        /// gets or sets the type of block to place down onto the grid. (Every block placed will be in the down position, even if it says UP).
+        /// the type of block to place down onto the grid. (Every block placed will be in the down position, even if it says UP).
         /// </summary>
         [HideInInspector]
         public BlockInfo.BlockTypes blockToPlace;
@@ -78,6 +64,21 @@
 
         [HideInInspector]
         public GameObject wallOrigin;
+
+        /// <summary>
+        /// gets or sets the value of the block width.
+        /// </summary>
+        private float _blockWidth;
+
+        /// <summary>
+        /// gets or sets the value of the block height.
+        /// </summary>
+        private float _blockBreadth;
+
+        /// <summary>
+        /// gets or sets the actual block height (Y-Coordinates).
+        /// </summary>
+        private float _blockHeight;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="GridMap"/> class.
@@ -94,9 +95,22 @@
         public void Awake() {
             instance = this;
             Instantiate(Resources.Load("ResourceManager") as GameObject);
+            TileManager.FindOrCreate();
             this.GenerateWalls();
+            this.CreateBlockPlane();
             //GeneratePlayers();
             GridController.FindOrCreate();
+        }
+
+        private void CreateBlockPlane() {
+            foreach(Transform child in this.transform) {
+                GameObject bottomPlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+                Destroy(bottomPlane.gameObject.GetComponent<MeshCollider>());
+                bottomPlane.GetComponent<MeshRenderer>().material = ResourceManager.instance.bottomPlane;
+                bottomPlane.transform.position = new Vector3(child.position.x, 0.0f, child.position.z + 0.5f);
+                bottomPlane.transform.localScale = new Vector3(0.1f, 1.0f, 0.1f);
+                bottomPlane.transform.parent = this.wallOrigin.transform;
+            }
         }
 
         /// <summary>
@@ -109,13 +123,6 @@
 
             this.wallOrigin = new GameObject("WallContainer");
             this.wallOrigin.transform.position = new Vector3(xPos, yPos, zPos);
-
-            GameObject bottomPlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            Destroy(bottomPlane.gameObject.GetComponent<MeshCollider>());
-            bottomPlane.GetComponent<MeshRenderer>().material = ResourceManager.instance.bottomPlane;
-            bottomPlane.transform.position = new Vector3(this.wallOrigin.transform.position.x, 0.0f, this.wallOrigin.transform.position.z);
-            bottomPlane.transform.localScale = new Vector3(this.columns * 0.1f, 1.0f, this.rows * 0.1f);
-            bottomPlane.transform.parent = this.wallOrigin.transform;
 
             for(int i = 0; i < 4; i++) {
                 if(i == 0) {

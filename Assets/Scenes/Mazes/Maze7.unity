@@ -183,6 +183,7 @@ Renderer:
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
   - {fileID: 2100000, guid: bc1a618e4c3cef342ba0a643b86ace6e, type: 2}
+  - {fileID: 2100000, guid: 40b0918876e6970429d0763aaeb7d7ba, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -202,18 +203,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0375afc7474ac4a8192fe28af1bd08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockUpMaterials:
-  - {fileID: 2100000, guid: 9bee50c3a7f7da642b630a8c7622d61f, type: 2}
-  - {fileID: 2100000, guid: 7bf09d39240be9a4f9dc13cb43502e02, type: 2}
-  - {fileID: 2100000, guid: 90bb5aa8ab4b14f49aac91a9391395ba, type: 2}
-  - {fileID: 2100000, guid: a774b02340227dc4fabdb63f9a8b2fa4, type: 2}
-  - {fileID: 2100000, guid: 40b0918876e6970429d0763aaeb7d7ba, type: 2}
-  blockDownMaterials:
-  - {fileID: 2100000, guid: f260b7293ec9cee4cab4472db5f4609e, type: 2}
-  - {fileID: 2100000, guid: bc1a618e4c3cef342ba0a643b86ace6e, type: 2}
-  - {fileID: 2100000, guid: 5f8fbb191d4e93a4092cd9f290f8ce5a, type: 2}
-  - {fileID: 2100000, guid: eef00a5fcba0e174cbb8ec1fad3ea8ca, type: 2}
-  - {fileID: 2100000, guid: 77ea18ea55676da4ea4e938787b047c0, type: 2}
+  tileUpMaterials:
+  - {fileID: 2100000, guid: 503d76a808c193e4d9b5935537b1f97f, type: 2}
+  - {fileID: 2100000, guid: caff3bdba7e709f488d7ac07ca7cfb68, type: 2}
+  - {fileID: 2100000, guid: a8789475d6a74eb4abfed9046e1c8a70, type: 2}
+  - {fileID: 2100000, guid: ac5b7e5f20742c741b6316b59337ffd7, type: 2}
+  - {fileID: 2100000, guid: ad406ff55edec3348b9c9e3534ae3ea6, type: 2}
+  - {fileID: 2100000, guid: ef71c4b3101258f49b3aaa32929483bd, type: 2}
+  tileDownMaterials:
+  - {fileID: 2100000, guid: d3f54354c71c8ec4a978f6a39841a8cd, type: 2}
+  - {fileID: 2100000, guid: 75b02d31b646a6c4fa6ecea21f639a67, type: 2}
+  - {fileID: 2100000, guid: 5826382a55312c5429138bea62b1434a, type: 2}
+  - {fileID: 2100000, guid: 7591fb9cbd88c8f49a2a7f2e7addf1fb, type: 2}
+  - {fileID: 2100000, guid: 217b27bbeb9882d4db10fcde39a7a3e7, type: 2}
+  - {fileID: 2100000, guid: af11d714523317d45bfdfcfaddae05bb, type: 2}
   blockRenderer: {fileID: 158249563}
   firstDirectionValue: 2
   secondDirectionValue: 0
@@ -223,6 +226,16 @@ MonoBehaviour:
   _blockDirections: 02000000
   _firstDirection: 2
   _secondDirection: 0
+  arrowUpMaterials:
+  - {fileID: 2100000, guid: 54bc14f519b36e443bd88fa5ef3ef0e5, type: 2}
+  - {fileID: 2100000, guid: 8611b1f4eb5208647b7b4265d055f64d, type: 2}
+  - {fileID: 2100000, guid: 45f5822c4d1180c46a4747a21fa0128b, type: 2}
+  - {fileID: 2100000, guid: ee1d35fe2c1c9f04092c11605547e2fe, type: 2}
+  arrowDownMaterials:
+  - {fileID: 2100000, guid: f260b7293ec9cee4cab4472db5f4609e, type: 2}
+  - {fileID: 2100000, guid: bc1a618e4c3cef342ba0a643b86ace6e, type: 2}
+  - {fileID: 2100000, guid: 5f8fbb191d4e93a4092cd9f290f8ce5a, type: 2}
+  - {fileID: 2100000, guid: eef00a5fcba0e174cbb8ec1fad3ea8ca, type: 2}
 --- !u!65 &158249565
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -283,6 +296,7 @@ MonoBehaviour:
   markerPosition: {x: .5, y: 0, z: 2.5}
   humanSpawnPoint: {x: 1, y: 0, z: 0}
   aiSpawnPoint: {x: 1, y: 0, z: 2}
+  wallOrigin: {fileID: 0}
 --- !u!4 &223532521
 Transform:
   m_ObjectHideFlags: 0
@@ -432,14 +446,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71331113d63ab0343b6019dc1cdbd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockUpMaterials:
+  tileUpMaterials:
   - {fileID: 2100000, guid: 503d76a808c193e4d9b5935537b1f97f, type: 2}
   - {fileID: 2100000, guid: caff3bdba7e709f488d7ac07ca7cfb68, type: 2}
   - {fileID: 2100000, guid: a8789475d6a74eb4abfed9046e1c8a70, type: 2}
   - {fileID: 2100000, guid: ac5b7e5f20742c741b6316b59337ffd7, type: 2}
   - {fileID: 2100000, guid: ad406ff55edec3348b9c9e3534ae3ea6, type: 2}
   - {fileID: 2100000, guid: ef71c4b3101258f49b3aaa32929483bd, type: 2}
-  blockDownMaterials:
+  tileDownMaterials:
   - {fileID: 2100000, guid: d3f54354c71c8ec4a978f6a39841a8cd, type: 2}
   - {fileID: 2100000, guid: 75b02d31b646a6c4fa6ecea21f639a67, type: 2}
   - {fileID: 2100000, guid: 5826382a55312c5429138bea62b1434a, type: 2}
@@ -540,14 +554,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71331113d63ab0343b6019dc1cdbd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockUpMaterials:
+  tileUpMaterials:
   - {fileID: 2100000, guid: 503d76a808c193e4d9b5935537b1f97f, type: 2}
   - {fileID: 2100000, guid: caff3bdba7e709f488d7ac07ca7cfb68, type: 2}
   - {fileID: 2100000, guid: a8789475d6a74eb4abfed9046e1c8a70, type: 2}
   - {fileID: 2100000, guid: ac5b7e5f20742c741b6316b59337ffd7, type: 2}
   - {fileID: 2100000, guid: ad406ff55edec3348b9c9e3534ae3ea6, type: 2}
   - {fileID: 2100000, guid: ef71c4b3101258f49b3aaa32929483bd, type: 2}
-  blockDownMaterials:
+  tileDownMaterials:
   - {fileID: 2100000, guid: d3f54354c71c8ec4a978f6a39841a8cd, type: 2}
   - {fileID: 2100000, guid: 75b02d31b646a6c4fa6ecea21f639a67, type: 2}
   - {fileID: 2100000, guid: 5826382a55312c5429138bea62b1434a, type: 2}
@@ -648,14 +662,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71331113d63ab0343b6019dc1cdbd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockUpMaterials:
+  tileUpMaterials:
   - {fileID: 2100000, guid: 503d76a808c193e4d9b5935537b1f97f, type: 2}
   - {fileID: 2100000, guid: caff3bdba7e709f488d7ac07ca7cfb68, type: 2}
   - {fileID: 2100000, guid: a8789475d6a74eb4abfed9046e1c8a70, type: 2}
   - {fileID: 2100000, guid: ac5b7e5f20742c741b6316b59337ffd7, type: 2}
   - {fileID: 2100000, guid: ad406ff55edec3348b9c9e3534ae3ea6, type: 2}
   - {fileID: 2100000, guid: ef71c4b3101258f49b3aaa32929483bd, type: 2}
-  blockDownMaterials:
+  tileDownMaterials:
   - {fileID: 2100000, guid: d3f54354c71c8ec4a978f6a39841a8cd, type: 2}
   - {fileID: 2100000, guid: 75b02d31b646a6c4fa6ecea21f639a67, type: 2}
   - {fileID: 2100000, guid: 5826382a55312c5429138bea62b1434a, type: 2}
@@ -756,14 +770,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71331113d63ab0343b6019dc1cdbd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockUpMaterials:
+  tileUpMaterials:
   - {fileID: 2100000, guid: 503d76a808c193e4d9b5935537b1f97f, type: 2}
   - {fileID: 2100000, guid: caff3bdba7e709f488d7ac07ca7cfb68, type: 2}
   - {fileID: 2100000, guid: a8789475d6a74eb4abfed9046e1c8a70, type: 2}
   - {fileID: 2100000, guid: ac5b7e5f20742c741b6316b59337ffd7, type: 2}
   - {fileID: 2100000, guid: ad406ff55edec3348b9c9e3534ae3ea6, type: 2}
   - {fileID: 2100000, guid: ef71c4b3101258f49b3aaa32929483bd, type: 2}
-  blockDownMaterials:
+  tileDownMaterials:
   - {fileID: 2100000, guid: d3f54354c71c8ec4a978f6a39841a8cd, type: 2}
   - {fileID: 2100000, guid: 75b02d31b646a6c4fa6ecea21f639a67, type: 2}
   - {fileID: 2100000, guid: 5826382a55312c5429138bea62b1434a, type: 2}
@@ -831,14 +845,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71331113d63ab0343b6019dc1cdbd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockUpMaterials:
+  tileUpMaterials:
   - {fileID: 2100000, guid: 503d76a808c193e4d9b5935537b1f97f, type: 2}
   - {fileID: 2100000, guid: caff3bdba7e709f488d7ac07ca7cfb68, type: 2}
   - {fileID: 2100000, guid: a8789475d6a74eb4abfed9046e1c8a70, type: 2}
   - {fileID: 2100000, guid: ac5b7e5f20742c741b6316b59337ffd7, type: 2}
   - {fileID: 2100000, guid: ad406ff55edec3348b9c9e3534ae3ea6, type: 2}
   - {fileID: 2100000, guid: ef71c4b3101258f49b3aaa32929483bd, type: 2}
-  blockDownMaterials:
+  tileDownMaterials:
   - {fileID: 2100000, guid: d3f54354c71c8ec4a978f6a39841a8cd, type: 2}
   - {fileID: 2100000, guid: 75b02d31b646a6c4fa6ecea21f639a67, type: 2}
   - {fileID: 2100000, guid: 5826382a55312c5429138bea62b1434a, type: 2}
@@ -972,14 +986,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71331113d63ab0343b6019dc1cdbd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockUpMaterials:
+  tileUpMaterials:
   - {fileID: 2100000, guid: 503d76a808c193e4d9b5935537b1f97f, type: 2}
   - {fileID: 2100000, guid: caff3bdba7e709f488d7ac07ca7cfb68, type: 2}
   - {fileID: 2100000, guid: a8789475d6a74eb4abfed9046e1c8a70, type: 2}
   - {fileID: 2100000, guid: ac5b7e5f20742c741b6316b59337ffd7, type: 2}
   - {fileID: 2100000, guid: ad406ff55edec3348b9c9e3534ae3ea6, type: 2}
   - {fileID: 2100000, guid: ef71c4b3101258f49b3aaa32929483bd, type: 2}
-  blockDownMaterials:
+  tileDownMaterials:
   - {fileID: 2100000, guid: d3f54354c71c8ec4a978f6a39841a8cd, type: 2}
   - {fileID: 2100000, guid: 75b02d31b646a6c4fa6ecea21f639a67, type: 2}
   - {fileID: 2100000, guid: 5826382a55312c5429138bea62b1434a, type: 2}
@@ -1352,14 +1366,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71331113d63ab0343b6019dc1cdbd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockUpMaterials:
+  tileUpMaterials:
   - {fileID: 2100000, guid: 503d76a808c193e4d9b5935537b1f97f, type: 2}
   - {fileID: 2100000, guid: caff3bdba7e709f488d7ac07ca7cfb68, type: 2}
   - {fileID: 2100000, guid: a8789475d6a74eb4abfed9046e1c8a70, type: 2}
   - {fileID: 2100000, guid: ac5b7e5f20742c741b6316b59337ffd7, type: 2}
   - {fileID: 2100000, guid: ad406ff55edec3348b9c9e3534ae3ea6, type: 2}
   - {fileID: 2100000, guid: ef71c4b3101258f49b3aaa32929483bd, type: 2}
-  blockDownMaterials:
+  tileDownMaterials:
   - {fileID: 2100000, guid: d3f54354c71c8ec4a978f6a39841a8cd, type: 2}
   - {fileID: 2100000, guid: 75b02d31b646a6c4fa6ecea21f639a67, type: 2}
   - {fileID: 2100000, guid: 5826382a55312c5429138bea62b1434a, type: 2}
@@ -1769,6 +1783,7 @@ Renderer:
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
   - {fileID: 2100000, guid: f260b7293ec9cee4cab4472db5f4609e, type: 2}
+  - {fileID: 2100000, guid: 40b0918876e6970429d0763aaeb7d7ba, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -1788,18 +1803,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0375afc7474ac4a8192fe28af1bd08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockUpMaterials:
-  - {fileID: 2100000, guid: 9bee50c3a7f7da642b630a8c7622d61f, type: 2}
-  - {fileID: 2100000, guid: 7bf09d39240be9a4f9dc13cb43502e02, type: 2}
-  - {fileID: 2100000, guid: 90bb5aa8ab4b14f49aac91a9391395ba, type: 2}
-  - {fileID: 2100000, guid: a774b02340227dc4fabdb63f9a8b2fa4, type: 2}
-  - {fileID: 2100000, guid: 40b0918876e6970429d0763aaeb7d7ba, type: 2}
-  blockDownMaterials:
-  - {fileID: 2100000, guid: f260b7293ec9cee4cab4472db5f4609e, type: 2}
-  - {fileID: 2100000, guid: bc1a618e4c3cef342ba0a643b86ace6e, type: 2}
-  - {fileID: 2100000, guid: 5f8fbb191d4e93a4092cd9f290f8ce5a, type: 2}
-  - {fileID: 2100000, guid: eef00a5fcba0e174cbb8ec1fad3ea8ca, type: 2}
-  - {fileID: 2100000, guid: 77ea18ea55676da4ea4e938787b047c0, type: 2}
+  tileUpMaterials:
+  - {fileID: 2100000, guid: 503d76a808c193e4d9b5935537b1f97f, type: 2}
+  - {fileID: 2100000, guid: caff3bdba7e709f488d7ac07ca7cfb68, type: 2}
+  - {fileID: 2100000, guid: a8789475d6a74eb4abfed9046e1c8a70, type: 2}
+  - {fileID: 2100000, guid: ac5b7e5f20742c741b6316b59337ffd7, type: 2}
+  - {fileID: 2100000, guid: ad406ff55edec3348b9c9e3534ae3ea6, type: 2}
+  - {fileID: 2100000, guid: ef71c4b3101258f49b3aaa32929483bd, type: 2}
+  tileDownMaterials:
+  - {fileID: 2100000, guid: d3f54354c71c8ec4a978f6a39841a8cd, type: 2}
+  - {fileID: 2100000, guid: 75b02d31b646a6c4fa6ecea21f639a67, type: 2}
+  - {fileID: 2100000, guid: 5826382a55312c5429138bea62b1434a, type: 2}
+  - {fileID: 2100000, guid: 7591fb9cbd88c8f49a2a7f2e7addf1fb, type: 2}
+  - {fileID: 2100000, guid: 217b27bbeb9882d4db10fcde39a7a3e7, type: 2}
+  - {fileID: 2100000, guid: af11d714523317d45bfdfcfaddae05bb, type: 2}
   blockRenderer: {fileID: 2045462528}
   firstDirectionValue: 1
   secondDirectionValue: 0
@@ -1809,6 +1826,16 @@ MonoBehaviour:
   _blockDirections: 01000000
   _firstDirection: 1
   _secondDirection: 0
+  arrowUpMaterials:
+  - {fileID: 2100000, guid: 54bc14f519b36e443bd88fa5ef3ef0e5, type: 2}
+  - {fileID: 2100000, guid: 8611b1f4eb5208647b7b4265d055f64d, type: 2}
+  - {fileID: 2100000, guid: 45f5822c4d1180c46a4747a21fa0128b, type: 2}
+  - {fileID: 2100000, guid: ee1d35fe2c1c9f04092c11605547e2fe, type: 2}
+  arrowDownMaterials:
+  - {fileID: 2100000, guid: f260b7293ec9cee4cab4472db5f4609e, type: 2}
+  - {fileID: 2100000, guid: bc1a618e4c3cef342ba0a643b86ace6e, type: 2}
+  - {fileID: 2100000, guid: 5f8fbb191d4e93a4092cd9f290f8ce5a, type: 2}
+  - {fileID: 2100000, guid: eef00a5fcba0e174cbb8ec1fad3ea8ca, type: 2}
 --- !u!65 &2045462530
 BoxCollider:
   m_ObjectHideFlags: 0
