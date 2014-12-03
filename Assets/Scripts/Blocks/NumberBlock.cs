@@ -143,7 +143,6 @@
             this.previousCounter = initCounter;
             this.maxCounter = initCounter;
 
-            mats[0] = this.tileDownMaterials[this.MaterialID];
             mats[1] = this.numberMaterials[currentCounter];
             this.blockRenderer.materials = mats;
 
@@ -162,13 +161,11 @@
             if(state == BlockInfo.BlockState.UP) {
                 this.isUp = true;
 
-                mats[0] = this.tileUpMaterials[this.MaterialID];
                 mats[1] = this.numberMaterials[currentCounter];
                 this.blockRenderer.materials = mats;
 
                 this.isReversed = true;
             } else {
-                mats[0] = this.tileDownMaterials[this.MaterialID];
                 mats[1] = this.numberMaterials[currentCounter];
                 this.blockRenderer.materials = mats;
 

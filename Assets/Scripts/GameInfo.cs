@@ -90,12 +90,16 @@ namespace GameInfo {
         
         public const string PathTextures = "Asset/Textures/";
         public const string PathTexturesGameMenu = PathTextures + "GameMenu/";
-
+        
+        public const string InvisibleBlock = "InvisibleBlock";
         public const string EmptyBlockName = "EmptyBlock";
+        public const string EmptyTallBlockName = "EmptyTallBlock";
         public const string NormalBlockName = "NormalBlock";
         public const string MultiBlockName = "MultiBlock";
         public const string NumberBlockName = "NumberBlock";
         public const string StunBlockName = "StunBlock";
+        public const string SwitchBlockName = "SwitchBlock";
+        public const string SwitchEmptyBlockName = "SwitchEmptyBlock";
         public const string LevelNumberBlockName = "LevelNumberBlock";
 
         public const string PlayerName = "Player";
@@ -126,12 +130,15 @@ namespace GameInfo {
     public static class BlockInfo {
         public enum BlockTypes {
             NONE = 0,
-            EMPTY = 1,
-            NORMAL = 2,
-            MULTI = 3,
-            NUMBER = 4,
-            STUN = 5
-            
+            INVISIBLE = 1,
+            EMPTY = 2,
+            EMPTY_TALL = 3,
+            NORMAL = 4,
+            MULTI = 5,
+            NUMBER = 6,
+            STUN = 7,
+            SWITCH = 8,
+            SWTICH_EMPTY = 9
         };
 
         public enum BlockDirection {

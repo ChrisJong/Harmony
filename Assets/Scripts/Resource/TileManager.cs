@@ -16,6 +16,7 @@
         public List<Material> standardUpTile;
         public List<Material> standardDownTile;
 
+        private bool _hasSkinChanged = false;
         private GlobalInfo.Skin _currentSkin = GlobalInfo.Skin.STANDARD;
 
         void Awake() {
@@ -23,6 +24,7 @@
         }
 
         public void ChangeSkin(GlobalInfo.Skin skin) {
+            this._hasSkinChanged = true;
             this._currentSkin = skin;
         }
 
@@ -43,6 +45,10 @@
 
         public GlobalInfo.Skin CurrentSkin {
             get { return this._currentSkin; }
+        }
+
+        public bool HasSkinChanged {
+            get { return this._hasSkinChanged; }
         }
 
         #endregion

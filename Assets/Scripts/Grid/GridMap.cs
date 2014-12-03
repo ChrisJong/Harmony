@@ -38,15 +38,17 @@
         /// the type of block to place down onto the grid. (Every block placed will be in the down position, even if it says UP).
         /// </summary>
         [HideInInspector]
-        public BlockInfo.BlockTypes blockToPlace;
+        public BlockInfo.BlockTypes blockToPlace = BlockInfo.BlockTypes.NONE;
         [HideInInspector]
-        public BlockInfo.BlockState blockState;
+        public BlockInfo.BlockState blockState = BlockInfo.BlockState.NONE;
         [HideInInspector]
-        public BlockInfo.BlockDirection blockOneDirection;
+        public BlockInfo.BlockDirection blockOneDirection = BlockInfo.BlockDirection.NONE;
         [HideInInspector]
-        public BlockInfo.BlockDirection blockTwoDirection;
+        public BlockInfo.BlockDirection blockTwoDirection = BlockInfo.BlockDirection.NONE;
         [HideInInspector]
         public int blockNumber;
+        [HideInInspector]
+        public int switchBlockCount;
 
         /// <summary>
         /// Used by the GridMap Editor Script to indicate a grid location.
@@ -64,6 +66,9 @@
 
         [HideInInspector]
         public GameObject wallOrigin;
+
+        [HideInInspector]
+        public List<GameObject> blockList;
 
         /// <summary>
         /// gets or sets the value of the block width.
@@ -104,6 +109,9 @@
 
         private void CreateBlockPlane() {
             foreach(Transform child in this.transform) {
+                if(child.tag == "Wall")
+                    continue;
+
                 GameObject bottomPlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
                 Destroy(bottomPlane.gameObject.GetComponent<MeshCollider>());
                 bottomPlane.GetComponent<MeshRenderer>().material = ResourceManager.instance.bottomPlane;
@@ -188,6 +196,19 @@
             Instantiate((GameObject)ResourceManager.instance.playerObject, humanSpawnPoint, Quaternion.identity);
             Instantiate((GameObject)ResourceManager.instance.aiObject, aiSpawnPoint, Quaternion.identity);
 #endif
+        }
+
+        private void ChangeTileToSkin() {
+            if(!TileManager.instance.HasSkinChanged)
+                return;
+
+            foreach(GameObject block in this.blockList) {
+                var temp = block.GetComponent<BlockClass>();
+                if(temp == null)
+                    continue;
+
+                temp.ChangeTileMaterial();
+            }
         }
 
 #if UNITY_EDITOR

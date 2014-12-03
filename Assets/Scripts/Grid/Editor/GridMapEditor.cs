@@ -36,6 +36,10 @@
         private Vector2 _tempHumanPoint = Vector2.zero;
         private Vector2 _tempAIPoint = Vector2.zero;
 
+        private bool _switchPointSet = false;
+        private int _switchBlockCount = 0;
+        private GameObject _switchParentNode;
+
         /// <summary>
         /// GUI Input.
         /// </summary>
@@ -53,7 +57,7 @@
             // calculates the location of the marker based on the location of the mouse.
             this.RecalculateMarkerPosition();
 
-            // gets a reference to the currentDirection event (used to keyboard presses and mouse presses, mainly input related for now).
+            // gets a reference to the currentDirection event (used for keyboard presses and mouse presses, mainly input related for now).
             Event currentEvent = Event.current;
 
             // if the mouse is positioned over the grid map allow drawing actions to occur.
@@ -92,6 +96,9 @@
                 } else {
                     GUI.Label(new Rect(10, Screen.height - 65, 300, 100), "LEFT MOUSE BUTTON: Select AI Spawn Point");
                 }
+            }else if(this._switchPointSet){
+                GUI.Label(new Rect(10, Screen.height - 80, 230, 100), "SWITCH BLOCK COUNT: " + this._switchBlockCount.ToString() + " / " + this._target.switchBlockCount.ToString());
+                GUI.Label(new Rect(10, Screen.height - 65, 200, 100), "LEFT MOUSE BUTTON: Place Switch Empty Block");
             } else {
                 GUI.Label(new Rect(10, Screen.height - 65, 200, 100), "LEFT MOUSE BUTTON: Place Block");
                 GUI.Label(new Rect(10, Screen.height - 80, 230, 100), "RIGHT MOUSE BUTTON: Remove Block");
@@ -107,9 +114,9 @@
             GUILayout.Space(20);
 
             if(GUILayout.Button("Place Blocks")) {
-                blockWindow = (GridMapEditorWindow)EditorWindow.GetWindow(typeof(GridMapEditorWindow));
-                blockWindow.Init();
-                blockWindow.Show();
+                this.blockWindow = (GridMapEditorWindow)EditorWindow.GetWindow(typeof(GridMapEditorWindow));
+                this.blockWindow.Init();
+                this.blockWindow.Show();
             }
 
             EditorGUILayout.BeginHorizontal();
@@ -157,6 +164,14 @@
         }
 
         /// <summary>
+        /// when the <see cref="GameObject"/> is not selected we close any window that it might have opened.
+        /// </summary>
+        private void OnDisable() {
+            if(this.blockWindow != null)
+                this.blockWindow.CloseWindow();
+        }
+
+        /// <summary>
         /// Draw a block at the pre-calculated mouse hit position.
         /// </summary>
         private void Draw() {
@@ -170,8 +185,22 @@
             // given the grid position check to see if a block has already been created at that location.
             var block = GameObject.Find(string.Format(_blockName, gridPosition.x, gridPosition.z));
 
+            if(map.blockToPlace == BlockInfo.BlockTypes.NONE)
+                return;
+
             // if there is already a block present at the location and is a child of the grid map component we can just leave it and exit this function.
             if(block != null && block.transform.parent == map.transform) {
+                var tempSwitch = block.GetComponent<SwitchBlock>();
+                if(tempSwitch != null) {
+                    tempSwitch.RemoveAllBlocks();
+                }
+
+                var tempSwitchBlock = block.GetComponent<SwitchEmptyBlock>();
+                if(tempSwitchBlock != null) {
+                    tempSwitchBlock.RemoveFromParent();
+                }
+
+                map.blockList.Remove(block);
                 UnityEngine.Object.DestroyImmediate(block);
                 block = null;
             }
@@ -182,31 +211,80 @@
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.NormalBlockName);
                     block.GetComponent<NormalBlock>().blockRenderer = block.GetComponent<MeshRenderer>() as MeshRenderer;
                     block.GetComponent<NormalBlock>().SetupBlock(map.blockToPlace, map.blockOneDirection, map.blockState);
+                    map.blockList.Add(block);
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.MULTI) {
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.MultiBlockName);
                     block.GetComponent<MultiBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
                     block.GetComponent<MultiBlock>().SetupBlock(map.blockToPlace, map.blockOneDirection, map.blockTwoDirection, map.blockState);
+                    map.blockList.Add(block);
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.NUMBER) {
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.NumberBlockName);
                     block.GetComponent<NumberBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
                     block.GetComponent<NumberBlock>().SetupBlock(map.blockToPlace,map.blockState, map.blockNumber);
+                    map.blockList.Add(block);
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.STUN) {
                     Debug.LogError("STUN BLOCK NOT IMPLEMENTED.");
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.SWITCH){
+                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.SwitchBlockName);
+                    block.GetComponent<SwitchBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
+                    block.GetComponent<SwitchBlock>().SetupBlock(map.blockToPlace, map.blockState);
+                    map.blockList.Add(block);
+                    this._switchParentNode = block;
+                    this._switchPointSet = true;
+                    this._switchBlockCount = 0;
+                    this._target.blockToPlace = BlockInfo.BlockTypes.SWTICH_EMPTY;
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.SWTICH_EMPTY) {
+                    this._switchBlockCount++;
+
+                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.SwitchEmptyBlockName);
+                    block.GetComponent<SwitchEmptyBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
+                    block.GetComponent<SwitchEmptyBlock>().SetupBlock(map.blockToPlace, map.blockState);
+                    block.GetComponent<SwitchEmptyBlock>().SetParentNode(this._switchParentNode);
+                    map.blockList.Add(block);
+                    this._switchParentNode.GetComponent<SwitchBlock>().AddEmptyBlock(block);
+
+                    if(this._switchBlockCount == map.switchBlockCount) {
+                        this._switchParentNode = null;
+                        this._switchPointSet = false;
+                        this._switchBlockCount = 0;
+                        map.blockToPlace = BlockInfo.BlockTypes.SWITCH;
+                        if(this.blockWindow != null)
+                            this.blockWindow.Focus();
+                    }
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.EMPTY) {
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.EmptyBlockName);
                     block.GetComponent<EmptyBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
                     block.GetComponent<EmptyBlock>().SetupBlock(map.blockToPlace, map.blockState);
+                    map.blockList.Add(block);
+                }else if(map.blockToPlace == BlockInfo.BlockTypes.EMPTY_TALL){
+                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.EmptyTallBlockName);
+                    block.GetComponent<EmptyBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
+                    block.GetComponent<EmptyBlock>().SetupBlock(map.blockToPlace);
+                    map.blockList.Add(block);
+                }else if(map.blockToPlace == BlockInfo.BlockTypes.INVISIBLE){
+                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.InvisibleBlock);
+                    map.blockList.Add(block);
                 } else {
                     Debug.LogError("NOTHING TO CREATE.");
                 }
             }
-                
+
+            Vector3 blockPositionInLocalSpace = new Vector3();
             // set the block position on the grid map.
-            var blockPositionInLocalSpace = new Vector3((gridPosition.x * map.BlockWidth) + (map.BlockWidth * 0.5f), 0, (gridPosition.z * map.BlockBreadth));
+            if(map.blockToPlace == BlockInfo.BlockTypes.EMPTY_TALL)
+                blockPositionInLocalSpace = new Vector3((gridPosition.x * map.BlockWidth) + (map.BlockWidth * 0.5f), 1.0f, (gridPosition.z * map.BlockBreadth));
+            else if(map.blockToPlace == BlockInfo.BlockTypes.INVISIBLE)
+                blockPositionInLocalSpace = new Vector3((gridPosition.x * map.BlockWidth) + (map.BlockWidth * 0.5f), 1.5f, (gridPosition.z * map.BlockBreadth));
+            else
+                blockPositionInLocalSpace = new Vector3((gridPosition.x * map.BlockWidth) + (map.BlockWidth * 0.5f), 0.0f, (gridPosition.z * map.BlockBreadth));
+
             block.transform.position = map.transform.position + blockPositionInLocalSpace;
 
             // we scale the block to the grid sizes defined by the BlockWidth and BlockHeight fields.
-            block.transform.localScale = new Vector3(map.BlockWidth, map.BlockHeight, map.BlockBreadth);
+            if(map.blockToPlace == BlockInfo.BlockTypes.EMPTY_TALL) // NEED TO GET RID OF LATER.
+                block.transform.localScale = new Vector3(map.BlockWidth, 3.0f, map.BlockBreadth); // NEED TO GET RID OF LATER.
+            else // NEED TO GET RID OF LATER.
+                block.transform.localScale = new Vector3(map.BlockWidth, map.BlockHeight, map.BlockBreadth);
 
             // we set the block as a child to the parent.
             block.transform.parent = map.transform;
@@ -248,8 +326,20 @@
             var block = GameObject.Find(string.Format(_blockName, gridPosition.x, gridPosition.z));
             
             // if a game object was found with the same name and it is a child of the map we just destroy it.
-            if(block != null && block.transform.parent == map.transform)
+            if(block != null && block.transform.parent == map.transform) {
+                var tempSwitch = block.GetComponent<SwitchBlock>();
+                if(tempSwitch != null) {
+                    tempSwitch.RemoveAllBlocks();
+                }
+
+                var tempSwitchBlock = block.GetComponent<SwitchEmptyBlock>();
+                if(tempSwitchBlock != null) {
+                    tempSwitchBlock.RemoveFromParent();
+                }
+
+                map.blockList.Remove(block);
                 UnityEngine.Object.DestroyImmediate(block);
+            }
         }
 
         /// <summary>

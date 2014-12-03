@@ -11,6 +11,7 @@
 
         public List<Material> arrowUpMaterials;
         public List<Material> arrowDownMaterials;
+
         private Material[] _blockMaterials;
 
         void Awake() {
@@ -55,7 +56,6 @@
 
             Material[] mats = this.blockRenderer.sharedMaterials;
 
-            mats[0] = this.tileDownMaterials[this.MaterialID];
             mats[1] = this.arrowDownMaterials[(int)direction - 1];
             this.blockRenderer.sharedMaterials = mats;
         }
@@ -67,13 +67,11 @@
 
             if(state == BlockInfo.BlockState.UP) {
                 this.isUp = true;
-                mats[0] = this.tileUpMaterials[this.MaterialID];
-                mats[1] = this.arrowUpMaterials[(int)direction - 1];
+                mats[1] = this.arrowUpMaterials[(int)direction - 1];    
                 this.blockRenderer.sharedMaterials = mats;
                 //this.blockRenderer.material = this.tileUpMaterials[(int)direction - 1];
 
             } else {
-                mats[0] = this.tileDownMaterials[this.MaterialID];
                 mats[1] = this.arrowDownMaterials[(int)direction - 1];
                 this.blockRenderer.sharedMaterials = mats;
                 //this.blockRenderer.material = this.tileDownMaterials[(int)direction - 1];

@@ -10,6 +10,7 @@
 
         public List<Material> arrowUpMaterials;
         public List<Material> arrowDownMaterials;
+
         private Material[] _blockMaterials;
 
         void Awake() {
@@ -52,7 +53,6 @@
             base.SetupBlock(type, firstDirection, secondDirection);
 
             Material[] mats = this.blockRenderer.sharedMaterials;
-            mats[0] = this.tileDownMaterials[this.MaterialID];
             mats[1] = this.arrowDownMaterials[(int)firstDirection - 1];
             mats[2] = this.arrowDownMaterials[(int)secondDirection - 1];
             this.blockRenderer.sharedMaterials = mats;
@@ -65,12 +65,10 @@
 
             if(state == BlockInfo.BlockState.UP){
                 this.isUp = true;
-                mats[0] = this.tileUpMaterials[this.MaterialID];
                 mats[1] = this.arrowUpMaterials[(int)firstDirection - 1];
                 mats[2] = this.arrowUpMaterials[(int)secondDirection - 1];
                 this.blockRenderer.sharedMaterials = mats;
             } else {
-                mats[0] = this.tileDownMaterials[this.MaterialID];
                 mats[1] = this.arrowDownMaterials[(int)firstDirection - 1];
                 mats[2] = this.arrowDownMaterials[(int)secondDirection - 1];
                 this.blockRenderer.sharedMaterials = mats;

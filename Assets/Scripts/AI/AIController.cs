@@ -136,15 +136,20 @@
                         //GameController.instance.LoadNextLevel();
                         GameController.instance.isStageFinished = true;
                     } else {
-                        if(isMoving)
-                            AIAudio.instance.PlayCollision();
-                        this._canUndo = true;
-                        this.isMoving = false;
-                        AIMovement.instance.VerticalVelocity = AIMovement.instance.MoveVector.y;
-                        AIMovement.instance.MoveVector = Vector3.zero;
+                        if(isMoving) {
+                            if(hitInfo.collider.tag == "Block")
+                                AIAudio.instance.PlayCollision();
+                        }
 
-                        this.GetCurrentBlock();
-                        AIMovement.instance.CenterPlayer(this._currentBlock.transform);
+                        if(hitInfo.collider.tag == "Block" || hitInfo.collider.tag == "Wall") {
+                            this._canUndo = true;
+                            this.isMoving = false;
+                            AIMovement.instance.VerticalVelocity = AIMovement.instance.MoveVector.y;
+                            AIMovement.instance.MoveVector = Vector3.zero;
+
+                            this.GetCurrentBlock();
+                            AIMovement.instance.CenterPlayer(this._currentBlock.transform);
+                        }
                     }
                 }
             }

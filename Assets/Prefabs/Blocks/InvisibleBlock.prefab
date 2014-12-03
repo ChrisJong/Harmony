@@ -8,10 +8,10 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
-  - 114: {fileID: 11400000}
+  - 65: {fileID: 6500000}
   m_Layer: 0
-  m_Name: GridMap
-  m_TagString: GridMap
+  m_Name: InvisibleBlock
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,31 +28,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11400000
-MonoBehaviour:
+--- !u!65 &6500000
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb89a52889f8f774cbb68d3022608b5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rows: 5
-  columns: 5
-  maxMoves: 1
-  blockToPlace: 0
-  blockState: 0
-  blockOneDirection: 0
-  blockTwoDirection: 0
-  blockNumber: 0
-  switchBlockCount: 0
-  markerPosition: {x: 0, y: 0, z: 0}
-  humanSpawnPoint: {x: 0, y: 0, z: 0}
-  aiSpawnPoint: {x: 0, y: 0, z: 0}
-  wallOrigin: {fileID: 0}
-  blockList: []
+  serializedVersion: 2
+  m_Size: {x: 1, y: 4, z: 1}
+  m_Center: {x: 0, y: 0, z: .5}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

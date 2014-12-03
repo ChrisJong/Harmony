@@ -6,6 +6,7 @@
     using UnityEngine;
 
     using GameInfo;
+    using Resource;
 
     [System.Serializable]
     public abstract class BlockClass : MonoBehaviour {
@@ -19,6 +20,7 @@
         public int secondDirectionValue;
         public bool isUp;
 
+        [SerializeField, HideInInspector]
         private int _materialID;
         [SerializeField, HideInInspector]
         private BlockInfo.BlockTypes _blockType;
@@ -42,7 +44,16 @@
 
         #region Setup / Init
         public virtual void ChangeTileMaterial() {
-            throw new System.NotImplementedException();
+            switch(TileManager.instance.CurrentSkin) {
+                case GlobalInfo.Skin.STANDARD:
+                    this.tileUpMaterials.Clear();
+                    this.tileUpMaterials = new List<Material>(TileManager.instance.standardUpTile);
+
+                    this.tileDownMaterials.Clear();
+                    this.tileDownMaterials = new List<Material>(TileManager.instance.standardDownTile);
+                    this.SetTileMaterial();
+                    break;
+            }
         }
 
         public virtual void SetupBlock() {
@@ -161,10 +172,14 @@
             else
                 this._materialID = 0;
 
+            Material[] mats = this.blockRenderer.sharedMaterials;
+
             if(this._blockState == BlockInfo.BlockState.UP)
-                this.blockRenderer.material = this.tileUpMaterials[this._materialID];
+                mats[0] = this.tileUpMaterials[this._materialID];
             else
-                this.blockRenderer.material = this.tileDownMaterials[this._materialID];
+                mats[0] = this.tileDownMaterials[this._materialID];
+
+            this.blockRenderer.sharedMaterials = mats;
         }
         #endregion
 

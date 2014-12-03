@@ -148,15 +148,20 @@
                         //Application.Quit();
                         GameController.instance.isStageFinished = true;
                     } else {
-                        if(isMoving)
-                            PlayerAudio.instance.PlayCollision();
-                        this._canUndo = true;
-                        this.isMoving = false;
-                        PlayerMovement.instance.VerticalVelocity = PlayerMovement.instance.MoveVector.y;
-                        PlayerMovement.instance.MoveVector = Vector3.zero;
+                        if(isMoving) {
+                            if(hitInfo.collider.tag == "Block")
+                                PlayerAudio.instance.PlayCollision();
+                        }
 
-                        this.GetCurrentBlock();
-                        PlayerMovement.instance.CenterPlayer(this._currentBlock.transform);
+                        if(hitInfo.collider.tag == "Block" || hitInfo.collider.tag == "Wall") {
+                            this._canUndo = true;
+                            this.isMoving = false;
+                            PlayerMovement.instance.VerticalVelocity = PlayerMovement.instance.MoveVector.y;
+                            PlayerMovement.instance.MoveVector = Vector3.zero;
+
+                            this.GetCurrentBlock();
+                            PlayerMovement.instance.CenterPlayer(this._currentBlock.transform);
+                        }
                     }
                 }
             }

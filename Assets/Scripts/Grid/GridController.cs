@@ -36,6 +36,7 @@
         private List<MultiBlock> _multiBlocks = new List<MultiBlock>();
         private List<NumberBlock> _numberBlocks = new List<NumberBlock>();
         private List<BlockClass> _stunBlocks = new List<BlockClass>();
+        private List<SwitchBlock> _switchBlocks = new List<SwitchBlock>();
         private List<EmptyBlock> _emptyBlocks = new List<EmptyBlock>();
 
         private List<BlockClass> _allBlocks = new List<BlockClass>();
@@ -80,10 +81,12 @@
             this._rightList.Clear();
             this._downList.Clear();
             this._leftList.Clear();
+
             this._normalBlocks.Clear();
             this._multiBlocks.Clear();
             this._numberBlocks.Clear();
             this._stunBlocks.Clear();
+            this._switchBlocks.Clear();
             this._emptyBlocks.Clear();
 
             this.FindBlocks();
@@ -416,6 +419,9 @@
         private void FindBlocks() {
             foreach(Transform child in this._gridMap.transform) {
                 var childType = child.GetComponent<BlockClass>();
+                if(childType == null)
+                    continue;
+
                 this._allBlocks.Add(childType);
                 switch(childType.BlockType) {
                     case BlockInfo.BlockTypes.NORMAL:
@@ -447,11 +453,20 @@
                         this._stunBlocks.Add(child.gameObject.GetComponent<BlockClass>());
                         break;
 
+                    case BlockInfo.BlockTypes.SWITCH:
+                        ((SwitchBlock)childType).Init();
+                        this._switchBlocks.Add(child.gameObject.GetComponent<SwitchBlock>());
+                        break;
+
                     case BlockInfo.BlockTypes.EMPTY:
                         if(childType.BlockState == BlockInfo.BlockState.UP)
                             childType.MoveUp();
                         else
                             childType.MoveDown();
+                        this._emptyBlocks.Add(child.gameObject.GetComponent<EmptyBlock>());
+                        break;
+
+                    case BlockInfo.BlockTypes.EMPTY_TALL:
                         this._emptyBlocks.Add(child.gameObject.GetComponent<EmptyBlock>());
                         break;
                 }

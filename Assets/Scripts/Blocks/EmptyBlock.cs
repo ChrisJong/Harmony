@@ -22,14 +22,10 @@
 
         public override void SetupBlock(BlockInfo.BlockTypes type) {
             base.SetupBlock(type);
-
-            Debug.Log(this.MaterialID);
         }
 
         public override void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockState state) {
             base.SetupBlock(type, state);
-
-            Debug.Log(this.MaterialID);
         }
     }
 }
