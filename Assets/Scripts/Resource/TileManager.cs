@@ -35,12 +35,12 @@
             if(type.ToLower().Equals("down")) {
                 if(this._currentSkin == GlobalInfo.Skin.STANDARD)
                     return this.standardDownTile[id];
-                else if(this._currentSkin == GlobalInfo.Skin.BALLON)
+                else if(this._currentSkin == GlobalInfo.Skin.BALLOON)
                     return this.ballonDownTile[id];
             } else if(type.ToLower().Equals("up")) {
                 if(this._currentSkin == GlobalInfo.Skin.STANDARD)
                     return this.standardUpTile[id];
-                else if(this._currentSkin == GlobalInfo.Skin.BALLON)
+                else if(this._currentSkin == GlobalInfo.Skin.BALLOON)
                     return this.ballonUpTile[id];
             }
             return null;
@@ -50,12 +50,12 @@
             if(type.ToLower().Equals("down")) {
                 if(this._currentSkin == GlobalInfo.Skin.STANDARD)
                     return this.standardDownTile;
-                else if(this._currentSkin == GlobalInfo.Skin.BALLON)
+                else if(this._currentSkin == GlobalInfo.Skin.BALLOON)
                     return this.ballonDownTile;
             } else if(type.ToLower().Equals("up")) {
                 if(this._currentSkin == GlobalInfo.Skin.STANDARD)
                     return this.standardUpTile;
-                else if(this._currentSkin == GlobalInfo.Skin.BALLON)
+                else if(this._currentSkin == GlobalInfo.Skin.BALLOON)
                     return this.ballonUpTile;
             }
             return null;
@@ -67,7 +67,7 @@
             if(this._currentSkin == GlobalInfo.Skin.STANDARD) {
                 if(this.standardDownTile.Count == this.standardUpTile.Count)
                     temp = Random.Range(0, this.standardUpTile.Count);
-            } else if(this._currentSkin == GlobalInfo.Skin.BALLON) {
+            } else if(this._currentSkin == GlobalInfo.Skin.BALLOON) {
                 if(this.ballonDownTile.Count == this.ballonUpTile.Count)
                     temp = Random.Range(0, this.ballonDownTile.Count);
             }
