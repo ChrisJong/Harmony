@@ -76,11 +76,11 @@
             if(GUILayout.Button("STUN")) {
                 this.ResetValues();
                 this._target.blockToPlace = BlockInfo.BlockTypes.STUN;
-                this._target.blockState = BlockInfo.BlockState.DOWN;
             }
 
-            if(GUILayout.Button("N/A")) {
+            if(GUILayout.Button("WARP")) {
                 this.ResetValues();
+                this._target.blockToPlace = BlockInfo.BlockTypes.WARP;
             }
             EditorGUILayout.EndHorizontal();
 
@@ -315,7 +315,7 @@
                     this._target.blockNumber = EditorGUILayout.IntSlider(this._target.blockNumber, 1, 10);
                     EditorGUILayout.EndHorizontal();
 
-                    /*EditorGUILayout.Separator();
+                    EditorGUILayout.Separator();
 
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Block State:" + this._target.blockState);
@@ -326,8 +326,38 @@
                         this._target.blockState = BlockInfo.BlockState.UP;
                     if(GUILayout.Button("DOWN"))
                         this._target.blockState = BlockInfo.BlockState.DOWN;
-                    EditorGUILayout.EndHorizontal();*/
+                    EditorGUILayout.EndHorizontal();
 
+                    break;
+
+                case BlockInfo.BlockTypes.WARP:
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Warp Direction:" + this._target.blockOneDirection);
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
+                    if(GUILayout.Button("UP"))
+                        this._target.blockOneDirection = BlockInfo.BlockDirection.UP;
+                    if(GUILayout.Button("RIGHT"))
+                        this._target.blockOneDirection = BlockInfo.BlockDirection.RIGHT;
+                    if(GUILayout.Button("DOWN"))
+                        this._target.blockOneDirection = BlockInfo.BlockDirection.DOWN;
+                    if(GUILayout.Button("LEFT"))
+                        this._target.blockOneDirection = BlockInfo.BlockDirection.LEFT;
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.Separator();
+
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Block State:" + this._target.blockState);
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
+                    if(GUILayout.Button("UP"))
+                        this._target.blockState = BlockInfo.BlockState.UP;
+                    if(GUILayout.Button("DOWN"))
+                        this._target.blockState = BlockInfo.BlockState.DOWN;
+                    EditorGUILayout.EndHorizontal();
                     break;
 
                 default:

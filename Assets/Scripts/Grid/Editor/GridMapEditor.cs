@@ -192,7 +192,7 @@
             if(block != null && block.transform.parent == map.transform) {
                 var tempSwitch = block.GetComponent<SwitchBlock>();
                 if(tempSwitch != null) {
-                    tempSwitch.RemoveAllBlocks();
+                    tempSwitch.RemoveAllBlocks(ref map.blockList);
                 }
 
                 var tempSwitchBlock = block.GetComponent<SwitchEmptyBlock>();
@@ -259,14 +259,16 @@
                     block.GetComponent<EmptyBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
                     block.GetComponent<EmptyBlock>().SetupBlock(map.blockToPlace, map.blockState);
                     map.blockList.Add(block);
-                }else if(map.blockToPlace == BlockInfo.BlockTypes.EMPTY_TALL){
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.EMPTY_TALL){
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.EmptyTallBlockName);
                     block.GetComponent<EmptyBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
                     block.GetComponent<EmptyBlock>().SetupBlock(map.blockToPlace);
                     map.blockList.Add(block);
-                }else if(map.blockToPlace == BlockInfo.BlockTypes.INVISIBLE){
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.INVISIBLE){
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.InvisibleBlock);
                     map.blockList.Add(block);
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.WARP) {
+
                 } else {
                     Debug.LogError("NOTHING TO CREATE.");
                 }
@@ -332,7 +334,7 @@
             if(block != null && block.transform.parent == map.transform) {
                 var tempSwitch = block.GetComponent<SwitchBlock>();
                 if(tempSwitch != null) {
-                    tempSwitch.RemoveAllBlocks();
+                    tempSwitch.RemoveAllBlocks(ref map.blockList);
                 }
 
                 var tempSwitchBlock = block.GetComponent<SwitchEmptyBlock>();

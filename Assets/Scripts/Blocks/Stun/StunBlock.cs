@@ -19,12 +19,22 @@
             this._blockMaterials = this.blockRenderer.materials;
         }
 
+        public void Init() {
+            if(this.BlockState == BlockInfo.BlockState.UP) {
+                this.isUp = true;
+                this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
+                this.BlockState = BlockInfo.BlockState.NONE;
+            } else {
+                this.isUp = false;
+                this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
+                this.BlockState = BlockInfo.BlockState.NONE;
+            }
+        }
+
         public override void MoveUp() {
-            //throw new System.NotImplementedException();
         }
 
         public override void MoveDown() {
-            //throw new System.NotImplementedException();
         }
 
         public override void SetupBlock(BlockInfo.BlockTypes type, int initCounter) {

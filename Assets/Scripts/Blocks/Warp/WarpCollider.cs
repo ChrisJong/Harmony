@@ -1,24 +1,24 @@
 ﻿namespace Blocks {
 
     using System.Collections;
+    using System.Collections.Generic;
 
     using UnityEngine;
 
-    using AI;
-    using Player;
     using GameInfo;
 
-    public class StunCollider : MonoBehaviour {
+    public class WarpCollider : MonoBehaviour {
 
-        public StunBlock parentNode;
+        public List<Material> warpUpMaterials;
+        public List<Material> warpDownMaterials;
+
+        public WarpBlock parentNode;
 
         void OnTriggerEnter(Collider obj) {
             if(obj.tag == "Player") {
-                Debug.Log(obj.tag);
-                obj.GetComponent<PlayerController>().isStunned = true;
+
             } else if(obj.tag == "AI") {
-                Debug.Log(obj.tag);
-                obj.GetComponent<AIController>().isStunned = true;
+
             }
         }
 
@@ -26,7 +26,7 @@
             if(this.parentNode != null)
                 return;
 
-            var temp = this.transform.parent.gameObject.GetComponent<StunBlock>() as StunBlock;
+            var temp = this.transform.parent.gameObject.GetComponent<WarpBlock>() as WarpBlock;
             if(temp == null)
                 return;
 

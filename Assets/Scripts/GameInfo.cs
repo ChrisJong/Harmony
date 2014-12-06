@@ -100,6 +100,7 @@ namespace GameInfo {
         public const string NumberBlockName = "NumberBlock";
         public const string StunBlockName = "StunBlock";
         public const string SwitchBlockName = "SwitchBlock";
+        public const string WarpBlockName = "WarpBlock";
         public const string SwitchEmptyBlockName = "SwitchEmptyBlock";
         public const string LevelNumberBlockName = "LevelNumberBlock";
 
@@ -139,7 +140,8 @@ namespace GameInfo {
             NUMBER = 6,
             STUN = 7,
             SWITCH = 8,
-            SWTICH_EMPTY = 9
+            SWTICH_EMPTY = 9,
+            WARP = 10
         };
 
         public enum BlockDirection {

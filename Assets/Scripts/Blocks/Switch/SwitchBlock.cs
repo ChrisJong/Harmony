@@ -8,6 +8,7 @@
 #endif
     using UnityEngine;
 
+    using Grid;
     using GameInfo;
 
     [System.Serializable]
@@ -86,9 +87,10 @@
                 UnityEngine.Object.DestroyImmediate(this.gameObject);
         }
 
-        public void RemoveAllBlocks() {
+        public void RemoveAllBlocks(ref List<GameObject> blockList) {
             for(int i = this._blockCount - 1; i >= 0; i--) {
                 this.emptyBlocks[i].GetComponent<SwitchEmptyBlock>().RemoveParentNode();
+                blockList.Remove(this.emptyBlocks[i]);
                 UnityEngine.Object.DestroyImmediate(this.emptyBlocks[i]);
             }
 
