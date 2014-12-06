@@ -242,6 +242,8 @@
                     this._switchPointSet = true;
                     this._switchBlockCount = 0;
                     this._target.blockToPlace = BlockInfo.BlockTypes.SWTICH_EMPTY;
+                    if(this.blockWindow != null)
+                        this.blockWindow.Focus();
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.SWTICH_EMPTY) {
                     this._switchBlockCount++;
 
@@ -280,6 +282,8 @@
                     map.blockList.Add(block);
                     this._warpParentNode = block;
                     map.blockToPlace = BlockInfo.BlockTypes.WARP_NODE;
+                    if(this.blockWindow != null)
+                        this.blockWindow.Focus();
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.WARP_NODE){
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.WarpBlockName);
                     block.GetComponent<WarpBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
