@@ -54,6 +54,9 @@ public class GameController : MonoBehaviour {
     }
 
     public void UnlockNextLevel() {
+        if(MazeInfo.MazeMoveValue == null)
+            return;
+
         if(MazeInfo.NextMaze != "MainMenu") {
             if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount >= 0) {
                 if(MazeInfo.MazeMoveValue[MazeInfo.CurrentMazeNumber - 1].moveCount == 0) {

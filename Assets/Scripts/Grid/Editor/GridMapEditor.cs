@@ -220,10 +220,13 @@
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.NUMBER) {
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.NumberBlockName);
                     block.GetComponent<NumberBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
-                    block.GetComponent<NumberBlock>().SetupBlock(map.blockToPlace,map.blockState, map.blockNumber);
+                    block.GetComponent<NumberBlock>().SetupBlock(map.blockToPlace, map.blockState, map.blockNumber);
                     map.blockList.Add(block);
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.STUN) {
-                    Debug.LogError("STUN BLOCK NOT IMPLEMENTED.");
+                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.StunBlockName);
+                    block.GetComponent<StunBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
+                    block.GetComponent<StunBlock>().SetupBlock(map.blockToPlace, map.blockState, map.blockNumber);
+                    map.blockList.Add(block);
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.SWITCH){
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.SwitchBlockName);
                     block.GetComponent<SwitchBlock>().blockRenderer = block.GetComponent<MeshRenderer>();

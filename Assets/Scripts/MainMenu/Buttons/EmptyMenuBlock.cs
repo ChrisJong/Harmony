@@ -36,5 +36,15 @@
             this._blockMaterial = this.tileDownMaterial;
             this._renderer.material = this._blockMaterial;
         }
+
+        public void OnInputEnter() {
+            this._blockMaterial = this.tileUpMaterial;
+            this._renderer.material = this._blockMaterial;
+        }
+
+        public void OnInputExit() {
+            this._blockMaterial = this.tileDownMaterial;
+            this._renderer.material = this._blockMaterial;
+        }
     }
 }

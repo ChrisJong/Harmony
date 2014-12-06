@@ -65,7 +65,7 @@
                 return;
 
 
-            if(this.indicationTexture.isPlaying)
+            if(this.indicationTexture.isPlaying || this.isStunned)
                 this.indication.SetActive(false);
 
             this._canUndo = false;
@@ -154,7 +154,9 @@
                         }
 
                         if(hitInfo.collider.tag == "Block" || hitInfo.collider.tag == "Wall") {
-                            this._canUndo = true;
+                            if(!this.isStunned)
+                                this._canUndo = true;
+
                             this.isMoving = false;
                             PlayerMovement.instance.VerticalVelocity = PlayerMovement.instance.MoveVector.y;
                             PlayerMovement.instance.MoveVector = Vector3.zero;

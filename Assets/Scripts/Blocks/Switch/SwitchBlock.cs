@@ -22,7 +22,7 @@
         [SerializeField]
         public List<SwitchEmptyBlock> emptySwitchScripts;
 
-        public int _blockCount;
+        private int _blockCount;
         //private bool _isFlipped;
         //private bool _isReversed;
         //private BlockInfo.BlockState _previousState;
@@ -30,7 +30,7 @@
 
         void Awake() {
             this._blockMaterials = this.blockRenderer.materials;
-            Debug.Log(this.emptyBlocks.Count);
+
             for(int i = 0; i < this._blockCount; i++) {
                 this.emptySwitchScripts.Add(this.emptyBlocks[i].GetComponent<SwitchEmptyBlock>() as SwitchEmptyBlock);
             }

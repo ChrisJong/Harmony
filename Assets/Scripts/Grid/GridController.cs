@@ -44,6 +44,7 @@
         private int _moveCount = 0;
         private int _maxMoves = 0;
         private float _endTimer = 0.0f;
+        private float _stunTimer = 0.0f;
 
         private Vector3 _explosionPosition = Vector3.zero;
         private float _explosionRadius = 0.0f;
@@ -145,15 +146,28 @@
             if(PlayerController.instance.isMoving || AIController.instance.isMoving)
                 return;
 
-            /*if(this._moveCount >= (this._maxMoves * 3)) {
-                PlayerController.instance.isMoving = false;
-                AIController.instance.isMoving = false;
-                PlayerController.instance.isDeath = true;
+            if(PlayerController.instance.isStunned || AIController.instance.isStunned){
+                this._stunTimer += Time.deltaTime;
 
-                PlayerController.instance.charactorAnimator.SetBool("IsDeath", PlayerController.instance.isDeath);
-                AIController.instance.charactorAnimator.SetBool("IsDeath", PlayerController.instance.isDeath);
-                GameController.instance.isStageFinished = true;
-            }*/
+                if(this._stunTimer > 4.0f) {
+                    PlayerController.instance.isStunned = false;
+                    AIController.instance.isStunned = false;
+                    this._moveCount++;
+                    this._stunTimer = 0.0f;
+                }
+            }
+
+            if(MazeInfo.MazeMoveValue != null) {
+                if(this._moveCount >= (this._maxMoves * 3)) {
+                    PlayerController.instance.isMoving = false;
+                    AIController.instance.isMoving = false;
+                    PlayerController.instance.isDeath = true;
+
+                    PlayerController.instance.charactorAnimator.SetBool("IsDeath", PlayerController.instance.isDeath);
+                    AIController.instance.charactorAnimator.SetBool("IsDeath", PlayerController.instance.isDeath);
+                    GameController.instance.isStageFinished = true;
+                }
+            }
 
 #if UNITY_IPHONE || UNITY_ANDROID
             if(!this._swipeController.GetInput())
@@ -162,42 +176,75 @@
             if(Input.GetKeyDown(KeyCode.UpArrow)) {
                 this.directionPrevious = this.directionCurrent;
                 this.directionCurrent = PlayerInfo.MovementDirection.FORWARD;
-                PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
-                AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                if(!PlayerController.instance.isStunned) {
+                    PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                    if(!AIController.instance.isStunned)
+                        AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                }
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                this._moveCount++;
-                if(this._moveCount >= this._maxMoves * 2) {
-                    this.warningColor.a = (this._moveCount / this._maxMoves);
+
+                if(!PlayerController.instance.isStunned)
+                    this._moveCount++;
+
+                if(MazeInfo.MazeMoveValue != null) {
+                    if(this._moveCount >= this._maxMoves * 2) {
+                        this.warningColor.a = (this._moveCount / this._maxMoves);
+                    }
                 }
             } else if(Input.GetKeyDown(KeyCode.RightArrow)) {
                 this.directionPrevious = this.directionCurrent;
                 this.directionCurrent = PlayerInfo.MovementDirection.RIGHT;
-                PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
-                AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                if(!PlayerController.instance.isStunned) {
+                    PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                    if(!AIController.instance.isStunned)
+                        AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                }
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                this._moveCount++;
-                if(this._moveCount >= this._maxMoves * 2) {
-                    this.warningColor.a = (this._moveCount / this._maxMoves);
+
+                if(!PlayerController.instance.isStunned)
+                    this._moveCount++;
+
+                if(MazeInfo.MazeMoveValue != null) {
+                    if(this._moveCount >= this._maxMoves * 2) {
+                        this.warningColor.a = (this._moveCount / this._maxMoves);
+                    }
                 }
             } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
                 this.directionPrevious = this.directionCurrent;
                 this.directionCurrent = PlayerInfo.MovementDirection.BACKWARD;
-                PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
-                AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                if(!PlayerController.instance.isStunned) {
+                    PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                    if(!AIController.instance.isStunned)
+                        AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                }
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                this._moveCount++;
-                if(this._moveCount >= this._maxMoves * 2) {
-                    this.warningColor.a = (this._moveCount / this._maxMoves);
+
+                if(!PlayerController.instance.isStunned)
+                    this._moveCount++;
+
+                if(MazeInfo.MazeMoveValue != null) {
+                    if(this._moveCount >= this._maxMoves * 2) {
+                        this.warningColor.a = (this._moveCount / this._maxMoves);
+                    }
                 }
             } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
                 this.directionPrevious = this.directionCurrent;
                 this.directionCurrent = PlayerInfo.MovementDirection.LEFT;
-                PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
-                AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+
+                if(!PlayerController.instance.isStunned) {
+                    PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                    if(!AIController.instance.isStunned)
+                        AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                }
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                this._moveCount++;
-                if(this._moveCount >= this._maxMoves * 2) {
-                    this.warningColor.a = (this._moveCount / this._maxMoves);
+
+                if(!PlayerController.instance.isStunned)
+                    this._moveCount++;
+
+                if(MazeInfo.MazeMoveValue != null) {
+                    if(this._moveCount >= this._maxMoves * 2) {
+                        this.warningColor.a = (this._moveCount / this._maxMoves);
+                    }
                 }
             } else {
                 GridController.instance.blocksReady = false;
@@ -213,12 +260,18 @@
                 GameMenuController.instance.undoButton.SetActive(false);
 
             if(MazeInfo.MazeMoveValue == null) {
-                GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString();
-            } else {
-                if(MazeInfo.MazeMoveValue.ContainsKey(MazeInfo.CurrentMazeNumber - 1))
-                    GameMenuController.instance.moveText.text = "Level: " + MazeInfo.CurrentMazeNumber.ToString() + " of " + MazeInfo.MaxMazeLength.ToString() + '\n' + "Moves: " + this._moveCount.ToString() + " / " + (this._maxMoves * 3).ToString();
+                if(PlayerController.instance.isStunned)
+                    GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString() + " (Player Stunned)";
                 else
                     GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString();
+            } else {
+                if(MazeInfo.MazeMoveValue.ContainsKey(MazeInfo.CurrentMazeNumber - 1)) {
+                    if(PlayerController.instance.isStunned)
+                        GameMenuController.instance.moveText.text = "Level: " + MazeInfo.CurrentMazeNumber.ToString() + " of " + MazeInfo.MaxMazeLength.ToString() + '\n' + "Moves: " + this._moveCount.ToString() + " / " + (this._maxMoves * 3).ToString() + " (Player Stunned)";
+                    else
+                        GameMenuController.instance.moveText.text = "Level: " + MazeInfo.CurrentMazeNumber.ToString() + " of " + MazeInfo.MaxMazeLength.ToString() + '\n' + "Moves: " + this._moveCount.ToString() + " / " + (this._maxMoves * 3).ToString();
+                } else
+                    GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString() + " (Player Stunned)";
             }
         }
 

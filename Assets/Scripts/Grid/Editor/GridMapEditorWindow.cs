@@ -73,8 +73,10 @@
                 this._target.blockToPlace = BlockInfo.BlockTypes.SWITCH;
             }
 
-            if(GUILayout.Button("N/A")) {
+            if(GUILayout.Button("STUN")) {
                 this.ResetValues();
+                this._target.blockToPlace = BlockInfo.BlockTypes.STUN;
+                this._target.blockState = BlockInfo.BlockState.DOWN;
             }
 
             if(GUILayout.Button("N/A")) {
@@ -302,6 +304,30 @@
 
                 case BlockInfo.BlockTypes.SWTICH_EMPTY:
                     EditorGUILayout.LabelField("PLEASE PLACE EMPTY SWITCH BLOCKS.");
+                    break;
+
+                case BlockInfo.BlockTypes.STUN:
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Countdown Number:" + this._target.blockNumber);
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
+                    this._target.blockNumber = EditorGUILayout.IntSlider(this._target.blockNumber, 1, 10);
+                    EditorGUILayout.EndHorizontal();
+
+                    /*EditorGUILayout.Separator();
+
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Block State:" + this._target.blockState);
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
+                    if(GUILayout.Button("UP"))
+                        this._target.blockState = BlockInfo.BlockState.UP;
+                    if(GUILayout.Button("DOWN"))
+                        this._target.blockState = BlockInfo.BlockState.DOWN;
+                    EditorGUILayout.EndHorizontal();*/
+
                     break;
 
                 default:

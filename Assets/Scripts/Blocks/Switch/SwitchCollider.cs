@@ -8,27 +8,27 @@
 
     public class SwitchCollider : MonoBehaviour {
 
-        public SwitchBlock _parentNode;
+        public SwitchBlock parentNode;
 
         void OnTriggerEnter(Collider obj) {
             if(obj.tag == "Player" || obj.tag == "AI") {
-                if(this._parentNode.isUp) {
-                    this._parentNode.BlockState = BlockInfo.BlockState.DOWN;
+                if(this.parentNode.isUp) {
+                    this.parentNode.BlockState = BlockInfo.BlockState.DOWN;
                 } else {
-                    this._parentNode.BlockState = BlockInfo.BlockState.UP;
+                    this.parentNode.BlockState = BlockInfo.BlockState.UP;
                 }
             }
         }
 
         void Awake() {
-            if(this._parentNode != null)
+            if(this.parentNode != null)
                 return;
 
             var temp = this.transform.parent.gameObject.GetComponent<SwitchBlock>() as SwitchBlock;
             if(temp == null)
                 return;
 
-            this._parentNode = temp;
+            this.parentNode = temp;
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿namespace MainMenu {
 
     using System.Collections;
+    using System.Collections.Generic;
+
     using UnityEngine;
 
     using Input;
@@ -23,11 +25,13 @@
         private int _materialID;
         private MeshRenderer _renderer;
         private Material[] _blockMaterials;
+        private List<EmptyMenuBlock> _emptyBlockContainer;
 
         void Awake() {
             this._renderer = this.transform.GetComponent<MeshRenderer>() as MeshRenderer;
             this._blockMaterials = this._renderer.materials;
 
+            this._emptyBlockContainer = new List<EmptyMenuBlock>(this.gameObject.GetComponentsInChildren<EmptyMenuBlock>());
         }
 
         void Start() {
@@ -49,6 +53,10 @@
             this._blockMaterials[0] = this.tileEnter;
             this._blockMaterials[1] = this.iconEnter;
             this._renderer.materials = this._blockMaterials;
+            if(this._emptyBlockContainer.Count > 0) {
+                for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                    this._emptyBlockContainer[i].OnInputEnter();
+            }
         }
 
         public void OnTouchEnded() {
@@ -57,6 +65,11 @@
                 this._blockMaterials[0] = this.tileExit;
                 this._blockMaterials[1] = this.iconExit;
                 this._renderer.materials = this._blockMaterials;
+                if(this._emptyBlockContainer.Count > 0) {
+                    for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                        this._emptyBlockContainer[i].OnInputExit();
+                }
+
                 MainMenuController.instance.currentMenuScene = buttonType;
                 break;
 
@@ -64,6 +77,11 @@
                 this._blockMaterials[0] = this.tileExit;
                 this._blockMaterials[1] = this.iconExit;
                 this._renderer.materials = this._blockMaterials;
+                if(this._emptyBlockContainer.Count > 0) {
+                    for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                        this._emptyBlockContainer[i].OnInputExit();
+                }
+                
                 MainMenuController.instance.currentMenuScene = buttonType;
                 break;
 
@@ -71,6 +89,11 @@
                 this._blockMaterials[0] = this.tileExit;
                 this._blockMaterials[1] = this.iconExit;
                 this._renderer.materials = this._blockMaterials;
+                if(this._emptyBlockContainer.Count > 0) {
+                    for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                        this._emptyBlockContainer[i].OnInputExit();
+                }
+                
                 MainMenuController.instance.currentMenuScene = buttonType;
                 break;
 
@@ -78,6 +101,11 @@
                 this._blockMaterials[0] = this.tileExit;
                 this._blockMaterials[1] = this.iconExit;
                 this._renderer.materials = this._blockMaterials;
+                if(this._emptyBlockContainer.Count > 0) {
+                    for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                        this._emptyBlockContainer[i].OnInputExit();
+                }
+
                 MainMenuController.instance.currentMenuScene = buttonType;
                 break;
 
@@ -123,54 +151,92 @@
             this._blockMaterials[0] = this.tileExit;
             this._blockMaterials[1] = this.iconExit;
             this._renderer.materials = this._blockMaterials;
+            if(this._emptyBlockContainer.Count > 0) {
+                for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                    this._emptyBlockContainer[i].OnInputExit();
+            }
         }
 
         public void OnTouchStayed() {
             this._blockMaterials[0] = this.tileEnter;
             this._blockMaterials[1] = this.iconEnter;
             this._renderer.materials = this._blockMaterials;
+            if(this._emptyBlockContainer.Count > 0) {
+                for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                    this._emptyBlockContainer[i].OnInputExit();
+            }
         }
 
         public void OnTouchCanceled() {
             this._blockMaterials[0] = this.tileExit;
             this._blockMaterials[1] = this.iconExit;
             this._renderer.materials = this._blockMaterials;
+            if(this._emptyBlockContainer.Count > 0) {
+                for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                    this._emptyBlockContainer[i].OnInputExit();
+            }
         }
 
         public void OnTouchEndedGlobal() {
             this._blockMaterials[0] = this.tileExit;
             this._blockMaterials[1] = this.iconExit;
             this._renderer.materials = this._blockMaterials;
+            if(this._emptyBlockContainer.Count > 0) {
+                for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                    this._emptyBlockContainer[i].OnInputExit();
+            }
         }
 
         public void OnTouchMovedGlobal() {
             this._blockMaterials[0] = this.tileExit;
             this._blockMaterials[1] = this.iconExit;
             this._renderer.materials = this._blockMaterials;
+            if(this._emptyBlockContainer.Count > 0) {
+                for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                    this._emptyBlockContainer[i].OnInputExit();
+            }
         }
 
         public void OnTouchStayedGlobal() {
-            this._blockMaterials[0] = this.tileExit;
+            this._blockMaterials[0] = this.tileEnter;
             this._blockMaterials[1] = this.iconEnter;
             this._renderer.materials = this._blockMaterials;
+            if(this._emptyBlockContainer.Count > 0) {
+                for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                    this._emptyBlockContainer[i].OnInputEnter();
+            }
         }
 
         public void OnTouchCanceledGlobal() {
             this._blockMaterials[0] = this.tileExit;
             this._blockMaterials[1] = this.iconExit;
             this._renderer.materials = this._blockMaterials;
+            if(this._emptyBlockContainer.Count > 0) {
+                for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                    this._emptyBlockContainer[i].OnInputExit();
+            }
         }
 #else
         private void OnMouseEnter() {
             this._blockMaterials[0] = this.tileEnter;
             this._blockMaterials[1] = this.iconEnter;
             this._renderer.materials = this._blockMaterials;
+
+            if(this._emptyBlockContainer.Count > 0) {
+                for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                    this._emptyBlockContainer[i].OnInputEnter();
+            }
         }
 
         private void OnMouseExit() {
             this._blockMaterials[0] = this.tileExit;
             this._blockMaterials[1] = this.iconExit;
             this._renderer.materials = this._blockMaterials;
+
+            if(this._emptyBlockContainer.Count > 0) {
+                for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                    this._emptyBlockContainer[i].OnInputExit();
+            }
         }
 
         private void OnMouseUp() {
@@ -179,6 +245,11 @@
                     this._blockMaterials[0] = this.tileExit;
                     this._blockMaterials[1] = this.iconExit;
                     this._renderer.materials = this._blockMaterials;
+                    if(this._emptyBlockContainer.Count > 0) {
+                        for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                            this._emptyBlockContainer[i].OnInputExit();
+                    }
+
                     MainMenuController.instance.currentMenuScene = buttonType;
                     break;
 
@@ -186,6 +257,11 @@
                     this._blockMaterials[0] = this.tileExit;
                     this._blockMaterials[1] = this.iconExit;
                     this._renderer.materials = this._blockMaterials;
+                    if(this._emptyBlockContainer.Count > 0) {
+                        for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                            this._emptyBlockContainer[i].OnInputExit();
+                    }
+
                     MainMenuController.instance.currentMenuScene = buttonType;
                     break;
 
@@ -193,6 +269,11 @@
                     this._blockMaterials[0] = this.tileExit;
                     this._blockMaterials[1] = this.iconExit;
                     this._renderer.materials = this._blockMaterials;
+                    if(this._emptyBlockContainer.Count > 0) {
+                        for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                            this._emptyBlockContainer[i].OnInputExit();
+                    }
+
                     MainMenuController.instance.currentMenuScene = buttonType;
                     break;
 
@@ -200,6 +281,11 @@
                     this._blockMaterials[0] = this.tileExit;
                     this._blockMaterials[1] = this.iconExit;
                     this._renderer.materials = this._blockMaterials;
+                    if(this._emptyBlockContainer.Count > 0) {
+                        for(int i = 0; i < this._emptyBlockContainer.Count; i++)
+                            this._emptyBlockContainer[i].OnInputExit();
+                    }
+
                     MainMenuController.instance.currentMenuScene = buttonType;
                     break;
 
