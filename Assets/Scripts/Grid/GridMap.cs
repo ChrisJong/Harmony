@@ -105,9 +105,16 @@
             this.CreateBlockPlane();
             //GeneratePlayers();
             GridController.FindOrCreate();
+
+            if(TileManager.instance.CurrentSkin != GlobalInfo.Skin.STANDARD) {
+                this.gameObject.BroadcastMessage("ChangeTileMaterial");
+            }
         }
 
         private void CreateBlockPlane() {
+            if(TileManager.instance.CurrentSkin != GlobalInfo.Skin.STANDARD)
+                return;
+
             foreach(Transform child in this.transform) {
                 if(child.tag == "Wall")
                     continue;

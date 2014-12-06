@@ -44,16 +44,13 @@
 
         #region Setup / Init
         public virtual void ChangeTileMaterial() {
-            switch(TileManager.instance.CurrentSkin) {
-                case GlobalInfo.Skin.STANDARD:
-                    this.tileUpMaterials.Clear();
-                    this.tileUpMaterials = new List<Material>(TileManager.instance.standardUpTile);
+            this.tileDownMaterials.Clear();
+            this.tileUpMaterials.Clear();
 
-                    this.tileDownMaterials.Clear();
-                    this.tileDownMaterials = new List<Material>(TileManager.instance.standardDownTile);
-                    this.SetTileMaterial();
-                    break;
-            }
+            this.tileDownMaterials = new List<Material>(TileManager.instance.GetCurrentSkin("down"));
+            this.tileUpMaterials = new List<Material>(TileManager.instance.GetCurrentSkin("up"));
+
+            this.SetTileMaterial();
         }
 
         public virtual void SetupBlock() {

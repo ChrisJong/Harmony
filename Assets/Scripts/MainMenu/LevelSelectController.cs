@@ -1,6 +1,7 @@
 ﻿namespace MainMenu {
 
     using System.Collections;
+    using System.Collections.Generic;
 
     using UnityEngine;
 
@@ -25,6 +26,7 @@
         private int _totalBlocks = 48;
         private int _blocksPerPage = 24;
         private int _count = 0;
+        private List<GameObject> _levelBlocks;
 
         void Awake() {
             instance = this;
@@ -34,7 +36,11 @@
             this._blocksPerPage = (this._row * this._col) / 2;
             this.totalPages = this._totalBlocks / this._blocksPerPage;
             this.currentPage = 0;
-            SetupLevelBlocks();
+            this._levelBlocks = new List<GameObject>();
+        }
+
+        void Start() {
+            this.SetupLevelBlocks();
         }
 
         void LateUpdate() {
@@ -45,14 +51,20 @@
             }
 
             if(this.currentPage <= 0) {
-                this.previousButton.SetActive(false);
-                this.nextButton.SetActive(true);
+                this.previousButton.GetComponent<MeshRenderer>().enabled = false;
+                this.previousButton.GetComponent<BoxCollider>().enabled = false;
+                this.nextButton.GetComponent<MeshRenderer>().enabled = true;
+                this.nextButton.GetComponent<BoxCollider>().enabled = true;
             } else if(this.currentPage >= (totalPages - 1)) {
-                this.previousButton.SetActive(true);
-                this.nextButton.SetActive(false);
+                this.previousButton.GetComponent<MeshRenderer>().enabled = true;
+                this.previousButton.GetComponent<BoxCollider>().enabled = true;
+                this.nextButton.GetComponent<MeshRenderer>().enabled = false;
+                this.nextButton.GetComponent<BoxCollider>().enabled = false;
             } else {
-                this.previousButton.SetActive(true);
-                this.nextButton.SetActive(true);
+                this.previousButton.GetComponent<MeshRenderer>().enabled = true;
+                this.previousButton.GetComponent<BoxCollider>().enabled = true;
+                this.nextButton.GetComponent<MeshRenderer>().enabled = true;
+                this.nextButton.GetComponent<BoxCollider>().enabled = true;
             }
         }
 
@@ -63,17 +75,19 @@
                 for(int r = 0; r < this._row; r++) {
                     for(int c = 0; c < this._col; c++) {
 #if UNITY_EDITOR
-                        block = (GameObject)Instantiate(AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabMainMenu, AssetPaths.LevelNumberBlockName));
+                        block = (GameObject)Instantiate(AssetProcessor.FindAsset<GameObject>(AssetPaths.PathPrefabMainMenu + "Blocks/", AssetPaths.LevelNumberBlockName));
 #else
                         block = (GameObject)Instantiate(ResourceManager.instance.levelNumberBlock);
 #endif
-                        block.GetComponent<LevelBlockButton>().SetId(this._count + 1);
+                        block.GetComponent<LevelBlockButton>().SetID(this._count + 1);
                         if(i >= 1)
                             block.transform.position = new Vector3(thisObject.transform.position.x + (this.distanceBetweenPage * i) + c * 1, thisObject.gameObject.transform.position.y - r, thisObject.transform.position.z);
                         else
                             block.transform.position = new Vector3(thisObject.transform.position.x + c * 1, thisObject.gameObject.transform.position.y - r, thisObject.transform.position.z);
-
+                        
                         block.transform.parent = thisObject.transform;
+                        this._levelBlocks.Add(block);
+
                         this._count++;
 
                         if(this._count >= MazeInfo.MaxMazeLength)

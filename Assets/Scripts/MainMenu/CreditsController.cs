@@ -7,6 +7,10 @@
 
 	public class CreditsController : MonoBehaviour {
 
+        public static CreditsController instance;
+
+        public GameObject emptyBlockContainer;
+
 		public GameObject teamLogo;
 		public GameObject credRole;
 		public GameObject credName;
@@ -28,6 +32,10 @@
 		private Color teamLogoColor;
 		private float timer;
 
+        void Awake() {
+            instance = this;
+        }
+
 		void Start(){
 			rolePos = credRole.transform.position;
 			namePos = credName.transform.position;
@@ -37,7 +45,19 @@
 			teamLogoColor = teamLogo.renderer.material.color;
 		}
 
-		void logoShow(){
+        void Update() {
+            if(MainMenuController.instance.currentMenuScene == MainMenuInfo.MenuTypes.CREDITS) {
+                timer += Time.deltaTime;
+                logoShow();
+                if(timer >= 5) {
+                    rollCredits();
+                }
+            } else {
+                restartCredits();
+            }
+        }
+
+		private void logoShow(){
 			if ((timer > 0.25f) && timer < 2.75f) {
 				teamLogoColor.a += 0.01f;
 				teamLogo.renderer.material.color = teamLogoColor;
@@ -49,7 +69,7 @@
 
 		}
 
-		void rollCredits (){
+        private void rollCredits() {
 			rolePos = (rolePos + (new Vector3 (0, 0.01f, 0)));
 			namePos = (namePos + (new Vector3 (0, 0.01f, 0)));
 			credRole.transform.position = rolePos;
@@ -77,7 +97,7 @@
 			}
 		}
 
-		void restartCredits(){
+        private void restartCredits() {
 			cycle = 0;
 			roleTextMesh.text = roleText [cycle];
 			nameTextMesh.text = nameText [cycle];
@@ -90,18 +110,6 @@
 			credName.renderer.material.color = credColor;
 			teamLogoColor.a = 0.0f;
 			timer = 0;
-		}
-		
-		void Update () {
-			if (MainMenuController.instance.currentMenuScene == MainMenuInfo.MenuTypes.CREDITS) {
-				timer += Time.deltaTime;
-				logoShow ();
-				if(timer >= 5){
-					rollCredits();
-				}
-			} else {
-				restartCredits();
-			}
 		}
 	}
 }

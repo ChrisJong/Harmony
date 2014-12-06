@@ -30,7 +30,8 @@ namespace GameInfo {
 
         public enum Skin {
             NONE = 0,
-            STANDARD = 1
+            STANDARD = 1,
+            BALLON = 2
         }
 
         public static int ScreenWidth = Screen.width;

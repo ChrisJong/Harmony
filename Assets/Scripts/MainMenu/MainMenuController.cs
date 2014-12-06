@@ -24,6 +24,9 @@
 
         public MainMenuInfo.MenuTypes currentMenuScene;
 
+        private GlobalInfo.Skin _previousSkin = GlobalInfo.Skin.NONE;
+        public GlobalInfo.Skin _currentSkin = GlobalInfo.Skin.NONE;
+
         void Awake() {
 #if UNITY_IPHONE || UNITY_ANDROID
             Screen.sleepTimeout = (int)SleepTimeout.NeverSleep;
@@ -41,7 +44,14 @@
             MazeDataHelper.SaveGameData();
         }
 
+        void Start() {
+            this._currentSkin = TileManager.instance.CurrentSkin;
+            this._previousSkin = this._currentSkin;
+        }
+
         void Update() {
+            ChangeSkin();
+
             if(this.isActive) {
                 switch(currentMenuScene) {
                     case MainMenuInfo.MenuTypes.NEWGAME:
@@ -59,8 +69,21 @@
                         }
                         break;
                 }
-
             }
+        }
+
+        public void ChangeSkin() {
+            // Switch Mechanic later for switching skins, need icons.
+
+            if(this._currentSkin == this._previousSkin)
+                return;
+
+            TileManager.instance.ChangeSkin(this._currentSkin);
+            this.mainMenu.BroadcastMessage("SetupSkin");
+            this.levelSelect.BroadcastMessage("SetupSkin");
+            this.instructions.BroadcastMessage("SetupSkin");
+            this.credits.BroadcastMessage("SetupSkin");
+            this._previousSkin = this._currentSkin;
         }
     }
 }
