@@ -173,6 +173,10 @@
         public bool CanUndo {
             get { return this._canUndo; }
         }
+
+        public PlayerInfo.MovementDirection CurrentDirection {
+            get { return this._currentDirection; }
+        }
         #endregion
     }
 }

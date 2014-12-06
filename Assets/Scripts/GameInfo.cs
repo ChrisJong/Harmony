@@ -141,7 +141,8 @@ namespace GameInfo {
             STUN = 7,
             SWITCH = 8,
             SWTICH_EMPTY = 9,
-            WARP = 10
+            WARP = 10,
+            WARP_NODE = 11
         };
 
         public enum BlockDirection {

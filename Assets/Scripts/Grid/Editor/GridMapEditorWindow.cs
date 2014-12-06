@@ -360,6 +360,42 @@
                     EditorGUILayout.EndHorizontal();
                     break;
 
+                case BlockInfo.BlockTypes.WARP_NODE:
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("PLACE A WARP NODE: ");
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.Separator();
+
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Warp Direction:" + this._target.blockOneDirection);
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
+                    if(GUILayout.Button("UP"))
+                        this._target.blockOneDirection = BlockInfo.BlockDirection.UP;
+                    if(GUILayout.Button("RIGHT"))
+                        this._target.blockOneDirection = BlockInfo.BlockDirection.RIGHT;
+                    if(GUILayout.Button("DOWN"))
+                        this._target.blockOneDirection = BlockInfo.BlockDirection.DOWN;
+                    if(GUILayout.Button("LEFT"))
+                        this._target.blockOneDirection = BlockInfo.BlockDirection.LEFT;
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.Separator();
+
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Block State:" + this._target.blockState);
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
+                    if(GUILayout.Button("UP"))
+                        this._target.blockState = BlockInfo.BlockState.UP;
+                    if(GUILayout.Button("DOWN"))
+                        this._target.blockState = BlockInfo.BlockState.DOWN;
+                    EditorGUILayout.EndHorizontal();
+                    break;
+
                 default:
                     EditorGUILayout.LabelField("Please Select A Block Type.");
                     break;

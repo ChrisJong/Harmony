@@ -5,20 +5,37 @@
 
     using UnityEngine;
 
+    using Grid;
+    using AI;
+    using Player;
     using GameInfo;
 
     public class WarpCollider : MonoBehaviour {
 
-        public List<Material> warpUpMaterials;
-        public List<Material> warpDownMaterials;
-
         public WarpBlock parentNode;
+        public GameObject warpNode;
+
+        public BoxCollider warpNodeCollider;
 
         void OnTriggerEnter(Collider obj) {
             if(obj.tag == "Player") {
-
+                if(PlayerController.instance.CurrentDirection == parentNode.WarpDirection) {
+                    this.warpNodeCollider.enabled = false;
+                    if(this.warpNode.GetComponent<WarpBlock>().isUp) {
+                        obj.transform.position = new Vector3(this.warpNode.transform.position.x, this.warpNode.transform.position.y + this.transform.position.y + 2.5f, this.warpNode.transform.position.z + 0.5f);
+                    } else {
+                        obj.transform.position = new Vector3(this.warpNode.transform.position.x, this.warpNode.transform.position.y + this.transform.position.y + 1.0f, this.warpNode.transform.position.z + 0.5f);
+                    }
+                }
             } else if(obj.tag == "AI") {
-
+                if(AIController.instance.CurrentDirection == parentNode.WarpDirection) {
+                    this.warpNodeCollider.enabled = false;
+                    if(this.warpNode.GetComponent<WarpBlock>().isUp) {
+                        obj.transform.position = new Vector3(this.warpNode.transform.position.x, this.warpNode.transform.position.y + this.transform.position.y + 2.5f, this.warpNode.transform.position.z + 0.5f);
+                    } else {
+                        obj.transform.position = new Vector3(this.warpNode.transform.position.x, this.warpNode.transform.position.y + this.transform.position.y + 1.0f, this.warpNode.transform.position.z + 0.5f);
+                    }
+                }
             }
         }
 
@@ -31,6 +48,8 @@
                 return;
 
             this.parentNode = temp;
+            this.warpNode = parentNode.warpNode;
+            this.warpNodeCollider = this.warpNode.transform.GetChild(0).GetComponent<BoxCollider>();
         }
     }
 }

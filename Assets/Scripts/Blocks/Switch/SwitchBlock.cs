@@ -53,7 +53,7 @@
                 this.BlockState = BlockInfo.BlockState.NONE;
 
                 this._blockMaterials[0] = this.tileUpMaterials[this.MaterialID];
-                this._blockMaterials[1] = this.switchUpMaterial;
+                this._blockMaterials[1] = this.switchDownMaterial;
                 this.blockRenderer.materials = this._blockMaterials;
             } else {
                 this.isUp = false;
@@ -127,8 +127,6 @@
             base.SetupBlock(type);
 
             Material[] mats = this.blockRenderer.sharedMaterials;
-            
-            //this._isReversed = false;
 
             mats[1] = this.switchDownMaterial;
             this.blockRenderer.materials = mats;
@@ -140,13 +138,9 @@
             Material[] mats = this.blockRenderer.sharedMaterials;
 
             if(state == BlockInfo.BlockState.UP) {
-                //this._isReversed = true;
-
-                mats[1] = this.switchUpMaterial;
+                mats[1] = this.switchDownMaterial;
                 this.blockRenderer.materials = mats;
             } else {
-                //this._isReversed = false;
-
                 mats[1] = this.switchDownMaterial;
                 this.blockRenderer.materials = mats;
             }

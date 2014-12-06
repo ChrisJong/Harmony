@@ -39,6 +39,7 @@
         private bool _switchPointSet = false;
         private int _switchBlockCount = 0;
         private GameObject _switchParentNode;
+        private GameObject _warpParentNode;
 
         /// <summary>
         /// GUI Input.
@@ -200,6 +201,11 @@
                     tempSwitchBlock.RemoveFromParent();
                 }
 
+                var tempWarpBlock = block.GetComponent<WarpBlock>();
+                if(tempWarpBlock != null) {
+                    tempWarpBlock.RemoveWarpNode(ref map.blockList);
+                }
+
                 map.blockList.Remove(block);
                 UnityEngine.Object.DestroyImmediate(block);
                 block = null;
@@ -268,7 +274,24 @@
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.InvisibleBlock);
                     map.blockList.Add(block);
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.WARP) {
+                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.WarpBlockName);
+                    block.GetComponent<WarpBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
+                    block.GetComponent<WarpBlock>().SetupBlock(map.blockToPlace, map.blockOneDirection, map.blockState);
+                    map.blockList.Add(block);
+                    this._warpParentNode = block;
+                    map.blockToPlace = BlockInfo.BlockTypes.WARP_NODE;
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.WARP_NODE){
+                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.WarpBlockName);
+                    block.GetComponent<WarpBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
+                    block.GetComponent<WarpBlock>().SetupBlock(BlockInfo.BlockTypes.WARP, map.blockOneDirection, map.blockState);
+                    block.GetComponent<WarpBlock>().AddWarpNode(this._warpParentNode);
+                    this._warpParentNode.GetComponent<WarpBlock>().AddWarpNode(block);
+                    map.blockList.Add(block);
 
+                    this._warpParentNode = null;
+                    map.blockToPlace = BlockInfo.BlockTypes.WARP;
+                    if(this.blockWindow != null)
+                        this.blockWindow.Focus();
                 } else {
                     Debug.LogError("NOTHING TO CREATE.");
                 }
@@ -340,6 +363,11 @@
                 var tempSwitchBlock = block.GetComponent<SwitchEmptyBlock>();
                 if(tempSwitchBlock != null) {
                     tempSwitchBlock.RemoveFromParent();
+                }
+
+                var tempWarpBlock = block.GetComponent<WarpBlock>();
+                if(tempWarpBlock != null) {
+                    tempWarpBlock.RemoveWarpNode(ref map.blockList);
                 }
 
                 map.blockList.Remove(block);

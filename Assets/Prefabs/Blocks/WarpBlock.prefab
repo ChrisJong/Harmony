@@ -14,7 +14,7 @@ GameObject:
   - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: WarpBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,7 +148,18 @@ MonoBehaviour:
   _blockDirections: 
   _firstDirection: 0
   _secondDirection: 0
+  warpUpMaterials:
+  - {fileID: 2100000, guid: a9360b4cbcad6a94797630ace192f79d, type: 2}
+  - {fileID: 2100000, guid: 1dcbbd41fb60c3645b5ad31b722046a5, type: 2}
+  - {fileID: 2100000, guid: 43b3be25168e9ef408fa75a64dfa22a8, type: 2}
+  - {fileID: 2100000, guid: 21216ff72eff66c418eb80b64034d5b2, type: 2}
+  warpDownMaterials:
+  - {fileID: 2100000, guid: 239791baf016cca43a8449492fbc88a7, type: 2}
+  - {fileID: 2100000, guid: fe6d8a1b6c5c7654395a59c91108fb96, type: 2}
+  - {fileID: 2100000, guid: a1878884e555d6343845ecfacaa2039b, type: 2}
+  - {fileID: 2100000, guid: 367e56693b7ffad4c93bd37bcbf45921, type: 2}
   warpNode: {fileID: 0}
+  warpDirection: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -160,9 +171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff70d1e6759af4849b6851d0bd928e13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warpUpMaterials: []
-  warpDownMaterials: []
   parentNode: {fileID: 0}
+  warpNode: {fileID: 0}
+  warpNodeCollider: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

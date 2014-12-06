@@ -35,8 +35,9 @@
         private List<NormalBlock> _normalBlocks = new List<NormalBlock>();
         private List<MultiBlock> _multiBlocks = new List<MultiBlock>();
         private List<NumberBlock> _numberBlocks = new List<NumberBlock>();
-        private List<BlockClass> _stunBlocks = new List<BlockClass>();
+        private List<StunBlock> _stunBlocks = new List<StunBlock>();
         private List<SwitchBlock> _switchBlocks = new List<SwitchBlock>();
+        private List<WarpBlock> _warpBlocks = new List<WarpBlock>();
         private List<EmptyBlock> _emptyBlocks = new List<EmptyBlock>();
 
         private List<BlockClass> _allBlocks = new List<BlockClass>();
@@ -499,16 +500,18 @@
                         break;
 
                     case BlockInfo.BlockTypes.STUN:
-                        if(childType.BlockState == BlockInfo.BlockState.UP)
-                            childType.MoveUp();
-                        else
-                            childType.MoveDown();
-                        this._stunBlocks.Add(child.gameObject.GetComponent<BlockClass>());
+                        ((StunBlock)childType).Init();
+                        this._stunBlocks.Add(child.gameObject.GetComponent<StunBlock>());
                         break;
 
                     case BlockInfo.BlockTypes.SWITCH:
                         ((SwitchBlock)childType).Init();
                         this._switchBlocks.Add(child.gameObject.GetComponent<SwitchBlock>());
+                        break;
+
+                    case BlockInfo.BlockTypes.WARP:
+                        ((WarpBlock)childType).Init();
+                        this._warpBlocks.Add(child.gameObject.GetComponent<WarpBlock>());
                         break;
 
                     case BlockInfo.BlockTypes.EMPTY:
