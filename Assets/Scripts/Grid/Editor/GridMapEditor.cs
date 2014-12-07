@@ -249,7 +249,7 @@
 
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.SwitchEmptyBlockName);
                     block.GetComponent<SwitchEmptyBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
-                    block.GetComponent<SwitchEmptyBlock>().SetupBlock(map.blockToPlace, map.blockState);
+                    block.GetComponent<SwitchEmptyBlock>().SetupBlock(map.blockToPlace, BlockInfo.BlockState.DOWN);
                     block.GetComponent<SwitchEmptyBlock>().SetParentNode(this._switchParentNode);
                     map.blockList.Add(block);
                     this._switchParentNode.GetComponent<SwitchBlock>().AddEmptyBlock(block);

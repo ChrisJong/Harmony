@@ -21,14 +21,16 @@
         [SerializeField]
         public PlayerInfo.MovementDirection warpDirection;
 
+        [HideInInspector]
+        public Material[] blockMaterials;
+
         private float _timer = 0.0f;
         private float _maxTimer = 1.0f;
         private BoxCollider _warpCollider;
-        private Material[] _blockMaterials;
 
         void Awake() {
-            this._blockMaterials = this.blockRenderer.materials;
-            this._warpCollider = this.transform.GetChild(0).GetComponent<BoxCollider>();
+            this.blockMaterials = this.blockRenderer.materials;
+            this._warpCollider = this.warpNode.transform.GetChild(0).GetComponent<BoxCollider>();
         }
 
         void Update() {
@@ -61,6 +63,9 @@
         }
 
         public void EnableCollider() {
+            this.blockMaterials[1] = this.warpDownMaterials[this.firstDirectionValue - 1];
+            this.blockRenderer.materials = this.blockMaterials;
+
             if(!this._warpCollider.enabled)
                 this._warpCollider.enabled = true;
         }

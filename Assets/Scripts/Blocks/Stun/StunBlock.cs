@@ -13,10 +13,10 @@
 
         public int stunCounter;
 
-        private Material[] _blockMaterials;
+        //private Material[] _blockMaterials;
 
         void Awake() {
-            this._blockMaterials = this.blockRenderer.materials;
+            //this._blockMaterials = this.blockRenderer.materials;
         }
 
         public void Init() {

@@ -14,8 +14,12 @@
             if(obj.tag == "Player" || obj.tag == "AI") {
                 if(this.parentNode.isUp) {
                     this.parentNode.BlockState = BlockInfo.BlockState.DOWN;
+                    this.parentNode.PreviousState = BlockInfo.BlockState.UP;
+                    this.parentNode.IsFlipped = true;
                 } else {
                     this.parentNode.BlockState = BlockInfo.BlockState.UP;
+                    this.parentNode.PreviousState = BlockInfo.BlockState.DOWN;
+                    this.parentNode.IsFlipped = true;
                 }
             }
         }

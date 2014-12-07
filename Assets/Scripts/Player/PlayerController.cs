@@ -43,7 +43,7 @@
 
             this.CheckCurrentBlock();
 
-            if(!this.isMoving && !this.isDeath) {
+            if(!this.isMoving && !this.isDeath && !this.isStunned) {
                 if(!this.indicationTexture.isPlaying)
                     this.indication.SetActive(true);
             }

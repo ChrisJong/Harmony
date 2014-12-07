@@ -21,6 +21,8 @@
             if(obj.tag == "Player") {
                 if(PlayerController.instance.CurrentDirection == parentNode.WarpDirection) {
                     this.warpNodeCollider.enabled = false;
+                    this.parentNode.blockMaterials[1] = this.parentNode.warpUpMaterials[this.parentNode.firstDirectionValue - 1];
+                    this.parentNode.blockRenderer.materials = this.parentNode.blockMaterials;
                     if(this.warpNode.GetComponent<WarpBlock>().isUp) {
                         obj.transform.position = new Vector3(this.warpNode.transform.position.x, this.warpNode.transform.position.y + this.transform.position.y + 2.5f, this.warpNode.transform.position.z + 0.5f);
                     } else {
@@ -30,6 +32,8 @@
             } else if(obj.tag == "AI") {
                 if(AIController.instance.CurrentDirection == parentNode.WarpDirection) {
                     this.warpNodeCollider.enabled = false;
+                    this.parentNode.blockMaterials[1] = this.parentNode.warpUpMaterials[this.parentNode.firstDirectionValue - 1];
+                    this.parentNode.blockRenderer.materials = this.parentNode.blockMaterials;
                     if(this.warpNode.GetComponent<WarpBlock>().isUp) {
                         obj.transform.position = new Vector3(this.warpNode.transform.position.x, this.warpNode.transform.position.y + this.transform.position.y + 2.5f, this.warpNode.transform.position.z + 0.5f);
                     } else {

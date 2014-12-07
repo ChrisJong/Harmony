@@ -49,23 +49,37 @@
                         if(swipeValue > 0.0f) {
                             GridController.instance.directionPrevious = GridController.instance.directionCurrent;
                             GridController.instance.directionCurrent = PlayerInfo.MovementDirection.FORWARD;
-                            PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                            AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                            if(!PlayerController.instance.isStunned) {
+                                PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                                if(!AIController.instance.isStunned)
+                                    AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                                GridController.instance.ResetUndoStates();
+                            }
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                            GridController.instance.MoveCount += 1;
-                            if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
-                                GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
+                            if(!PlayerController.instance.isStunned)
+                                GridController.instance.MoveCount += 1;
+                            if(MazeInfo.MazeMoveValue != null) {
+                                if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
+                                    GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
+                                }
                             }
                             return true;
                         } else if(swipeValue < 0.0f) {
                             GridController.instance.directionPrevious = GridController.instance.directionCurrent;
                             GridController.instance.directionCurrent = PlayerInfo.MovementDirection.BACKWARD;
-                            PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                            AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                            if(!PlayerController.instance.isStunned) {
+                                PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                                if(!AIController.instance.isStunned)
+                                    AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                                GridController.instance.ResetUndoStates();
+                            }
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                            GridController.instance.MoveCount += 1;
-                            if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
-                                GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
+                            if(!PlayerController.instance.isStunned)
+                                GridController.instance.MoveCount += 1;
+                            if(MazeInfo.MazeMoveValue != null) {
+                                if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
+                                    GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
+                                }
                             }
                             return true;
                         }
@@ -79,23 +93,37 @@
                         if(swipeValue > 0.0f) {
                             GridController.instance.directionPrevious = GridController.instance.directionCurrent;
                             GridController.instance.directionCurrent = PlayerInfo.MovementDirection.RIGHT;
-                            PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                            AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                            if(!PlayerController.instance.isStunned) {
+                                PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                                if(!AIController.instance.isStunned)
+                                    AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                                GridController.instance.ResetUndoStates();
+                            }
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                            GridController.instance.MoveCount += 1;
-                            if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
-                                GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
+                            if(!PlayerController.instance.isStunned)
+                                GridController.instance.MoveCount += 1;
+                            if(MazeInfo.MazeMoveValue != null) {
+                                if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
+                                    GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
+                                }
                             }
                             return true;
                         } else if(swipeValue < 0.0f) {
                             GridController.instance.directionPrevious = GridController.instance.directionCurrent;
                             GridController.instance.directionCurrent = PlayerInfo.MovementDirection.LEFT;
-                            PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                            AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                            if(!PlayerController.instance.isStunned) {
+                                PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                                if(!AIController.instance.isStunned)
+                                    AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                                GridController.instance.ResetUndoStates();
+                            }
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                            GridController.instance.MoveCount += 1;
-                            if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
-                                GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
+                            if(!PlayerController.instance.isStunned)
+                                GridController.instance.MoveCount += 1;
+                            if(MazeInfo.MazeMoveValue != null) {
+                                if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
+                                    GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
+                                }
                             }
                             return true;
                         }

@@ -181,6 +181,7 @@
                     PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                     if(!AIController.instance.isStunned)
                         AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                    this.ResetUndoStates();
                 }
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
 
@@ -199,6 +200,7 @@
                     PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                     if(!AIController.instance.isStunned)
                         AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                    this.ResetUndoStates();
                 }
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
 
@@ -217,6 +219,7 @@
                     PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                     if(!AIController.instance.isStunned)
                         AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                    this.ResetUndoStates();
                 }
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
 
@@ -236,6 +239,7 @@
                     PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                     if(!AIController.instance.isStunned)
                         AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
+                    this.ResetUndoStates();
                 }
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
 
@@ -354,6 +358,18 @@
             this.blocksReady = true;
         }
 
+        public void ResetUndoStates() {
+            int i = 0;
+            int count = 0;
+
+            if(this._switchBlocks.Count > 0) {
+                count = this._switchBlocks.Count;
+                for(i = 0; i < count; i++) {
+                    this._switchBlocks[i].ResetUndoState();
+                }
+            }
+        }
+
         public void UndoBlocks(PlayerInfo.MovementDirection currentDirection, PlayerInfo.MovementDirection previousDirection) {
             int i = 0;
             int count = 0;
@@ -409,6 +425,16 @@
                             this._multiBlocks[i].BlockState = BlockInfo.BlockState.UP;
                     } else if(previous == BlockInfo.BlockDirection.NONE) {
                         Debug.Log("First Move");
+                    }
+                }
+            }
+
+            if(this._switchBlocks.Count > 0) {
+                count = this._switchBlocks.Count;
+                for(i = 0; i < count; i++) {
+                    if(this._switchBlocks[i].IsFlipped) {
+                        this._switchBlocks[i].BlockState = this._switchBlocks[i].PreviousState;
+                        this._switchBlocks[i].IsFlipped = false;
                     }
                 }
             }

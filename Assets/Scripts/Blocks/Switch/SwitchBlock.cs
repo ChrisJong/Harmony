@@ -23,17 +23,19 @@
         [SerializeField]
         public List<SwitchEmptyBlock> emptySwitchScripts;
 
-        private int _blockCount;
-        //private bool _isFlipped;
+        [SerializeField]
+        private int _blockCount = 0;
+        private bool _isFlipped;
         //private bool _isReversed;
-        //private BlockInfo.BlockState _previousState;
+        private BlockInfo.BlockState _previousState;
         private Material[] _blockMaterials;
 
         void Awake() {
             this._blockMaterials = this.blockRenderer.materials;
+            this.emptySwitchScripts = new List<SwitchEmptyBlock>();
 
             for(int i = 0; i < this._blockCount; i++) {
-                this.emptySwitchScripts.Add(this.emptyBlocks[i].GetComponent<SwitchEmptyBlock>() as SwitchEmptyBlock);
+                this.emptySwitchScripts.Add(this.emptyBlocks[i].GetComponent<SwitchEmptyBlock>());
             }
         }
 
@@ -45,6 +47,11 @@
                 this.MoveUp();
             else
                 this.MoveDown();
+        }
+
+        public void ResetUndoState() {
+            this._isFlipped = false;
+            this._previousState = BlockInfo.BlockState.NONE;
         }
 
         public void Init() {
@@ -151,17 +158,19 @@
             get { return this._blockCount; }
         }
 
-        /*public bool IsFlipped {
+        public bool IsFlipped {
             get { return this._isFlipped; }
-        }*/
+            set { this._isFlipped = value; }
+        }
 
         /*public bool IsReversed {
             get { return this._isReversed; }
         }*/
 
-        /*public BlockInfo.BlockState PreviousState {
+        public BlockInfo.BlockState PreviousState {
             get { return this._previousState; }
-        }*/
+            set { this._previousState = value; }
+        }
         #endregion
     }
 }

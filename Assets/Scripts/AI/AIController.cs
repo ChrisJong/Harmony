@@ -65,19 +65,19 @@
             AIMovement.instance.UndoPosition = this.transform.position;
 
             if(current == PlayerInfo.MovementDirection.FORWARD) {
-                this._currentDirection = current;
+                this._currentDirection = PlayerInfo.MovementDirection.BACKWARD;
                 AIMovement.instance.RotateToMovement(180.0f);
                 AIMovement.instance.MoveVector = new Vector3(0, 0, -1);
             } else if(current == PlayerInfo.MovementDirection.RIGHT) {
-                this._currentDirection = current;
+                this._currentDirection = PlayerInfo.MovementDirection.LEFT;
                 AIMovement.instance.RotateToMovement(270.0f);
                 AIMovement.instance.MoveVector = new Vector3(-1, 0, 0);
             } else if(current == PlayerInfo.MovementDirection.BACKWARD) {
-                this._currentDirection = current;
+                this._currentDirection = PlayerInfo.MovementDirection.FORWARD;
                 AIMovement.instance.RotateToMovement(0.0f);
                 AIMovement.instance.MoveVector = new Vector3(0, 0, 1);
             } else if(current == PlayerInfo.MovementDirection.LEFT) {
-                this._currentDirection = current;
+                this._currentDirection = PlayerInfo.MovementDirection.RIGHT;
                 AIMovement.instance.RotateToMovement(90.0f);
                 AIMovement.instance.MoveVector = new Vector3(1, 0, 0);
             }
@@ -113,16 +113,16 @@
 
             switch(this._currentDirection) {
                 case PlayerInfo.MovementDirection.FORWARD:
-                rayDirection += this.transform.TransformDirection(Vector3.back);
-                break;
-                case PlayerInfo.MovementDirection.RIGHT:
-                rayDirection += this.transform.TransformDirection(Vector3.left);
-                break;
-                case PlayerInfo.MovementDirection.BACKWARD:
                 rayDirection += this.transform.TransformDirection(Vector3.forward);
                 break;
-                case PlayerInfo.MovementDirection.LEFT:
+                case PlayerInfo.MovementDirection.RIGHT:
                 rayDirection += this.transform.TransformDirection(Vector3.right);
+                break;
+                case PlayerInfo.MovementDirection.BACKWARD:
+                rayDirection += this.transform.TransformDirection(Vector3.back);
+                break;
+                case PlayerInfo.MovementDirection.LEFT:
+                rayDirection += this.transform.TransformDirection(Vector3.left);
                 break;
             }
 
