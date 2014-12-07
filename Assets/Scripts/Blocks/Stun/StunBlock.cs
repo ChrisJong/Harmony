@@ -10,13 +10,28 @@
 
         public Material stunUpMaterial;
         public Material stunDownMaterial;
+        public Material[] blockMaterials;
 
         public int stunCounter;
+        public bool isEnabled = false;
 
-        //private Material[] _blockMaterials;
+        private float _timer = 0.0f;
+        private float _maxTimer = 1.0f;
 
         void Awake() {
-            //this._blockMaterials = this.blockRenderer.materials;
+            this.blockMaterials = this.blockRenderer.materials;
+        }
+
+        void Update() {
+            if(this.isEnabled) {
+                this._timer += Time.deltaTime;
+                if(this._timer >= this._maxTimer) {
+                    this.isEnabled = false;
+                    this._timer = 0.0f;
+                    this.blockMaterials[1] = this.stunDownMaterial;
+                    this.blockRenderer.materials = this.blockMaterials;
+                }
+            }
         }
 
         public void Init() {

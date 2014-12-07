@@ -14,11 +14,15 @@
 
         void OnTriggerEnter(Collider obj) {
             if(obj.tag == "Player") {
-                Debug.Log(obj.tag);
                 obj.GetComponent<PlayerController>().isStunned = true;
+                this.parentNode.isEnabled = true;
+                this.parentNode.blockMaterials[1] = this.parentNode.stunUpMaterial;
+                this.parentNode.blockRenderer.materials = this.parentNode.blockMaterials;
             } else if(obj.tag == "AI") {
-                Debug.Log(obj.tag);
                 obj.GetComponent<AIController>().isStunned = true;
+                this.parentNode.isEnabled = true;
+                this.parentNode.blockMaterials[1] = this.parentNode.stunUpMaterial;
+                this.parentNode.blockRenderer.materials = this.parentNode.blockMaterials;
             }
         }
 
