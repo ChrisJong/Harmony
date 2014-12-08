@@ -38,6 +38,7 @@
         private List<StunBlock> _stunBlocks = new List<StunBlock>();
         private List<SwitchBlock> _switchBlocks = new List<SwitchBlock>();
         private List<WarpBlock> _warpBlocks = new List<WarpBlock>();
+        private List<GlassBlock> _glassBlocks = new List<GlassBlock>();
         private List<EmptyBlock> _emptyBlocks = new List<EmptyBlock>();
 
         private List<BlockClass> _allBlocks = new List<BlockClass>();
@@ -89,6 +90,8 @@
             this._numberBlocks.Clear();
             this._stunBlocks.Clear();
             this._switchBlocks.Clear();
+            this._warpBlocks.Clear();
+            this._glassBlocks.Clear();
             this._emptyBlocks.Clear();
 
             this.FindBlocks();
@@ -548,6 +551,11 @@
                     case BlockInfo.BlockTypes.WARP:
                         ((WarpBlock)childType).Init();
                         this._warpBlocks.Add(child.gameObject.GetComponent<WarpBlock>());
+                        break;
+
+                    case BlockInfo.BlockTypes.GLASS:
+                        ((GlassBlock)childType).Init();
+                        this._glassBlocks.Add(child.gameObject.GetComponent<GlassBlock>());
                         break;
 
                     case BlockInfo.BlockTypes.EMPTY:

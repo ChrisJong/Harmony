@@ -119,6 +119,9 @@
                 if(child.tag == "Wall")
                     continue;
 
+                if(child.GetComponent<GlassBlock>() != null)
+                    continue;
+
                 GameObject bottomPlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
                 Destroy(bottomPlane.gameObject.GetComponent<MeshCollider>());
                 bottomPlane.GetComponent<MeshRenderer>().material = ResourceManager.instance.bottomPlane;

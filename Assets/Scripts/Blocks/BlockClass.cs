@@ -201,7 +201,6 @@
 
         private void SetTileMaterial() {
 #if UNITY_EDITOR
-            this.blockRenderer = this.gameObject.GetComponent<MeshRenderer>() as MeshRenderer;
             this.blockMaterials = this.blockRenderer.sharedMaterials;
 
             this._materialID = Random.Range(1, 6);

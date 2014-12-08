@@ -270,12 +270,12 @@
                     block.GetComponent<EmptyBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
                     block.GetComponent<EmptyBlock>().SetupBlock(map.blockToPlace, map.blockState);
                     map.blockList.Add(block);
-                } else if(map.blockToPlace == BlockInfo.BlockTypes.EMPTY_TALL){
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.EMPTY_TALL) {
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.EmptyTallBlockName);
                     block.GetComponent<EmptyBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
                     block.GetComponent<EmptyBlock>().SetupBlock(map.blockToPlace);
                     map.blockList.Add(block);
-                } else if(map.blockToPlace == BlockInfo.BlockTypes.INVISIBLE){
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.INVISIBLE) {
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.InvisibleBlock);
                     map.blockList.Add(block);
                 } else if(map.blockToPlace == BlockInfo.BlockTypes.WARP) {
@@ -287,7 +287,7 @@
                     map.blockToPlace = BlockInfo.BlockTypes.WARP_NODE;
                     if(this.blockWindow != null)
                         this.blockWindow.Focus();
-                } else if(map.blockToPlace == BlockInfo.BlockTypes.WARP_NODE){
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.WARP_NODE) {
                     block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.WarpBlockName);
                     block.GetComponent<WarpBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
                     block.GetComponent<WarpBlock>().SetupBlock(BlockInfo.BlockTypes.WARP, map.blockOneDirection, map.blockState);
@@ -299,6 +299,12 @@
                     map.blockToPlace = BlockInfo.BlockTypes.WARP;
                     if(this.blockWindow != null)
                         this.blockWindow.Focus();
+
+                } else if(map.blockToPlace == BlockInfo.BlockTypes.GLASS) {
+                    block = AssetProcessor.InstantiatePrefab<GameObject>(AssetPaths.PathPrefabBlocks, AssetPaths.GlassBlockName);
+                    block.GetComponent<GlassBlock>().blockRenderer = block.GetComponent<MeshRenderer>();
+                    block.GetComponent<GlassBlock>().SetupBlock(BlockInfo.BlockTypes.GLASS, map.blockState, map.blockNumber);
+                    map.blockList.Add(block);
                 } else {
                     Debug.LogError("NOTHING TO CREATE.");
                 }

@@ -38,6 +38,8 @@
             EditorGUILayout.LabelField("Block Type: " + this._target.blockToPlace.ToString());
             EditorGUILayout.EndHorizontal();
 
+            EditorGUILayout.Separator();
+
             EditorGUILayout.BeginHorizontal();
             if(GUILayout.Button("INVISIBLE")) {
                 this.ResetValues();
@@ -62,6 +64,8 @@
             
             EditorGUILayout.EndHorizontal();
 
+            EditorGUILayout.Separator();
+
             EditorGUILayout.BeginHorizontal();
             if(GUILayout.Button("NUMBER")) {
                 this.ResetValues();
@@ -81,6 +85,27 @@
             if(GUILayout.Button("WARP")) {
                 this.ResetValues();
                 this._target.blockToPlace = BlockInfo.BlockTypes.WARP;
+            }
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.Separator();
+
+            EditorGUILayout.BeginHorizontal();
+            if(GUILayout.Button("GLASS")) {
+                this.ResetValues();
+                this._target.blockToPlace = BlockInfo.BlockTypes.GLASS;
+            }
+
+            if(GUILayout.Button("N/A")) {
+                this.ResetValues();
+            }
+
+            if(GUILayout.Button("N/A")) {
+                this.ResetValues();
+            }
+
+            if(GUILayout.Button("N/A")) {
+                this.ResetValues();
             }
             EditorGUILayout.EndHorizontal();
 
@@ -111,7 +136,7 @@
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Block State:" + this._target.blockState);
+                    EditorGUILayout.LabelField("Block State: " + this._target.blockState);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -145,7 +170,7 @@
 
                 case BlockInfo.BlockTypes.NORMAL:
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Direction:" + this._target.blockOneDirection);
+                    EditorGUILayout.LabelField("Direction: " + this._target.blockOneDirection);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -162,7 +187,7 @@
                     EditorGUILayout.Separator();
 
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Block State:" + this._target.blockState);
+                    EditorGUILayout.LabelField("Block State: " + this._target.blockState);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -175,7 +200,7 @@
 
                 case BlockInfo.BlockTypes.MULTI:
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Direction One:" + this._target.blockOneDirection);
+                    EditorGUILayout.LabelField("Direction One: " + this._target.blockOneDirection);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -211,7 +236,7 @@
                     EditorGUILayout.Separator();
 
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Direction Two:" + this._target.blockTwoDirection);
+                    EditorGUILayout.LabelField("Direction Two: " + this._target.blockTwoDirection);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -247,7 +272,7 @@
                     EditorGUILayout.Separator();
 
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Block State:" + this._target.blockState);
+                    EditorGUILayout.LabelField("Block State: " + this._target.blockState);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -260,7 +285,7 @@
 
                 case BlockInfo.BlockTypes.NUMBER:
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Countdown Number:" + this._target.blockNumber);
+                    EditorGUILayout.LabelField("Countdown Number: " + this._target.blockNumber);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -270,7 +295,7 @@
                     EditorGUILayout.Separator();
 
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Block State:" + this._target.blockState);
+                    EditorGUILayout.LabelField("Block State: " + this._target.blockState);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -283,7 +308,7 @@
 
                 case BlockInfo.BlockTypes.SWITCH:
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Switch Block Count:" + this._target.switchBlockCount);
+                    EditorGUILayout.LabelField("Switch Block Count: " + this._target.switchBlockCount);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -304,7 +329,7 @@
 
                 case BlockInfo.BlockTypes.SWTICH_EMPTY:
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Block Start State:" + this._target.blockState);
+                    EditorGUILayout.LabelField("Block Start State: " + this._target.blockState);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -318,7 +343,7 @@
 
                 case BlockInfo.BlockTypes.STUN:
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Countdown Number:" + this._target.blockNumber);
+                    EditorGUILayout.LabelField("Countdown Number: " + this._target.blockNumber);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -328,7 +353,7 @@
                     EditorGUILayout.Separator();
 
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Block State:" + this._target.blockState);
+                    EditorGUILayout.LabelField("Block State: " + this._target.blockState);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -342,7 +367,7 @@
 
                 case BlockInfo.BlockTypes.WARP:
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Warp Direction:" + this._target.blockOneDirection);
+                    EditorGUILayout.LabelField("Warp Direction: " + this._target.blockOneDirection);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -359,7 +384,7 @@
                     EditorGUILayout.Separator();
 
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Block State:" + this._target.blockState);
+                    EditorGUILayout.LabelField("Block State: " + this._target.blockState);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -378,7 +403,7 @@
                     EditorGUILayout.Separator();
 
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Warp Direction:" + this._target.blockOneDirection);
+                    EditorGUILayout.LabelField("Warp Direction: " + this._target.blockOneDirection);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
@@ -395,7 +420,30 @@
                     EditorGUILayout.Separator();
 
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Block State:" + this._target.blockState);
+                    EditorGUILayout.LabelField("Block State: " + this._target.blockState);
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
+                    if(GUILayout.Button("UP"))
+                        this._target.blockState = BlockInfo.BlockState.UP;
+                    if(GUILayout.Button("DOWN"))
+                        this._target.blockState = BlockInfo.BlockState.DOWN;
+                    EditorGUILayout.EndHorizontal();
+                    break;
+
+                case BlockInfo.BlockTypes.GLASS:
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Break Point Number: " + this._target.blockNumber);
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
+                    this._target.blockNumber = EditorGUILayout.IntSlider(this._target.blockNumber, 1, 10);
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.Separator();
+
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Block State: " + this._target.blockState);
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
