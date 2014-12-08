@@ -14,11 +14,11 @@
 
         public GameObject fillerObject;
         public GameObject glassCollider;
-        public List<Material> glassUpMaterials;
-        public List<Material> glassDownMaterials;
+        //public List<Material> glassUpMaterials;
+        //public List<Material> glassDownMaterials;
 
-        [SerializeField, HideInInspector]
-        private int _maxCount;
+        //[SerializeField, HideInInspector]
+        //private int _maxCount;
         [SerializeField, HideInInspector]
         private int _previousBreakCount;
         [SerializeField, HideInInspector]
@@ -61,7 +61,7 @@
         public override void SetupBlock(BlockInfo.BlockTypes type, int initCounter) {
             base.SetupBlock(type, initCounter);
 
-            this._maxCount = initCounter;
+            //this._maxCount = initCounter;
             this._previousBreakCount = initCounter;
             this._breakCount = initCounter;
         }
@@ -69,7 +69,7 @@
         public override void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockState state, int initCounter) {
             base.SetupBlock(type, state, initCounter);
 
-            this._maxCount = initCounter;
+            //this._maxCount = initCounter;
             this._previousBreakCount = initCounter;
             this._breakCount = initCounter;
 
