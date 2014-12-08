@@ -8,16 +8,19 @@
 
     public class EmptyBlock : BlockClass {
 
+        public override void ResetUndoState() {
+        }
+
         public override void MoveUp() {
-            this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
-            this.isUp = true;
-            this.BlockState = BlockInfo.BlockState.NONE;
         }
 
         public override void MoveDown() {
-            this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
-            this.isUp = false;
-            this.BlockState = BlockInfo.BlockState.NONE;
+        }
+
+        public override void Init() {
+            base.Init();
+
+            this.blockRenderer.materials = this.blockMaterials;
         }
 
         public override void SetupBlock(BlockInfo.BlockTypes type) {

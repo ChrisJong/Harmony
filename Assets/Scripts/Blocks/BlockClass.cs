@@ -23,12 +23,11 @@
 
         public int firstDirectionValue;
         public int secondDirectionValue;
-        public bool isUp;
+        public bool isUp = false;
+        public bool isReversed = false;
 
         [SerializeField, HideInInspector]
         private int _materialID;
-        /*[SerializeField, HideInInspector]
-        private bool _isReversed;*/
         [SerializeField, HideInInspector]
         private BlockInfo.BlockTypes _blockType;
         [SerializeField, HideInInspector]
@@ -41,8 +40,10 @@
         private BlockInfo.BlockDirection _secondDirection;
         [SerializeField, HideInInspector]
         private BlockInfo.BlockState _previousState;
+        [SerializeField, HideInInspector]
+        private BlockInfo.BlockState _firstState;
 
-        //public abstract void ResetUndoState();
+        public abstract void ResetUndoState();
 
         public abstract void MoveUp();
 
@@ -54,9 +55,25 @@
         }
 
         #region Setup / Init
-        /*public virtual void Init() {
+        public virtual void Init() {
+            if(this._blockState == BlockInfo.BlockState.UP) {
+                this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
+                this.isUp = true;
+                this._blockState = BlockInfo.BlockState.NONE;
+                this._previousState = BlockInfo.BlockState.UP;
+                this._firstState = BlockInfo.BlockState.UP;
 
-        }*/
+                this.blockMaterials[0] = this.tileUpMaterial;
+            } else {
+                this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
+                this.isUp = false;
+                this._blockState = BlockInfo.BlockState.NONE;
+                this._previousState = BlockInfo.BlockState.DOWN;
+                this._firstState = BlockInfo.BlockState.DOWN;
+
+                this.blockMaterials[0] = this.tileDownMaterial;
+            }
+        }
 
         public virtual void ChangeTileMaterial() {
             this._materialID = TileManager.instance.ChangeMaterialID();
@@ -222,6 +239,10 @@
         public BlockInfo.BlockState PreviousState {
             get { return this._previousState; }
             set { this._previousState = value; }
+        }
+
+        public BlockInfo.BlockState FirstState {
+            get { return this._firstState; }
         }
 
         public BlockInfo.BlockTypes BlockType {

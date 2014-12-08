@@ -29,7 +29,6 @@
         [SerializeField]
         private int _blockCount = 0;
         private bool _isFlipped;
-        //private bool _isReversed;
 
         void Awake() {
             this.emptySwitchScripts = new List<SwitchEmptyBlock>();
@@ -37,16 +36,6 @@
             for(int i = 0; i < this._blockCount; i++) {
                 this.emptySwitchScripts.Add(this.emptyBlocks[i].GetComponent<SwitchEmptyBlock>());
             }
-        }
-
-        void Update() {
-            if(this.BlockState == BlockInfo.BlockState.NONE)
-                return;
-
-            if(this.BlockState == BlockInfo.BlockState.UP)
-                this.MoveUp();
-            else
-                this.MoveDown();
         }
 
         public void AddEmptyBlock(GameObject obj) {
@@ -81,7 +70,21 @@
             this.emptyBlocks.Clear();
         }
 
-        public void ResetUndoState() {
+        public void Undo() {
+            if(this.PreviousState != BlockInfo.BlockState.NONE) {
+                switch(this.PreviousState) {
+                    case BlockInfo.BlockState.DOWN:
+                        this.MoveDown();
+                        break;
+
+                    case BlockInfo.BlockState.UP:
+                        this.MoveUp();
+                        break;
+                }
+            }
+        }
+
+        public override void ResetUndoState() {
             this._isFlipped = false;
             this.PreviousState = BlockInfo.BlockState.NONE;
         }
@@ -89,46 +92,44 @@
         public override void MoveUp() {
             this.isUp = true;
             this.BlockState = BlockInfo.BlockState.NONE;
+            this.PreviousState = BlockInfo.BlockState.DOWN;
 
             this.blockMaterials[0] = this.tileUpMaterial;
             this.blockMaterials[1] = this.switchUpMaterial;
             this.blockRenderer.materials = this.blockMaterials;
 
             for(int i = 0; i < this._blockCount; i++) {
-                this.emptySwitchScripts[i].BlockState = BlockInfo.BlockState.UP;
+                if(this.emptySwitchScripts[i].isReversed)
+                    this.emptySwitchScripts[i].BlockState = BlockInfo.BlockState.DOWN;
+                else
+                    this.emptySwitchScripts[i].BlockState = BlockInfo.BlockState.UP;
             }
         }
 
         public override void MoveDown() {
             this.isUp = false;
             this.BlockState = BlockInfo.BlockState.NONE;
+            this.PreviousState = BlockInfo.BlockState.UP;
 
             this.blockMaterials[0] = this.tileDownMaterial;
             this.blockMaterials[1] = this.switchDownMaterial;
             this.blockRenderer.materials = this.blockMaterials;
 
             for(int i = 0; i < this._blockCount; i++) {
-                this.emptySwitchScripts[i].BlockState = BlockInfo.BlockState.DOWN;
+                if(this.emptySwitchScripts[i].isReversed)
+                    this.emptySwitchScripts[i].BlockState = BlockInfo.BlockState.UP;
+                else
+                    this.emptySwitchScripts[i].BlockState = BlockInfo.BlockState.DOWN;
             }
         }
 
-        public void Init() {
-            //base.Init();
+        public override void Init() {
+            base.Init();
 
-            if(this.BlockState == BlockInfo.BlockState.UP) {
-                this.isUp = true;
-                this.BlockState = BlockInfo.BlockState.NONE;
-                this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
-
-                this.blockMaterials[0] = this.tileUpMaterial;
+            if(this.isUp) {
                 this.blockMaterials[1] = this.switchDownMaterial;
                 this.blockRenderer.materials = this.blockMaterials;
             } else {
-                this.isUp = false;
-                this.BlockState = BlockInfo.BlockState.NONE;
-                this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
-
-                this.blockMaterials[0] = this.tileDownMaterial;
                 this.blockMaterials[1] = this.switchDownMaterial;
                 this.blockRenderer.materials = this.blockMaterials;
             }
@@ -168,10 +169,6 @@
             get { return this._isFlipped; }
             set { this._isFlipped = value; }
         }
-
-        /*public bool IsReversed {
-            get { return this._isReversed; }
-        }*/
         #endregion
     }
 }

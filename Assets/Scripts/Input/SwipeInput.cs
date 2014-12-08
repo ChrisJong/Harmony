@@ -54,13 +54,13 @@
                                 if(!AIController.instance.isStunned)
                                     AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
 
-                                if(GridController.instance.MoveCount > 1)
+                                if(GridController.instance.MoveCount > 0)
                                     GridController.instance.ResetUndoStates();
+
                                 GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                                GridController.instance.MoveCount += 1;
                             }
 
-                            if(!PlayerController.instance.isStunned)
-                                GridController.instance.MoveCount += 1;
                             if(MazeInfo.MazeMoveValue != null) {
                                 if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
                                     GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
@@ -75,13 +75,13 @@
                                 if(!AIController.instance.isStunned)
                                     AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
 
-                                if(GridController.instance.MoveCount > 1)
+                                if(GridController.instance.MoveCount > 0)
                                     GridController.instance.ResetUndoStates();
+
                                 GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                                GridController.instance.MoveCount += 1;
                             }
 
-                            if(!PlayerController.instance.isStunned)
-                                GridController.instance.MoveCount += 1;
                             if(MazeInfo.MazeMoveValue != null) {
                                 if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
                                     GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
@@ -104,13 +104,13 @@
                                 if(!AIController.instance.isStunned)
                                     AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
 
-                                if(GridController.instance.MoveCount > 1)
+                                if(GridController.instance.MoveCount > 0)
                                     GridController.instance.ResetUndoStates();
+
                                 GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                                GridController.instance.MoveCount += 1;
                             }
 
-                            if(!PlayerController.instance.isStunned)
-                                GridController.instance.MoveCount += 1;
                             if(MazeInfo.MazeMoveValue != null) {
                                 if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
                                     GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
@@ -125,13 +125,12 @@
                                 if(!AIController.instance.isStunned)
                                     AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
 
-                                if(GridController.instance.MoveCount > 1)
+                                if(GridController.instance.MoveCount > 0)
                                     GridController.instance.ResetUndoStates();
                                 GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+                                GridController.instance.MoveCount += 1;
                             }
 
-                            if(!PlayerController.instance.isStunned)
-                                GridController.instance.MoveCount += 1;
                             if(MazeInfo.MazeMoveValue != null) {
                                 if(GridController.instance.MoveCount >= GridController.instance.MaxMoves * 2) {
                                     GridController.instance.warningColor.a = (GridController.instance.MoveCount / GridController.instance.MaxMoves);
@@ -171,7 +170,7 @@
 
                 case RuntimePlatform.IPhonePlayer: {
                         var width = Mathf.Max(Screen.currentResolution.width, Screen.currentResolution.height);
-                        var height = Mathf.Min(Screen.currentResolution.width, Screen.currentResolution.height);
+                        //var height = Mathf.Min(Screen.currentResolution.width, Screen.currentResolution.height);
                         if(width >= 2048)
                             this._currentDPI = 290.0f;
                         else if(width >= 1136)

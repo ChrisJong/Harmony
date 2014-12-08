@@ -29,6 +29,9 @@
                 this.MoveDown();
         }
 
+        public override void ResetUndoState() {
+        }
+
         public override void MoveUp() {
             this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
             this.isUp = true;
@@ -51,6 +54,20 @@
             this.blockMaterials[1] = this._firstArrowDownMaterial;
             this.blockMaterials[2] = this._secondArrowDownMaterial;
             this.blockRenderer.materials = this.blockMaterials;
+        }
+
+        public override void Init() {
+            base.Init();
+
+            if(this.isUp) {
+                this.blockMaterials[1] = this._firstArrowUpMaterial;
+                this.blockMaterials[2] = this._secondArrowUpMaterial;
+                this.blockRenderer.materials = this.blockMaterials;
+            } else {
+                this.blockMaterials[1] = this._firstArrowDownMaterial;
+                this.blockMaterials[2] = this._secondArrowDownMaterial;
+                this.blockRenderer.materials = this.blockMaterials;
+            }
         }
 
         public override void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockDirection firstDirection, BlockInfo.BlockDirection secondDirection) {

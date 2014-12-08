@@ -182,15 +182,13 @@
                     if(!AIController.instance.isStunned)
                         AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                     
-                    if(this._moveCount > 1)
+                    if(this._moveCount > 0)
                         this.ResetUndoStates();
 
                     this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
+                    this._moveCount++;
                 }
                 
-                if(!PlayerController.instance.isStunned)
-                    this._moveCount++;
-
                 if(MazeInfo.MazeMoveValue != null) {
                     if(this._moveCount >= this._maxMoves * 2) {
                         this.warningColor.a = (this._moveCount / this._maxMoves);
@@ -204,14 +202,12 @@
                     if(!AIController.instance.isStunned)
                         AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                     
-                    if(this._moveCount > 1)
+                    if(this._moveCount > 0)
                         this.ResetUndoStates();
 
                     this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                }
-
-                if(!PlayerController.instance.isStunned)
                     this._moveCount++;
+                }
 
                 if(MazeInfo.MazeMoveValue != null) {
                     if(this._moveCount >= this._maxMoves * 2) {
@@ -226,14 +222,12 @@
                     if(!AIController.instance.isStunned)
                         AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
 
-                    if(this._moveCount > 1)
+                    if(this._moveCount > 0)
                         this.ResetUndoStates();
 
                     this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                }
-                
-                if(!PlayerController.instance.isStunned)
                     this._moveCount++;
+                }
 
                 if(MazeInfo.MazeMoveValue != null) {
                     if(this._moveCount >= this._maxMoves * 2) {
@@ -249,15 +243,13 @@
                     if(!AIController.instance.isStunned)
                         AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
 
-                    if(this._moveCount > 1)
+                    if(this._moveCount > 0)
                         this.ResetUndoStates();
 
                     this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
-                }
-
-                if(!PlayerController.instance.isStunned)
                     this._moveCount++;
-
+                }
+                    
                 if(MazeInfo.MazeMoveValue != null) {
                     if(this._moveCount >= this._maxMoves * 2) {
                         this.warningColor.a = (this._moveCount / this._maxMoves);
@@ -309,16 +301,23 @@
             int count = 0;
 
             BlockInfo.BlockDirection current = (BlockInfo.BlockDirection)((int)currentDirection);
-            BlockInfo.BlockDirection previous = (BlockInfo.BlockDirection)((int)previousDirection);
+            //BlockInfo.BlockDirection previous = (BlockInfo.BlockDirection)((int)previousDirection);
 
             if(currentDirection == previousDirection) {
                 if(this._numberBlocks.Count > 0) {
                     count = this._numberBlocks.Count;
                     for(i = 0; i < count; i++) {
-                        if(this._numberBlocks[i].currentCounter == 1)
-                            this._numberBlocks[i].BlockState = BlockInfo.BlockState.UP;
-                        else
-                            this._numberBlocks[i].BlockState = BlockInfo.BlockState.DOWN;
+                        if(this._numberBlocks[i].currentCounter == 1) {
+                            if(this._numberBlocks[i].isReversed)
+                                this._numberBlocks[i].BlockState = BlockInfo.BlockState.DOWN;
+                            else
+                                this._numberBlocks[i].BlockState = BlockInfo.BlockState.UP;
+                        } else {
+                            if(this._numberBlocks[i].isReversed)
+                                this._numberBlocks[i].BlockState = BlockInfo.BlockState.UP;
+                            else
+                                this._numberBlocks[i].BlockState = BlockInfo.BlockState.DOWN;
+                        }
                     }
                 }
                 this.blocksReady = true;
@@ -330,10 +329,17 @@
             if(this._numberBlocks.Count > 0) {
                 count = this._numberBlocks.Count;
                 for(i = 0; i < count; i++) {
-                    if(this._numberBlocks[i].currentCounter == 1)
-                        this._numberBlocks[i].BlockState = BlockInfo.BlockState.UP;
-                    else
-                        this._numberBlocks[i].BlockState = BlockInfo.BlockState.DOWN;
+                    if(this._numberBlocks[i].currentCounter == 1) {
+                        if(this._numberBlocks[i].isReversed)
+                            this._numberBlocks[i].BlockState = BlockInfo.BlockState.DOWN;
+                        else
+                            this._numberBlocks[i].BlockState = BlockInfo.BlockState.UP;
+                    } else {
+                        if(this._numberBlocks[i].isReversed)
+                            this._numberBlocks[i].BlockState = BlockInfo.BlockState.UP;
+                        else
+                            this._numberBlocks[i].BlockState = BlockInfo.BlockState.DOWN;
+                    }
                 }
             }
 
@@ -356,9 +362,10 @@
                 count = this._multiBlocks.Count;
                 for(i = 0; i < count; i++) {
                     if(this._multiBlocks[i].BlockDirections.Contains(current)){
-                        if(this._multiBlocks[i].isUp)
+                        if(this._multiBlocks[i].isUp) {
+                            this._multiBlocks[i].PreviousState = BlockInfo.BlockState.UP;
                             continue;
-                        else
+                        } else
                             this._multiBlocks[i].BlockState = BlockInfo.BlockState.UP;
                     } else {
                         if(this._multiBlocks[i].isUp)
@@ -388,7 +395,7 @@
 
             BlockInfo.BlockDirection current = (BlockInfo.BlockDirection)((int)currentDirection);
             BlockInfo.BlockDirection previous = (BlockInfo.BlockDirection)((int)previousDirection);
-            
+
             if(currentDirection == previousDirection) {
                 if(this._numberBlocks.Count > 0) {
                     count = this._numberBlocks.Count;
@@ -411,15 +418,13 @@
                 count = this._normalBlocks.Count;
                 for(i = 0; i < count; i++) {
                     if(this._normalBlocks[i].FirstDirection == current) {
-                        if(this._normalBlocks[i].isUp)
-                            this._normalBlocks[i].BlockState = BlockInfo.BlockState.DOWN;
+                        this._normalBlocks[i].BlockState = this._normalBlocks[i].PreviousState;
                     }
 
                     if(this._normalBlocks[i].FirstDirection == previous) {
-                        if(!this._normalBlocks[i].isUp)
-                            this._normalBlocks[i].BlockState = BlockInfo.BlockState.UP;
+                        this._normalBlocks[i].BlockState = this._normalBlocks[i].PreviousState;
                     } else if(previous == BlockInfo.BlockDirection.NONE) {
-                        Debug.Log("First Move");
+                        this._normalBlocks[i].BlockState = this._normalBlocks[i].FirstState;
                     }
                 }
             }
@@ -428,15 +433,14 @@
                 count = this._multiBlocks.Count;
                 for(i = 0; i < count; i++) {
                     if(this._multiBlocks[i].BlockDirections.Contains(current) && !this._multiBlocks[i].BlockDirections.Contains(previous)) {
-                        if(this._multiBlocks[i].isUp)
-                            this._multiBlocks[i].BlockState = BlockInfo.BlockState.DOWN;
+                        this._multiBlocks[i].BlockState = this._multiBlocks[i].PreviousState;
                     }
 
                     if(this._multiBlocks[i].BlockDirections.Contains(previous)) {
                         if(!this._multiBlocks[i].isUp)
-                            this._multiBlocks[i].BlockState = BlockInfo.BlockState.UP;
+                            this._multiBlocks[i].BlockState = this._multiBlocks[i].PreviousState;
                     } else if(previous == BlockInfo.BlockDirection.NONE) {
-                        Debug.Log("First Move");
+                        this._multiBlocks[i].BlockState = this._multiBlocks[i].FirstState;
                     }
                 }
             }
@@ -445,7 +449,7 @@
                 count = this._switchBlocks.Count;
                 for(i = 0; i < count; i++) {
                     if(this._switchBlocks[i].IsFlipped) {
-                        this._switchBlocks[i].BlockState = this._switchBlocks[i].PreviousState;
+                        this._switchBlocks[i].Undo();
                         this._switchBlocks[i].IsFlipped = false;
                     }
                 }
@@ -517,18 +521,12 @@
                 this._allBlocks.Add(childType);
                 switch(childType.BlockType) {
                     case BlockInfo.BlockTypes.NORMAL:
-                        if(childType.BlockState == BlockInfo.BlockState.UP)
-                            childType.MoveUp();
-                        else
-                            childType.MoveDown();
+                        ((NormalBlock)childType).Init();
                         this._normalBlocks.Add(child.gameObject.GetComponent<NormalBlock>());
                         break;
 
                     case BlockInfo.BlockTypes.MULTI:
-                        if(childType.BlockState == BlockInfo.BlockState.UP)
-                            childType.MoveUp();
-                        else
-                            childType.MoveDown();
+                        ((MultiBlock)childType).Init();
                         this._multiBlocks.Add(child.gameObject.GetComponent<MultiBlock>());
                         break;
 
@@ -553,10 +551,7 @@
                         break;
 
                     case BlockInfo.BlockTypes.EMPTY:
-                        if(childType.BlockState == BlockInfo.BlockState.UP)
-                            childType.MoveUp();
-                        else
-                            childType.MoveDown();
+                        ((EmptyBlock)childType).Init();
                         this._emptyBlocks.Add(child.gameObject.GetComponent<EmptyBlock>());
                         break;
 

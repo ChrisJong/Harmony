@@ -179,28 +179,28 @@
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
-                    if(this._target.blockTwoDirection == BlockInfo.BlockDirection.UP) {
+                    if(this._target.blockTwoDirection == BlockInfo.BlockDirection.UP || this._target.blockOneDirection == BlockInfo.BlockDirection.UP) {
                         GUILayout.Button("N/A");
                     } else {
                         if(GUILayout.Button("UP"))
                             this._target.blockOneDirection = BlockInfo.BlockDirection.UP;
                     }
 
-                    if(this._target.blockTwoDirection == BlockInfo.BlockDirection.RIGHT) {
+                    if(this._target.blockTwoDirection == BlockInfo.BlockDirection.RIGHT || this._target.blockOneDirection == BlockInfo.BlockDirection.RIGHT) {
                         GUILayout.Button("N/A");
                     } else {
                         if(GUILayout.Button("RIGHT"))
                             this._target.blockOneDirection = BlockInfo.BlockDirection.RIGHT;
                     }
 
-                    if(this._target.blockTwoDirection == BlockInfo.BlockDirection.DOWN) {
+                    if(this._target.blockTwoDirection == BlockInfo.BlockDirection.DOWN || this._target.blockOneDirection == BlockInfo.BlockDirection.DOWN) {
                         GUILayout.Button("N/A");
                     } else {
                         if(GUILayout.Button("DOWN"))
                             this._target.blockOneDirection = BlockInfo.BlockDirection.DOWN;
                     }
 
-                    if(this._target.blockTwoDirection == BlockInfo.BlockDirection.LEFT) {
+                    if(this._target.blockTwoDirection == BlockInfo.BlockDirection.LEFT || this._target.blockOneDirection == BlockInfo.BlockDirection.LEFT) {
                         GUILayout.Button("N/A");
                     } else {
                         if(GUILayout.Button("LEFT"))
@@ -215,28 +215,28 @@
                     EditorGUILayout.EndHorizontal();
 
                     EditorGUILayout.BeginHorizontal();
-                    if(this._target.blockOneDirection == BlockInfo.BlockDirection.UP) {
+                    if(this._target.blockOneDirection == BlockInfo.BlockDirection.UP || this._target.blockTwoDirection == BlockInfo.BlockDirection.UP) {
                         GUILayout.Button("N/A");
                     } else {
                         if(GUILayout.Button("UP"))
                             this._target.blockTwoDirection = BlockInfo.BlockDirection.UP;
                     }
 
-                    if(this._target.blockOneDirection == BlockInfo.BlockDirection.RIGHT) {
+                    if(this._target.blockOneDirection == BlockInfo.BlockDirection.RIGHT || this._target.blockTwoDirection == BlockInfo.BlockDirection.RIGHT) {
                         GUILayout.Button("N/A");
                     } else {
                         if(GUILayout.Button("RIGHT"))
                             this._target.blockTwoDirection = BlockInfo.BlockDirection.RIGHT;
                     }
 
-                    if(this._target.blockOneDirection == BlockInfo.BlockDirection.DOWN) {
+                    if(this._target.blockOneDirection == BlockInfo.BlockDirection.DOWN || this._target.blockTwoDirection == BlockInfo.BlockDirection.DOWN) {
                         GUILayout.Button("N/A");
                     } else {
                         if(GUILayout.Button("DOWN"))
                             this._target.blockTwoDirection = BlockInfo.BlockDirection.DOWN;
                     }
 
-                    if(this._target.blockOneDirection == BlockInfo.BlockDirection.LEFT) {
+                    if(this._target.blockOneDirection == BlockInfo.BlockDirection.LEFT || this._target.blockTwoDirection == BlockInfo.BlockDirection.LEFT) {
                         GUILayout.Button("N/A");
                     } else {
                         if(GUILayout.Button("LEFT"))
@@ -303,6 +303,16 @@
                     break;
 
                 case BlockInfo.BlockTypes.SWTICH_EMPTY:
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Block Start State:" + this._target.blockState);
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
+                    if(GUILayout.Button("UP"))
+                        this._target.blockState = BlockInfo.BlockState.UP;
+                    if(GUILayout.Button("DOWN"))
+                        this._target.blockState = BlockInfo.BlockState.DOWN;
+                    EditorGUILayout.EndHorizontal();
                     EditorGUILayout.LabelField("PLEASE PLACE EMPTY SWITCH BLOCKS.");
                     break;
 

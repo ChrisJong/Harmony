@@ -76,22 +76,17 @@
                 this._warpCollider.enabled = true;
         }
 
-        public void Init() {
-            if(this.BlockState == BlockInfo.BlockState.UP) {
-                this.isUp = true;
-                this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
-                this.BlockState = BlockInfo.BlockState.NONE;
-            } else {
-                this.isUp = false;
-                this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
-                this.BlockState = BlockInfo.BlockState.NONE;
-            }
+        public override void ResetUndoState() {
         }
 
         public override void MoveUp() {
         }
 
         public override void MoveDown() {
+        }
+
+        public override void Init() {
+            base.Init();
         }
 
         public override void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockDirection direction) {
