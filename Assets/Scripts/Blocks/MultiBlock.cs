@@ -32,7 +32,7 @@
             this.isUp = true;
             this.BlockState = BlockInfo.BlockState.NONE;
 
-            this._blockMaterials[0] = this.tileUpMaterials[this.MaterialID];
+            this._blockMaterials[0] = this.tileUpMaterial;
             this._blockMaterials[1] = this.arrowUpMaterials[this.firstDirectionValue - 1];
             this._blockMaterials[2] = this.arrowUpMaterials[this.secondDirectionValue - 1];
             this.blockRenderer.materials = this._blockMaterials;
@@ -43,7 +43,7 @@
             this.isUp = false;
             this.BlockState = BlockInfo.BlockState.NONE;
 
-            this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
+            this._blockMaterials[0] = this.tileDownMaterial;
             this._blockMaterials[1] = this.arrowDownMaterials[this.firstDirectionValue - 1];
             this._blockMaterials[2] = this.arrowDownMaterials[this.secondDirectionValue - 1];
             this.blockRenderer.materials = this._blockMaterials;

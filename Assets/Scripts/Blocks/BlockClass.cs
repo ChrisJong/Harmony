@@ -6,14 +6,19 @@
     using UnityEngine;
 
     using GameInfo;
+    using Helpers;
     using Resource;
 
     [System.Serializable]
     public abstract class BlockClass : MonoBehaviour {
 
-        public List<Material> tileUpMaterials;
-        public List<Material> tileDownMaterials;
-
+        [HideInInspector]
+        public Material tileUpMaterial;
+        [HideInInspector]
+        public Material tileDownMaterial;
+        [HideInInspector]
+        public Material[] blockMaterials;
+        [HideInInspector]
         public MeshRenderer blockRenderer;
 
         public int firstDirectionValue;
@@ -22,6 +27,8 @@
 
         [SerializeField, HideInInspector]
         private int _materialID;
+        /*[SerializeField, HideInInspector]
+        private bool _isReversed;*/
         [SerializeField, HideInInspector]
         private BlockInfo.BlockTypes _blockType;
         [SerializeField, HideInInspector]
@@ -32,6 +39,10 @@
         private BlockInfo.BlockDirection _firstDirection;
         [SerializeField, HideInInspector]
         private BlockInfo.BlockDirection _secondDirection;
+        /*[SerializeField, HideInInspector]
+        private BlockInfo.BlockState _previousState;*/
+
+        //public abstract void ResetUndoState();
 
         public abstract void MoveUp();
 
@@ -43,12 +54,16 @@
         }
 
         #region Setup / Init
-        public virtual void ChangeTileMaterial() {
-            this.tileDownMaterials.Clear();
-            this.tileUpMaterials.Clear();
+        /*public virtual void Init() {
 
-            this.tileDownMaterials = new List<Material>(TileManager.instance.GetCurrentSkin("down"));
-            this.tileUpMaterials = new List<Material>(TileManager.instance.GetCurrentSkin("up"));
+        }*/
+
+        public virtual void ChangeTileMaterial() {
+            this._materialID = TileManager.instance.ChangeMaterialID();
+            this.tileUpMaterial = null;
+            this.tileUpMaterial = TileManager.instance.GetCurrentSkinMaterial("up", this._materialID);
+            this.tileDownMaterial = null;
+            this.tileDownMaterial = TileManager.instance.GetCurrentSkinMaterial("down", this._materialID);
 
             this.SetTileMaterial();
         }
@@ -164,19 +179,29 @@
         }
 
         private void SetTileMaterial() {
-            if(this.tileDownMaterials.Count == this.tileUpMaterials.Count)
-                this._materialID = Random.Range(0, tileDownMaterials.Count);
-            else
-                this._materialID = 0;
+#if UNITY_EDITOR
+            this.blockRenderer = this.gameObject.GetComponent<MeshRenderer>() as MeshRenderer;
+            this.blockMaterials = this.blockRenderer.sharedMaterials;
 
-            Material[] mats = this.blockRenderer.sharedMaterials;
-
+            this._materialID = Random.Range(1, 6);
+            this.tileUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Empty/Standard/Up/", "Empty" + this._materialID.ToString().PadLeft(2, '0') + "-Up");
+            this.tileDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Empty/Standard/Down/", "Empty" + this._materialID.ToString().PadLeft(2, '0') + "-Down");
+#else
+            this.blockMaterials = this.blockRenderer.materials
+#endif
             if(this._blockState == BlockInfo.BlockState.UP)
-                mats[0] = this.tileUpMaterials[this._materialID];
-            else
-                mats[0] = this.tileDownMaterials[this._materialID];
-
-            this.blockRenderer.sharedMaterials = mats;
+                this.blockMaterials[0] = this.tileUpMaterial;
+            else {
+                if(this.isUp)
+                    this.blockMaterials[0] = this.tileUpMaterial;
+                else
+                    this.blockMaterials[0] = this.tileDownMaterial;
+            }
+#if UNITY_EDITOR
+            this.blockRenderer.sharedMaterials = this.blockMaterials;
+#else
+            this.blockRenderer.materials = this.blockMaterials;
+#endif
         }
         #endregion
 

@@ -6,17 +6,15 @@
     using UnityEngine;
 
     using GameInfo;
+    using Helpers;
 
+    [System.Serializable]
     public class NormalBlock : BlockClass {
 
-        public List<Material> arrowUpMaterials;
-        public List<Material> arrowDownMaterials;
-
-        private Material[] _blockMaterials;
-
-        void Awake() {
-            this._blockMaterials = this.blockRenderer.materials;
-        }
+        [SerializeField, HideInInspector]
+        private Material _arrowUpMaterial;
+        [SerializeField, HideInInspector]
+        private Material _arrowDownMaterial;
 
         void Update() {
             if(this.BlockState == BlockInfo.BlockState.NONE)
@@ -33,10 +31,9 @@
             this.isUp = true;
             this.BlockState = BlockInfo.BlockState.NONE;
 
-            //this.blockRenderer.material = this.tileUpMaterials[this.firstDirectionValue - 1];
-            this._blockMaterials[0] = this.tileUpMaterials[this.MaterialID];
-            this._blockMaterials[1] = this.arrowUpMaterials[this.firstDirectionValue - 1];
-            this.blockRenderer.materials = this._blockMaterials;
+            this.blockMaterials[0] = this.tileUpMaterial;
+            this.blockMaterials[1] = this._arrowUpMaterial;
+            this.blockRenderer.materials = this.blockMaterials;
         }
 
         public override void MoveDown() {
@@ -44,38 +41,72 @@
             this.isUp = false;
             this.BlockState = BlockInfo.BlockState.NONE;
 
-            //this.blockRenderer.material = this.tileDownMaterials[this.firstDirectionValue - 1];
-            this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
-            this._blockMaterials[1] = this.arrowDownMaterials[this.firstDirectionValue - 1];
-            this.blockRenderer.materials = this._blockMaterials;
-
+            this.blockMaterials[0] = this.tileDownMaterial;
+            this.blockMaterials[1] = this._arrowDownMaterial;
+            this.blockRenderer.materials = this.blockMaterials;
         }
 
         public override void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockDirection direction) {
             base.SetupBlock(type, direction);
 
-            Material[] mats = this.blockRenderer.sharedMaterials;
-
-            mats[1] = this.arrowDownMaterials[(int)direction - 1];
-            this.blockRenderer.sharedMaterials = mats;
+            this.isUp = false;
+#if UNITY_EDITOR
+            this.SetArrowMaterial();
+#endif
+            this.blockRenderer.sharedMaterials = this.blockMaterials;
         }
 
         public override void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockDirection direction, BlockInfo.BlockState state) {
             base.SetupBlock(type, direction, state);
 
-            Material[] mats = this.blockRenderer.sharedMaterials;
-
             if(state == BlockInfo.BlockState.UP) {
                 this.isUp = true;
-                mats[1] = this.arrowUpMaterials[(int)direction - 1];    
-                this.blockRenderer.sharedMaterials = mats;
-                //this.blockRenderer.material = this.tileUpMaterials[(int)direction - 1];
+#if UNITY_EDITOR
+                this.SetArrowMaterial();
+#endif
+                this.blockRenderer.sharedMaterials = this.blockMaterials;
 
             } else {
-                mats[1] = this.arrowDownMaterials[(int)direction - 1];
-                this.blockRenderer.sharedMaterials = mats;
-                //this.blockRenderer.material = this.tileDownMaterials[(int)direction - 1];
+#if UNITY_EDITOR
+                this.SetArrowMaterial();
+#endif
+                this.blockRenderer.sharedMaterials = this.blockMaterials;
             }
         }
+
+#if UNITY_EDITOR
+        private void SetArrowMaterial() {
+            switch(this.FirstDirection) {
+                case BlockInfo.BlockDirection.UP:
+                    this._arrowUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Normal/Standard/Up/", "Up-Up");
+                    this._arrowDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Normal/Standard/Down/", "Up-Down");
+                    break;
+
+                case BlockInfo.BlockDirection.RIGHT:
+                    this._arrowUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Normal/Standard/Up/", "Right-Up");
+                    this._arrowDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Normal/Standard/Down/", "Right-Down");
+                    break;
+
+                case BlockInfo.BlockDirection.DOWN:
+                    this._arrowUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Normal/Standard/Up/", "Down-Up");
+                    this._arrowDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Normal/Standard/Down/", "Down-Down");
+                    break;
+
+                case BlockInfo.BlockDirection.LEFT:
+                    this._arrowUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Normal/Standard/Up/", "Left-Up");
+                    this._arrowDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Normal/Standard/Down/", "Left-Down");
+                    break;
+            }
+
+            if(this.BlockState == BlockInfo.BlockState.UP)
+                this.blockMaterials[1] = this._arrowUpMaterial;
+            else {
+                if(this.isUp)
+                    this.blockMaterials[1] = this._arrowUpMaterial;
+                else
+                    this.blockMaterials[1] = this._arrowDownMaterial;                    
+            }
+        }
+#endif
     }
 }

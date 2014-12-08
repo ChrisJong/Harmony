@@ -53,7 +53,7 @@
             this.isUp = true;
             this.BlockState = BlockInfo.BlockState.NONE;
 
-            this._blockMaterial = this.tileUpMaterials[this.MaterialID];
+            this._blockMaterial = this.tileUpMaterial;
             this.blockRenderer.material = this._blockMaterial;
         }
 
@@ -62,7 +62,7 @@
             this.isUp = false;
             this.BlockState = BlockInfo.BlockState.NONE;
 
-            this._blockMaterial = this.tileDownMaterials[this.MaterialID];
+            this._blockMaterial = this.tileDownMaterial;
             this.blockRenderer.material = this._blockMaterial;
         }
 

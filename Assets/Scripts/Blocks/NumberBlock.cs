@@ -50,7 +50,7 @@
         public void Undo() {
             if(this.isUp){
                 this.currentCounter = previousCounter;
-                this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
+                this._blockMaterials[0] = this.tileDownMaterial;
                 this._blockMaterials[1] = this.numberMaterials[currentCounter];
                 this.blockRenderer.materials = this._blockMaterials;
                 this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
@@ -59,13 +59,13 @@
             } else {
                 this.currentCounter = previousCounter;
                 if(this.previousCounter == 0) {
-                    this._blockMaterials[0] = this.tileUpMaterials[this.MaterialID];
+                    this._blockMaterials[0] = this.tileUpMaterial;
                     this._blockMaterials[1] = this.numberMaterials[currentCounter];
                     this.blockRenderer.materials = this._blockMaterials;
                     this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
                     this.isUp = true;
                 } else {
-                    this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
+                    this._blockMaterials[0] = this.tileDownMaterial;
                     this._blockMaterials[1] = this.numberMaterials[currentCounter];
                     this.blockRenderer.materials = this._blockMaterials;
                     this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
@@ -79,7 +79,7 @@
             if(this.isReversed) {
                 //this._blockState = BlockInfo.BlockState.DOWN;
                 this.currentCounter--;
-                this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
+                this._blockMaterials[0] = this.tileDownMaterial;
                 this._blockMaterials[1] = this.numberMaterials[currentCounter];
                 this.blockRenderer.materials = this._blockMaterials;
                 this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
@@ -89,7 +89,7 @@
                 //this._blockState = BlockInfo.BlockState.UP;
                 this.previousCounter = currentCounter;
                 this.currentCounter--;
-                this._blockMaterials[0] = this.tileUpMaterials[this.MaterialID];
+                this._blockMaterials[0] = this.tileUpMaterial;
                 this._blockMaterials[1] = this.numberMaterials[currentCounter];
                 this.blockRenderer.materials = this._blockMaterials;
                 this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
@@ -103,13 +103,13 @@
                 if(!this.isUp) {
                     //this._blockState = BlockInfo.BlockState.UP;
                     this.currentCounter = this.maxCounter;
-                    this.blockRenderer.material = this.tileUpMaterials[currentCounter];
+                    this.blockRenderer.material = this.tileUpMaterial;
                     this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
                     this.isUp = true;
                     this.BlockState = BlockInfo.BlockState.NONE;
                 } else {
                     this.currentCounter--;
-                    this.blockRenderer.material = this.tileUpMaterials[currentCounter];
+                    this.blockRenderer.material = this.tileUpMaterial;
                     this.BlockState = BlockInfo.BlockState.NONE;
                 }
             } else {
@@ -117,7 +117,7 @@
                     //this._blockState = BlockInfo.BlockState.DOWN;
                     this.previousCounter = currentCounter;
                     this.currentCounter = this.maxCounter;
-                    this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
+                    this._blockMaterials[0] = this.tileDownMaterial;
                     this._blockMaterials[1] = this.numberMaterials[currentCounter];
                     this.blockRenderer.materials = this._blockMaterials;
                     this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
@@ -126,7 +126,7 @@
                 } else {
                     this.previousCounter = currentCounter;
                     this.currentCounter--;
-                    this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
+                    this._blockMaterials[0] = this.tileDownMaterial;
                     this._blockMaterials[1] = this.numberMaterials[currentCounter];
                     this.blockRenderer.materials = this._blockMaterials;
                     this.BlockState = BlockInfo.BlockState.NONE;

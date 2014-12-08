@@ -49,29 +49,6 @@
                 this.MoveDown();
         }
 
-        public void ResetUndoState() {
-            this._isFlipped = false;
-            this._previousState = BlockInfo.BlockState.NONE;
-        }
-
-        public void Init() {
-            if(this.BlockState == BlockInfo.BlockState.UP) {
-                this.isUp = true;
-                this.BlockState = BlockInfo.BlockState.NONE;
-
-                this._blockMaterials[0] = this.tileUpMaterials[this.MaterialID];
-                this._blockMaterials[1] = this.switchDownMaterial;
-                this.blockRenderer.materials = this._blockMaterials;
-            } else {
-                this.isUp = false;
-                this.BlockState = BlockInfo.BlockState.NONE;
-
-                this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
-                this._blockMaterials[1] = this.switchDownMaterial;
-                this.blockRenderer.materials = this._blockMaterials;
-            }
-        }
-
         public void AddEmptyBlock(GameObject obj) {
             if(this.emptyBlocks.Contains(obj))
                 return;
@@ -104,11 +81,16 @@
             this.emptyBlocks.Clear();
         }
 
+        public void ResetUndoState() {
+            this._isFlipped = false;
+            this._previousState = BlockInfo.BlockState.NONE;
+        }
+
         public override void MoveUp() {
             this.isUp = true;
             this.BlockState = BlockInfo.BlockState.NONE;
 
-            this._blockMaterials[0] = this.tileUpMaterials[this.MaterialID];
+            this._blockMaterials[0] = this.tileUpMaterial;
             this._blockMaterials[1] = this.switchUpMaterial;
             this.blockRenderer.materials = this._blockMaterials;
 
@@ -121,12 +103,32 @@
             this.isUp = false;
             this.BlockState = BlockInfo.BlockState.NONE;
 
-            this._blockMaterials[0] = this.tileDownMaterials[this.MaterialID];
+            this._blockMaterials[0] = this.tileDownMaterial;
             this._blockMaterials[1] = this.switchDownMaterial;
             this.blockRenderer.materials = this._blockMaterials;
 
             for(int i = 0; i < this._blockCount; i++) {
                 this.emptySwitchScripts[i].BlockState = BlockInfo.BlockState.DOWN;
+            }
+        }
+
+        public void Init() {
+            //base.Init();
+
+            if(this.BlockState == BlockInfo.BlockState.UP) {
+                this.isUp = true;
+                this.BlockState = BlockInfo.BlockState.NONE;
+
+                this._blockMaterials[0] = this.tileUpMaterial;
+                this._blockMaterials[1] = this.switchDownMaterial;
+                this.blockRenderer.materials = this._blockMaterials;
+            } else {
+                this.isUp = false;
+                this.BlockState = BlockInfo.BlockState.NONE;
+
+                this._blockMaterials[0] = this.tileDownMaterial;
+                this._blockMaterials[1] = this.switchDownMaterial;
+                this.blockRenderer.materials = this._blockMaterials;
             }
         }
 

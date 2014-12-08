@@ -181,7 +181,9 @@
                     PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                     if(!AIController.instance.isStunned)
                         AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
-                    this.ResetUndoStates();
+                    
+                    if(this._moveCount > 1)
+                        this.ResetUndoStates();
                 }
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
 
@@ -200,7 +202,9 @@
                     PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                     if(!AIController.instance.isStunned)
                         AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
-                    this.ResetUndoStates();
+                    
+                    if(this._moveCount > 1)
+                        this.ResetUndoStates();
                 }
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
 
@@ -219,7 +223,9 @@
                     PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                     if(!AIController.instance.isStunned)
                         AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
-                    this.ResetUndoStates();
+
+                    if(this._moveCount > 1)
+                        this.ResetUndoStates();
                 }
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
 
@@ -239,7 +245,9 @@
                     PlayerController.instance.GetInput(this.directionCurrent, this.directionPrevious);
                     if(!AIController.instance.isStunned)
                         AIController.instance.GetInput(this.directionCurrent, this.directionPrevious);
-                    this.ResetUndoStates();
+
+                    if(this._moveCount > 1)
+                        this.ResetUndoStates();
                 }
                 this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
 

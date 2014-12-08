@@ -1,9 +1,12 @@
 ﻿#if UNITY_EDITOR
 namespace Helpers {
-    using UnityEngine;
+
     using System;
     using System.IO;
     using System.Collections.Generic;
+
+    using UnityEngine;
+
 
     using GameInfo;
 
@@ -17,15 +20,26 @@ namespace Helpers {
         }
 
         /// <summary>
-        /// This Function Will Find And Return A Gameobject Of An Asset(Prefab) In Our Project In A Specified Place
+        /// This Function Will Find And Return A Type Of An Asset In Our Project In A Specified Place
         /// </summary>
         /// <param name="objectLocation">The Location Of The Asset</param>
         /// <param name="objectName">The Name Of The Asset</param>
         /// <returns></returns>
         public static Type FindAsset<Type>(string objectLocation, string objectName) where Type : UnityEngine.Object {
             
-            string prefabPath = GetPrefabPath(objectLocation, objectName);
-            Type prefabObject = LoadAsset<Type>(prefabPath);
+            string prefabPath = GetPath(objectLocation, objectName);
+
+            if(typeof(Type) == typeof(GameObject))
+                prefabPath += ".prefab";
+            else if(typeof(Type) == typeof(Material))
+                prefabPath += ".mat";
+            else
+                throw new ArgumentNullException("Object Of Type(" + typeof(Type).Name + ") Not Found");
+
+            var prefabObject = LoadAsset<Type>(prefabPath);
+
+            if(prefabObject == null)
+                throw new ArgumentNullException("Object (" + prefabPath + ") Not Found");
 
             return prefabObject as Type;
         }
@@ -55,6 +69,11 @@ namespace Helpers {
         private static string GetPrefabPath(string objectLocation, string objectName) {
             string name = Path.GetFileNameWithoutExtension(objectName);
             return objectLocation + name + ".prefab";
+        }
+
+        private static string GetPath(string objectLocation, string objectName) {
+            string name = Path.GetFileNameWithoutExtension(objectName);
+            return objectLocation + name;
         }
     }
 }

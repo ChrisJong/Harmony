@@ -53,7 +53,9 @@
                                 PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                                 if(!AIController.instance.isStunned)
                                     AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                                GridController.instance.ResetUndoStates();
+
+                                if(GridController.instance.MoveCount > 1)
+                                    GridController.instance.ResetUndoStates();
                             }
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             if(!PlayerController.instance.isStunned)
@@ -71,7 +73,9 @@
                                 PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                                 if(!AIController.instance.isStunned)
                                     AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                                GridController.instance.ResetUndoStates();
+
+                                if(GridController.instance.MoveCount > 1)
+                                    GridController.instance.ResetUndoStates();
                             }
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             if(!PlayerController.instance.isStunned)
@@ -97,7 +101,9 @@
                                 PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                                 if(!AIController.instance.isStunned)
                                     AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                                GridController.instance.ResetUndoStates();
+
+                                if(GridController.instance.MoveCount > 1)
+                                    GridController.instance.ResetUndoStates();
                             }
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             if(!PlayerController.instance.isStunned)
@@ -115,7 +121,9 @@
                                 PlayerController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                                 if(!AIController.instance.isStunned)
                                     AIController.instance.GetInput(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
-                                GridController.instance.ResetUndoStates();
+
+                                if(GridController.instance.MoveCount > 1)
+                                    GridController.instance.ResetUndoStates();
                             }
                             GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             if(!PlayerController.instance.isStunned)
