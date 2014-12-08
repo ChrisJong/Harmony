@@ -124,20 +124,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c31eddbf345ecac428d2ea0616630f3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileUpMaterials:
-  - {fileID: 2100000, guid: ef71c4b3101258f49b3aaa32929483bd, type: 2}
-  - {fileID: 2100000, guid: a8789475d6a74eb4abfed9046e1c8a70, type: 2}
-  - {fileID: 2100000, guid: ad406ff55edec3348b9c9e3534ae3ea6, type: 2}
-  - {fileID: 2100000, guid: 503d76a808c193e4d9b5935537b1f97f, type: 2}
-  - {fileID: 2100000, guid: caff3bdba7e709f488d7ac07ca7cfb68, type: 2}
-  - {fileID: 2100000, guid: ac5b7e5f20742c741b6316b59337ffd7, type: 2}
-  tileDownMaterials:
-  - {fileID: 2100000, guid: 75b02d31b646a6c4fa6ecea21f639a67, type: 2}
-  - {fileID: 2100000, guid: af11d714523317d45bfdfcfaddae05bb, type: 2}
-  - {fileID: 2100000, guid: d3f54354c71c8ec4a978f6a39841a8cd, type: 2}
-  - {fileID: 2100000, guid: 5826382a55312c5429138bea62b1434a, type: 2}
-  - {fileID: 2100000, guid: 217b27bbeb9882d4db10fcde39a7a3e7, type: 2}
-  - {fileID: 2100000, guid: 7591fb9cbd88c8f49a2a7f2e7addf1fb, type: 2}
+  tileUpMaterial: {fileID: 0}
+  tileDownMaterial: {fileID: 0}
+  blockMaterials: []
   blockRenderer: {fileID: 0}
   firstDirectionValue: 0
   secondDirectionValue: 0
@@ -148,9 +137,11 @@ MonoBehaviour:
   _blockDirections: 
   _firstDirection: 0
   _secondDirection: 0
-  stunUpMaterial: {fileID: 2100000, guid: 5f0839103c9b5f5428be557d2f0e0105, type: 2}
-  stunDownMaterial: {fileID: 2100000, guid: 0e0271b185748204faaa534a98d6d1b7, type: 2}
+  _previousState: 0
+  stunUpMaterial: {fileID: 0}
+  stunDownMaterial: {fileID: 0}
   stunCounter: 0
+  isEnabled: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

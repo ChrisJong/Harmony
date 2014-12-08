@@ -56,8 +56,9 @@
 
                                 if(GridController.instance.MoveCount > 1)
                                     GridController.instance.ResetUndoStates();
+                                GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             }
-                            GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+
                             if(!PlayerController.instance.isStunned)
                                 GridController.instance.MoveCount += 1;
                             if(MazeInfo.MazeMoveValue != null) {
@@ -76,8 +77,9 @@
 
                                 if(GridController.instance.MoveCount > 1)
                                     GridController.instance.ResetUndoStates();
+                                GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             }
-                            GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+
                             if(!PlayerController.instance.isStunned)
                                 GridController.instance.MoveCount += 1;
                             if(MazeInfo.MazeMoveValue != null) {
@@ -104,8 +106,9 @@
 
                                 if(GridController.instance.MoveCount > 1)
                                     GridController.instance.ResetUndoStates();
+                                GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             }
-                            GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+
                             if(!PlayerController.instance.isStunned)
                                 GridController.instance.MoveCount += 1;
                             if(MazeInfo.MazeMoveValue != null) {
@@ -124,8 +127,9 @@
 
                                 if(GridController.instance.MoveCount > 1)
                                     GridController.instance.ResetUndoStates();
+                                GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
                             }
-                            GridController.instance.ActivateBlocks(GridController.instance.directionCurrent, GridController.instance.directionPrevious);
+
                             if(!PlayerController.instance.isStunned)
                                 GridController.instance.MoveCount += 1;
                             if(MazeInfo.MazeMoveValue != null) {

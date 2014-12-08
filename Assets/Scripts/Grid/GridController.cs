@@ -184,9 +184,10 @@
                     
                     if(this._moveCount > 1)
                         this.ResetUndoStates();
-                }
-                this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
 
+                    this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
+                }
+                
                 if(!PlayerController.instance.isStunned)
                     this._moveCount++;
 
@@ -205,8 +206,9 @@
                     
                     if(this._moveCount > 1)
                         this.ResetUndoStates();
+
+                    this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
                 }
-                this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
 
                 if(!PlayerController.instance.isStunned)
                     this._moveCount++;
@@ -226,9 +228,10 @@
 
                     if(this._moveCount > 1)
                         this.ResetUndoStates();
-                }
-                this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
 
+                    this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
+                }
+                
                 if(!PlayerController.instance.isStunned)
                     this._moveCount++;
 
@@ -248,8 +251,9 @@
 
                     if(this._moveCount > 1)
                         this.ResetUndoStates();
+
+                    this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
                 }
-                this.ActivateBlocks(this.directionCurrent, this.directionPrevious);
 
                 if(!PlayerController.instance.isStunned)
                     this._moveCount++;

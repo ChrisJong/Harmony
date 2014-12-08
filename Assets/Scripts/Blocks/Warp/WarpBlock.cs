@@ -9,27 +9,26 @@
     using UnityEngine;
 
     using GameInfo;
+    using Helpers;
 
     [System.Serializable]
     public class WarpBlock : BlockClass {
 
-        public List<Material> warpUpMaterials;
-        public List<Material> warpDownMaterials;
+        [HideInInspector]
+        public Material warpUpMaterial;
+        [HideInInspector]
+        public Material warpDownMaterial;
 
         [SerializeField]
         public GameObject warpNode;
         [SerializeField]
         public PlayerInfo.MovementDirection warpDirection;
 
-        [HideInInspector]
-        public Material[] blockMaterials;
-
         private float _timer = 0.0f;
         private float _maxTimer = 1.0f;
         private BoxCollider _warpCollider;
 
         void Awake() {
-            this.blockMaterials = this.blockRenderer.materials;
             this._warpCollider = this.warpNode.transform.GetChild(0).GetComponent<BoxCollider>();
         }
 
@@ -63,7 +62,14 @@
         }
 
         public void EnableCollider() {
-            this.blockMaterials[1] = this.warpDownMaterials[this.firstDirectionValue - 1];
+            if(this.isUp) {
+                this.blockMaterials[0] = this.tileUpMaterial;
+                this.blockMaterials[1] = this.warpDownMaterial;
+            } else {
+                this.blockMaterials[0] = this.tileDownMaterial;
+                this.blockMaterials[1] = this.warpDownMaterial;
+            }
+
             this.blockRenderer.materials = this.blockMaterials;
 
             if(!this._warpCollider.enabled)
@@ -92,21 +98,49 @@
             base.SetupBlock(type, direction);
 
             this.warpDirection = (PlayerInfo.MovementDirection)((int)direction);
-
-            Material[] mats = this.blockRenderer.sharedMaterials;
-            mats[1] = this.warpDownMaterials[(int)direction - 1];
-            this.blockRenderer.sharedMaterials = mats;
+#if UNITY_EDITOR
+            this.SetMiscMaterial();
+#endif
+            this.blockMaterials[1] = this.warpDownMaterial;
+            this.blockRenderer.sharedMaterials = this.blockMaterials;
         }
 
         public override void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockDirection direction, BlockInfo.BlockState state) {
             base.SetupBlock(type, direction, state);
 
             this.warpDirection = (PlayerInfo.MovementDirection)((int)direction);
-
-            Material[] mats = this.blockRenderer.sharedMaterials;
-            mats[1] = this.warpDownMaterials[(int)direction - 1];
-            this.blockRenderer.sharedMaterials = mats;
+#if UNITY_EDITOR
+            this.SetMiscMaterial();
+#endif
+            this.blockMaterials[1] = this.warpDownMaterial;
+            this.blockRenderer.sharedMaterials = this.blockMaterials;
         }
+
+#if UNITY_EDITOR
+        private void SetMiscMaterial() {
+            switch(this.FirstDirection){
+                case BlockInfo.BlockDirection.UP:
+                    this.warpUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Up/", "Up-Up");
+                    this.warpDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Down/", "Up-Down");
+                    break;
+
+                case BlockInfo.BlockDirection.RIGHT:
+                    this.warpUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Up/", "Right-Up");
+                    this.warpDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Down/", "Right-Down");
+                    break;
+
+                case BlockInfo.BlockDirection.DOWN:
+                    this.warpUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Up/", "Down-Up");
+                    this.warpDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Down/", "Down-Down");
+                    break;
+
+                case BlockInfo.BlockDirection.LEFT:
+                    this.warpUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Up/", "Left-Up");
+                    this.warpDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Down/", "Left-Down");
+                    break;
+            }
+        }
+#endif
 
         #region Getter/Setter
         public PlayerInfo.MovementDirection WarpDirection {

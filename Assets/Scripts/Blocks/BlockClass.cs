@@ -39,8 +39,8 @@
         private BlockInfo.BlockDirection _firstDirection;
         [SerializeField, HideInInspector]
         private BlockInfo.BlockDirection _secondDirection;
-        /*[SerializeField, HideInInspector]
-        private BlockInfo.BlockState _previousState;*/
+        [SerializeField, HideInInspector]
+        private BlockInfo.BlockState _previousState;
 
         //public abstract void ResetUndoState();
 
@@ -91,6 +91,7 @@
         public virtual void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockState state) {
             this._blockType = type;
             this._blockState = state;
+            this._previousState = state;
 
             this._firstDirection = BlockInfo.BlockDirection.NONE;
             this._secondDirection = BlockInfo.BlockDirection.NONE;
@@ -111,6 +112,7 @@
         public virtual void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockState state, int initCounter) {
             this._blockType = type;
             this._blockState = state;
+            this._previousState = state;
 
             this._firstDirection = BlockInfo.BlockDirection.NONE;
             this._secondDirection = BlockInfo.BlockDirection.NONE;
@@ -135,6 +137,7 @@
         public virtual void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockDirection direction, BlockInfo.BlockState state) {
             this._blockType = type;
             this._blockState = state;
+            this._previousState = state;
 
             this._firstDirection = direction;
             this._secondDirection = BlockInfo.BlockDirection.NONE;
@@ -165,6 +168,7 @@
         public virtual void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockDirection firstDirection, BlockInfo.BlockDirection secondDirection, BlockInfo.BlockState state) {
             this._blockType = type;
             this._blockState = state;
+            this._previousState = state;
 
             this._firstDirection = firstDirection;
             this._secondDirection = secondDirection;
@@ -213,6 +217,11 @@
         public BlockInfo.BlockState BlockState {
             get { return this._blockState; }
             set { this._blockState = value; }
+        }
+
+        public BlockInfo.BlockState PreviousState {
+            get { return this._previousState; }
+            set { this._previousState = value; }
         }
 
         public BlockInfo.BlockTypes BlockType {

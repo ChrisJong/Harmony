@@ -10,11 +10,14 @@
 
     using Grid;
     using GameInfo;
+    using Helpers;
 
     [System.Serializable]
     public class SwitchBlock : BlockClass {
 
+        [HideInInspector]
         public Material switchUpMaterial;
+        [HideInInspector]
         public Material switchDownMaterial;
 
         [SerializeField]
@@ -27,11 +30,8 @@
         private int _blockCount = 0;
         private bool _isFlipped;
         //private bool _isReversed;
-        private BlockInfo.BlockState _previousState;
-        private Material[] _blockMaterials;
 
         void Awake() {
-            this._blockMaterials = this.blockRenderer.materials;
             this.emptySwitchScripts = new List<SwitchEmptyBlock>();
 
             for(int i = 0; i < this._blockCount; i++) {
@@ -83,16 +83,16 @@
 
         public void ResetUndoState() {
             this._isFlipped = false;
-            this._previousState = BlockInfo.BlockState.NONE;
+            this.PreviousState = BlockInfo.BlockState.NONE;
         }
 
         public override void MoveUp() {
             this.isUp = true;
             this.BlockState = BlockInfo.BlockState.NONE;
 
-            this._blockMaterials[0] = this.tileUpMaterial;
-            this._blockMaterials[1] = this.switchUpMaterial;
-            this.blockRenderer.materials = this._blockMaterials;
+            this.blockMaterials[0] = this.tileUpMaterial;
+            this.blockMaterials[1] = this.switchUpMaterial;
+            this.blockRenderer.materials = this.blockMaterials;
 
             for(int i = 0; i < this._blockCount; i++) {
                 this.emptySwitchScripts[i].BlockState = BlockInfo.BlockState.UP;
@@ -103,9 +103,9 @@
             this.isUp = false;
             this.BlockState = BlockInfo.BlockState.NONE;
 
-            this._blockMaterials[0] = this.tileDownMaterial;
-            this._blockMaterials[1] = this.switchDownMaterial;
-            this.blockRenderer.materials = this._blockMaterials;
+            this.blockMaterials[0] = this.tileDownMaterial;
+            this.blockMaterials[1] = this.switchDownMaterial;
+            this.blockRenderer.materials = this.blockMaterials;
 
             for(int i = 0; i < this._blockCount; i++) {
                 this.emptySwitchScripts[i].BlockState = BlockInfo.BlockState.DOWN;
@@ -118,42 +118,46 @@
             if(this.BlockState == BlockInfo.BlockState.UP) {
                 this.isUp = true;
                 this.BlockState = BlockInfo.BlockState.NONE;
+                this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
 
-                this._blockMaterials[0] = this.tileUpMaterial;
-                this._blockMaterials[1] = this.switchDownMaterial;
-                this.blockRenderer.materials = this._blockMaterials;
+                this.blockMaterials[0] = this.tileUpMaterial;
+                this.blockMaterials[1] = this.switchDownMaterial;
+                this.blockRenderer.materials = this.blockMaterials;
             } else {
                 this.isUp = false;
                 this.BlockState = BlockInfo.BlockState.NONE;
+                this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
 
-                this._blockMaterials[0] = this.tileDownMaterial;
-                this._blockMaterials[1] = this.switchDownMaterial;
-                this.blockRenderer.materials = this._blockMaterials;
+                this.blockMaterials[0] = this.tileDownMaterial;
+                this.blockMaterials[1] = this.switchDownMaterial;
+                this.blockRenderer.materials = this.blockMaterials;
             }
         }
 
         public override void SetupBlock(BlockInfo.BlockTypes type) {
             base.SetupBlock(type);
-
-            Material[] mats = this.blockRenderer.sharedMaterials;
-
-            mats[1] = this.switchDownMaterial;
-            this.blockRenderer.materials = mats;
+#if UNITY_EDITOR
+            this.SetMiscMaterial();
+#endif
+            this.blockMaterials[1] = this.switchDownMaterial;
+            this.blockRenderer.materials = this.blockMaterials;
         }
 
         public override void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockState state) {
             base.SetupBlock(type, state);
-
-            Material[] mats = this.blockRenderer.sharedMaterials;
-
-            if(state == BlockInfo.BlockState.UP) {
-                mats[1] = this.switchDownMaterial;
-                this.blockRenderer.materials = mats;
-            } else {
-                mats[1] = this.switchDownMaterial;
-                this.blockRenderer.materials = mats;
-            }
+#if UNITY_EDITOR
+            this.SetMiscMaterial();
+#endif
+            this.blockMaterials[1] = this.switchDownMaterial;
+            this.blockRenderer.materials = this.blockMaterials;
         }
+
+#if UNITY_EDITOR
+        private void SetMiscMaterial() {
+            this.switchUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Switch/Standard/", "Up");
+            this.switchDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Switch/Standard/", "Down");
+        }
+#endif
 
         #region Getter/Setter
         public int BlockCount {
@@ -168,11 +172,6 @@
         /*public bool IsReversed {
             get { return this._isReversed; }
         }*/
-
-        public BlockInfo.BlockState PreviousState {
-            get { return this._previousState; }
-            set { this._previousState = value; }
-        }
         #endregion
     }
 }

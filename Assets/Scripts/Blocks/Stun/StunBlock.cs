@@ -5,22 +5,20 @@
     using UnityEngine;
 
     using GameInfo;
+    using Helpers;
 
     public class StunBlock : BlockClass {
 
+        [HideInInspector]
         public Material stunUpMaterial;
+        [HideInInspector]
         public Material stunDownMaterial;
-        public Material[] blockMaterials;
 
         public int stunCounter;
         public bool isEnabled = false;
 
         private float _timer = 0.0f;
         private float _maxTimer = 1.0f;
-
-        void Awake() {
-            this.blockMaterials = this.blockRenderer.materials;
-        }
 
         void Update() {
             if(this.isEnabled) {
@@ -55,23 +53,30 @@
         public override void SetupBlock(BlockInfo.BlockTypes type, int initCounter) {
             base.SetupBlock(type, initCounter);
 
-            Material[] mats = this.blockRenderer.sharedMaterials;
-
             this.stunCounter = initCounter;
-
-            mats[1] = stunDownMaterial;
-            this.blockRenderer.materials = mats;
+#if UNITY_EDITOR
+            this.SetMiscMaterial();
+#endif
+            this.blockMaterials[1] = stunDownMaterial;
+            this.blockRenderer.materials = this.blockMaterials;
         }
 
         public override void SetupBlock(BlockInfo.BlockTypes type, BlockInfo.BlockState state, int initCounter) {
             base.SetupBlock(type, state, initCounter);
 
-            Material[] mats = this.blockRenderer.sharedMaterials;
-
             this.stunCounter = initCounter;
-
-            mats[1] = stunDownMaterial;
-            this.blockRenderer.materials = mats;
+#if UNITY_EDITOR
+            this.SetMiscMaterial();
+#endif
+            this.blockMaterials[1] = stunDownMaterial;
+            this.blockRenderer.materials = this.blockMaterials;
         }
+
+#if UNITY_EDITOR
+        private void SetMiscMaterial() {
+            this.stunUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Stun/Standard/", "Stun-Up");
+            this.stunDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Stun/Standard/", "Stun-Down");
+        }
+#endif
     }
 }

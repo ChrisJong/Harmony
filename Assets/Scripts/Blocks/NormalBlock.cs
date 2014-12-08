@@ -30,6 +30,7 @@
             this.transform.position = new Vector3(this.transform.position.x, 1.0f, this.transform.position.z);
             this.isUp = true;
             this.BlockState = BlockInfo.BlockState.NONE;
+            this.PreviousState = BlockInfo.BlockState.DOWN;
 
             this.blockMaterials[0] = this.tileUpMaterial;
             this.blockMaterials[1] = this._arrowUpMaterial;
@@ -40,6 +41,7 @@
             this.transform.position = new Vector3(this.transform.position.x, 0.0f, this.transform.position.z);
             this.isUp = false;
             this.BlockState = BlockInfo.BlockState.NONE;
+            this.PreviousState = BlockInfo.BlockState.UP;
 
             this.blockMaterials[0] = this.tileDownMaterial;
             this.blockMaterials[1] = this._arrowDownMaterial;
@@ -51,7 +53,7 @@
 
             this.isUp = false;
 #if UNITY_EDITOR
-            this.SetArrowMaterial();
+            this.SetMiscMaterial();
 #endif
             this.blockRenderer.sharedMaterials = this.blockMaterials;
         }
@@ -62,20 +64,20 @@
             if(state == BlockInfo.BlockState.UP) {
                 this.isUp = true;
 #if UNITY_EDITOR
-                this.SetArrowMaterial();
+                this.SetMiscMaterial();
 #endif
                 this.blockRenderer.sharedMaterials = this.blockMaterials;
 
             } else {
 #if UNITY_EDITOR
-                this.SetArrowMaterial();
+                this.SetMiscMaterial();
 #endif
                 this.blockRenderer.sharedMaterials = this.blockMaterials;
             }
         }
 
 #if UNITY_EDITOR
-        private void SetArrowMaterial() {
+        private void SetMiscMaterial() {
             switch(this.FirstDirection) {
                 case BlockInfo.BlockDirection.UP:
                     this._arrowUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Normal/Standard/Up/", "Up-Up");
