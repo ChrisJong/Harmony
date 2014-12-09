@@ -24,6 +24,9 @@
         public bool isStunned = false;
         public bool isDeath = false;
 
+        public Vector2 currentPos;
+        public Vector2 previousPos;
+
         private GameObject _currentBlock;
         private PlayerInfo.MovementDirection _currentDirection = PlayerInfo.MovementDirection.NONE;
         private bool _canUndo = false;
@@ -35,6 +38,10 @@
             this.indicationTexture = this.indication.GetComponent<AnimateTextureSheet>() as AnimateTextureSheet;
             this._currentBlock = null;
             this._currentDirection = PlayerInfo.MovementDirection.NONE;            
+        }
+
+        void Start() {
+            this.currentPos = new Vector2(this.transform.position.x, this.transform.position.z);
         }
 
         void Update() {
@@ -96,16 +103,20 @@
             this.CheckCurrentBlock();
             PlayerAudio.instance.PlayMovement();
             this.isMoving = true;
+            this.previousPos = this.currentPos;
+            this.currentPos = new Vector2(this.transform.position.x, this.transform.position.z);
         }
 
         public void CheckCurrentBlock() {
             if(this._currentBlock == null)
                 return;
 
-            if(this._currentBlock.GetComponent<BlockClass>().BlockState == BlockInfo.BlockState.UP)
-                this.transform.position = new Vector3(this.transform.position.x, 2.85f, this.transform.position.z);
-            else if(this._currentBlock.GetComponent<BlockClass>().BlockState == BlockInfo.BlockState.DOWN)
-                this.transform.position = new Vector3(this.transform.position.x, 1.85f, this.transform.position.z);
+            if(this._currentBlock.GetComponent<BlockClass>() != null) {
+                if(this._currentBlock.GetComponent<BlockClass>().BlockState == BlockInfo.BlockState.UP)
+                    this.transform.position = new Vector3(this.transform.position.x, 2.85f, this.transform.position.z);
+                else if(this._currentBlock.GetComponent<BlockClass>().BlockState == BlockInfo.BlockState.DOWN)
+                    this.transform.position = new Vector3(this.transform.position.x, 1.85f, this.transform.position.z);
+            }
         }
 
         public void UndoMovement() {
@@ -153,9 +164,6 @@
                                 PlayerAudio.instance.PlayCollision();
                         }
 
-                        if(hitInfo.collider.tag == "Glass")
-                            hitInfo.transform.GetComponent<GlassCollider>().MoveDown();
-
                         if(hitInfo.collider.tag == "Block" || hitInfo.collider.tag == "Wall" || hitInfo.collider.tag == "Glass") {
                             if(!this.isStunned)
                                 this._canUndo = true;
@@ -166,6 +174,13 @@
 
                             this.GetCurrentBlock();
                             PlayerMovement.instance.CenterPlayer(this._currentBlock.transform);
+
+                            this.currentPos = new Vector2(this.transform.position.x, this.transform.position.z);
+                            Debug.Log(Vector2.Distance(this.previousPos, this.currentPos));
+                            if(Vector2.Distance(this.previousPos, this.currentPos) > 0.9f) {
+                                if(hitInfo.collider.tag == "Glass")
+                                    hitInfo.transform.GetComponent<GlassCollider>().MoveDown();
+                            }
                         }
                     }
                 }
@@ -178,7 +193,7 @@
 
             Debug.DrawRay(this.transform.position, rayDirection * 100.0f, Color.red);
             if(Physics.Raycast(this.transform.position, rayDirection, out hitInfo, 5.0f)) {
-                if(hitInfo.transform.tag == "Block") {
+                if(hitInfo.transform.tag == "Block" || hitInfo.transform.tag == "Glass") {
                     this._currentBlock = hitInfo.transform.gameObject;
                 }
             }
