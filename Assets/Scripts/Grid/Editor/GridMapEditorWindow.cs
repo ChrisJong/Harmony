@@ -366,10 +366,12 @@
                     break;
 
                 case BlockInfo.BlockTypes.WARP:
-                    EditorGUILayout.BeginHorizontal();
+                    // OLD WARP DIRECTION CODE.
+                    /*EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Warp Direction: " + this._target.blockOneDirection);
                     EditorGUILayout.EndHorizontal();
 
+                    
                     EditorGUILayout.BeginHorizontal();
                     if(GUILayout.Button("UP"))
                         this._target.blockOneDirection = BlockInfo.BlockDirection.UP;
@@ -381,7 +383,9 @@
                         this._target.blockOneDirection = BlockInfo.BlockDirection.LEFT;
                     EditorGUILayout.EndHorizontal();
 
-                    EditorGUILayout.Separator();
+                    EditorGUILayout.Separator();*/
+
+                    this._target.blockOneDirection = BlockInfo.BlockDirection.NONE;
 
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Block State: " + this._target.blockState);
@@ -400,7 +404,8 @@
                     EditorGUILayout.LabelField("PLACE A WARP NODE: ");
                     EditorGUILayout.EndHorizontal();
 
-                    EditorGUILayout.Separator();
+                    // OLD WARP DIRECTION CODE.
+                    /*EditorGUILayout.Separator();
 
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Warp Direction: " + this._target.blockOneDirection);
@@ -415,7 +420,9 @@
                         this._target.blockOneDirection = BlockInfo.BlockDirection.DOWN;
                     if(GUILayout.Button("LEFT"))
                         this._target.blockOneDirection = BlockInfo.BlockDirection.LEFT;
-                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.EndHorizontal();*/
+
+                    this._target.blockOneDirection = BlockInfo.BlockDirection.NONE;
 
                     EditorGUILayout.Separator();
 

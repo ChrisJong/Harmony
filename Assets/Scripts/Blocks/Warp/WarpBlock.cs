@@ -25,7 +25,7 @@
         public PlayerInfo.MovementDirection warpDirection;
 
         private float _timer = 0.0f;
-        private float _maxTimer = 1.0f;
+        private float _maxTimer = 0.25f;
         private BoxCollider _warpCollider;
 
         void Awake() {
@@ -113,7 +113,11 @@
 
 #if UNITY_EDITOR
         private void SetMiscMaterial() {
-            switch(this.FirstDirection){
+            this.warpUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Up/", "Up-Up");
+            this.warpDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Down/", "Up-Down");
+
+            // OLD WARP DIRECTION CODE.
+            /*switch(this.FirstDirection){
                 case BlockInfo.BlockDirection.UP:
                     this.warpUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Up/", "Up-Up");
                     this.warpDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Down/", "Up-Down");
@@ -133,7 +137,7 @@
                     this.warpUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Up/", "Left-Up");
                     this.warpDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Warp/Standard/Down/", "Left-Down");
                     break;
-            }
+            }*/
         }
 #endif
 

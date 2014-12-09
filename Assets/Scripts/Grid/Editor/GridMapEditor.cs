@@ -321,7 +321,6 @@
                     blockPositionInLocalSpace = new Vector3((gridPosition.x * map.BlockWidth) + (map.BlockWidth * 0.5f), 1.0f, (gridPosition.z * map.BlockBreadth));
                 } else {
                     blockPositionInLocalSpace = new Vector3((gridPosition.x * map.BlockWidth) + (map.BlockWidth * 0.5f), 0.0f, (gridPosition.z * map.BlockBreadth));
-
                 }
             }
             block.transform.position = map.transform.position + blockPositionInLocalSpace;
