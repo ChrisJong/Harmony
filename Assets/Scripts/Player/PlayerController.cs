@@ -153,7 +153,10 @@
                                 PlayerAudio.instance.PlayCollision();
                         }
 
-                        if(hitInfo.collider.tag == "Block" || hitInfo.collider.tag == "Wall") {
+                        if(hitInfo.collider.tag == "Glass")
+                            hitInfo.transform.GetComponent<GlassCollider>().MoveDown();
+
+                        if(hitInfo.collider.tag == "Block" || hitInfo.collider.tag == "Wall" || hitInfo.collider.tag == "Glass") {
                             if(!this.isStunned)
                                 this._canUndo = true;
 
