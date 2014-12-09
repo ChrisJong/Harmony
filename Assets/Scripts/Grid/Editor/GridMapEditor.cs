@@ -316,9 +316,14 @@
                 blockPositionInLocalSpace = new Vector3((gridPosition.x * map.BlockWidth) + (map.BlockWidth * 0.5f), 1.0f, (gridPosition.z * map.BlockBreadth));
             else if(map.blockToPlace == BlockInfo.BlockTypes.INVISIBLE)
                 blockPositionInLocalSpace = new Vector3((gridPosition.x * map.BlockWidth) + (map.BlockWidth * 0.5f), 1.5f, (gridPosition.z * map.BlockBreadth));
-            else
-                blockPositionInLocalSpace = new Vector3((gridPosition.x * map.BlockWidth) + (map.BlockWidth * 0.5f), 0.0f, (gridPosition.z * map.BlockBreadth));
+            else {
+                if(map.blockState == BlockInfo.BlockState.UP) {
+                    blockPositionInLocalSpace = new Vector3((gridPosition.x * map.BlockWidth) + (map.BlockWidth * 0.5f), 1.0f, (gridPosition.z * map.BlockBreadth));
+                } else {
+                    blockPositionInLocalSpace = new Vector3((gridPosition.x * map.BlockWidth) + (map.BlockWidth * 0.5f), 0.0f, (gridPosition.z * map.BlockBreadth));
 
+                }
+            }
             block.transform.position = map.transform.position + blockPositionInLocalSpace;
 
             // we scale the block to the grid sizes defined by the BlockWidth and BlockHeight fields.
