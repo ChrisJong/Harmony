@@ -148,12 +148,12 @@
         }
 
         public void OnTouchMoved() {
-            this._blockMaterials[0] = this.tileEnter;
-            this._blockMaterials[1] = this.tileEnter;
+            this._blockMaterials[0] = this.tileExit;
+            this._blockMaterials[1] = this.iconExit;
             this._renderer.materials = this._blockMaterials;
             if(this._emptyBlockContainer.Count > 0) {
                 for(int i = 0; i < this._emptyBlockContainer.Count; i++)
-                    this._emptyBlockContainer[i].OnInputEnter();
+                    this._emptyBlockContainer[i].OnInputExit();
             }
         }
 
@@ -188,12 +188,12 @@
         }
 
         public void OnTouchMovedGlobal() {
-            this._blockMaterials[0] = this.tileEnter;
-            this._blockMaterials[1] = this.iconEnter;
+            this._blockMaterials[0] = this.tileExit;
+            this._blockMaterials[1] = this.iconExit;
             this._renderer.materials = this._blockMaterials;
             if(this._emptyBlockContainer.Count > 0) {
                 for(int i = 0; i < this._emptyBlockContainer.Count; i++)
-                    this._emptyBlockContainer[i].OnInputEnter();
+                    this._emptyBlockContainer[i].OnInputExit();
             }
         }
 
