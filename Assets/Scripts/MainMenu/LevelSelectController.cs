@@ -7,6 +7,7 @@
 
     using Helpers;
     using GameInfo;
+    using Resource;
 
     public class LevelSelectController : MonoBehaviour {
 

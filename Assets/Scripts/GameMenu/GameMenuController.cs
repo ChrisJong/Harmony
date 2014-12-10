@@ -9,6 +9,7 @@
     using GameInfo;
     using Helpers;
     using Sound;
+    using Resource;
 
     public class GameMenuController : MonoBehaviour {
 

@@ -5,6 +5,7 @@
 
     using Helpers;
     using GameInfo;
+    using Resource;
 
     [DisallowMultipleComponent]
     public class SoundController : MonoBehaviour {

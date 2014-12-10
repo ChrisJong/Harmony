@@ -200,29 +200,28 @@
         }
 
         private void SetTileMaterial() {
-#if UNITY_EDITOR
+
             this.blockMaterials = this.blockRenderer.sharedMaterials;
 
+#if UNITY_EDITOR
             this._materialID = Random.Range(1, 6);
             this.tileUpMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Empty/Standard/Up/", "Empty" + this._materialID.ToString().PadLeft(2, '0') + "-Up");
             this.tileDownMaterial = AssetProcessor.FindAsset<Material>("Assets/Models/Block/Material/Empty/Standard/Down/", "Empty" + this._materialID.ToString().PadLeft(2, '0') + "-Down");
-#else
-            this.blockMaterials = this.blockRenderer.materials
 #endif
-            if(this._blockState == BlockInfo.BlockState.UP)
+
+            if(this._blockState == BlockInfo.BlockState.UP) {
                 this.blockMaterials[0] = this.tileUpMaterial;
-            else {
-                if(this.isUp)
+            } else {
+                if(this.isUp) {
                     this.blockMaterials[0] = this.tileUpMaterial;
-                else
+                } else {
                     this.blockMaterials[0] = this.tileDownMaterial;
+                }
             }
-#if UNITY_EDITOR
+
             this.blockRenderer.sharedMaterials = this.blockMaterials;
-#else
-            this.blockRenderer.materials = this.blockMaterials;
-#endif
         }
+
         #endregion
 
         #region Getter/Setters
