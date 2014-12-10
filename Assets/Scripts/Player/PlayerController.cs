@@ -176,7 +176,7 @@
                             PlayerMovement.instance.CenterPlayer(this._currentBlock.transform);
 
                             this.currentPos = new Vector2(this.transform.position.x, this.transform.position.z);
-                            Debug.Log(Vector2.Distance(this.previousPos, this.currentPos));
+                            //Debug.Log(Vector2.Distance(this.previousPos, this.currentPos));
                             if(Vector2.Distance(this.previousPos, this.currentPos) > 0.9f) {
                                 if(hitInfo.collider.tag == "Glass")
                                     hitInfo.transform.GetComponent<GlassCollider>().MoveDown();

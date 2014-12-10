@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour {
     public bool isStageFinished = false;
     public GlobalInfo.GameState gameState = GlobalInfo.GameState.MENU;
 
+    private bool _rollCredits = false;
+
     void Awake() {
         instance = this;
         
@@ -41,10 +43,12 @@ public class GameController : MonoBehaviour {
         if(int.TryParse(maze[0], out mazeNumber)) {
             MazeInfo.CurrentMazeNumber = mazeNumber;
             mazeNumber++;
-            if(mazeNumber > MazeInfo.MaxMazeLength)
+            if(mazeNumber > MazeInfo.MaxMazeLength) {
                 MazeInfo.NextMaze = "MainMenu";
-            else
+                this._rollCredits = true;
+            } else {
                 MazeInfo.NextMaze = MazeInfo.MazeName + mazeNumber.ToString();
+            }
         }
     }
 
@@ -78,6 +82,12 @@ public class GameController : MonoBehaviour {
     public void LoadNextLevel() {
         if(MazeInfo.NextMaze != "MainMenu") {
             Object.DontDestroyOnLoad(SoundController.instance.gameObject);
+        } else {
+            if(this._rollCredits) {
+                var token = Instantiate(ResourceManager.instance.endGameToken);
+                token.name = "EndGameToken";
+                Object.DontDestroyOnLoad(token);
+            }
         }
 
         Object.DontDestroyOnLoad(TileManager.instance.gameObject);

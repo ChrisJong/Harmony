@@ -26,6 +26,8 @@
         public GameObject endAnimation;
         public GameObject warningTexture;
 
+        public GameObject endGameToken;
+
         void Awake() {
             instance = this;
         }

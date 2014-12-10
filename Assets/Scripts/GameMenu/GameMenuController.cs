@@ -22,6 +22,7 @@
         public GameObject endMenu;
         public GameObject undoButton;
         public GameObject nextLevelButton;
+        public GameObject mainMenuButton;
         public GUIText moveText;
         public GUIText buttonStateText;
         public GUIText billboardText;
@@ -77,6 +78,7 @@
                 this.billboardText.text = "Your Actions Have Disrupted The Balance" + '\n' + "You Must Reunite The Forces Of The Universe!" + '\n' + "Try Again!";
                 this.nextLevelButton.SetActive(false);
             } else {
+                this.mainMenuButton.SetActive(false);
                 if(GridController.instance.MoveCount <= GridController.instance.MaxMoves) {
                     this.billboardText.text = "You Have Attained The Path To True Harmony!" + '\n' + "Perfect Score!";
                     this.starAnimation.SetActive(true);

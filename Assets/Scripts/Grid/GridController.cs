@@ -279,9 +279,9 @@
             } else {
                 if(MazeInfo.MazeMoveValue.ContainsKey(MazeInfo.CurrentMazeNumber - 1)) {
                     if(PlayerController.instance.isStunned)
-                        GameMenuController.instance.moveText.text = "Level: " + MazeInfo.CurrentMazeNumber.ToString() + " of " + MazeInfo.MaxMazeLength.ToString() + '\n' + "Moves: " + this._moveCount.ToString() + " / " + (this._maxMoves * 3).ToString() + " (Player Stunned)";
+                        GameMenuController.instance.moveText.text = "Maze: " + MazeInfo.CurrentMazeNumber.ToString() + " / " + MazeInfo.MaxMazeLength.ToString() + '\n' + "Moves: " + this._moveCount.ToString() + " / " + (this._maxMoves * 3).ToString() + " (Player Stunned)";
                     else
-                        GameMenuController.instance.moveText.text = "Level: " + MazeInfo.CurrentMazeNumber.ToString() + " of " + MazeInfo.MaxMazeLength.ToString() + '\n' + "Moves: " + this._moveCount.ToString() + " / " + (this._maxMoves * 3).ToString();
+                        GameMenuController.instance.moveText.text = "Maze: " + MazeInfo.CurrentMazeNumber.ToString() + " / " + MazeInfo.MaxMazeLength.ToString() + '\n' + "Moves: " + this._moveCount.ToString() + " / " + (this._maxMoves * 3).ToString();
                 } else
                     GameMenuController.instance.moveText.text = "Moves: " + this._moveCount.ToString() + " (Player Stunned)";
             }

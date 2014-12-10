@@ -34,16 +34,16 @@
 
         void Awake() {
             instance = this;
-        }
 
-		void Start(){
-			rolePos = credRole.transform.position;
-			namePos = credName.transform.position;
-			roleTextMesh = credRole.transform.GetComponent<TextMesh> () as TextMesh;
-			nameTextMesh = credName.transform.GetComponent<TextMesh> () as TextMesh;
-			credColor = credRole.renderer.material.color;
-			teamLogoColor = teamLogo.renderer.material.color;
-		}
+            rolePos = credRole.transform.position;
+            namePos = credName.transform.position;
+            roleTextMesh = credRole.transform.GetComponent<TextMesh>() as TextMesh;
+            nameTextMesh = credName.transform.GetComponent<TextMesh>() as TextMesh;
+            credColor = credRole.renderer.material.color;
+            teamLogoColor = teamLogo.renderer.material.color;
+
+            this.restartCredits();
+        }
 
         void Update() {
             if(MainMenuController.instance.currentMenuScene == MainMenuInfo.MenuTypes.CREDITS) {
@@ -65,8 +65,6 @@
 				teamLogoColor.a -= 0.01f;
 				teamLogo.renderer.material.color = teamLogoColor;
 			}
-
-
 		}
 
         private void rollCredits() {

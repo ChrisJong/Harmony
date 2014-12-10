@@ -25,7 +25,7 @@
         public MainMenuInfo.MenuTypes currentMenuScene;
 
         private GlobalInfo.Skin _previousSkin = GlobalInfo.Skin.NONE;
-        public GlobalInfo.Skin _currentSkin = GlobalInfo.Skin.NONE;
+        private GlobalInfo.Skin _currentSkin = GlobalInfo.Skin.NONE;
 
         void Awake() {
 #if UNITY_IPHONE || UNITY_ANDROID
@@ -40,7 +40,11 @@
             instance = this;
             Instantiate(Resources.Load("ResourceManager") as GameObject);
             TileManager.FindOrCreate();
-            this.currentMenuScene = MainMenuInfo.MenuTypes.MAINMENU;
+            if(GameObject.FindGameObjectWithTag("EndGameToken") != null) {
+                this.currentMenuScene = MainMenuInfo.MenuTypes.CREDITS;
+            } else {
+                this.currentMenuScene = MainMenuInfo.MenuTypes.MAINMENU;
+            }
             MazeDataHelper.SaveGameData();
         }
 
