@@ -73,6 +73,9 @@
             GameObject block = null;
 
             for(int i = 0; i < this.totalPages; i++) {
+                GameObject temp = Instantiate(ResourceManager.instance.mainMenuPlane) as GameObject;
+                temp.transform.parent = this.transform;
+                temp.transform.position = new Vector3(thisObject.transform.position.x + (i * this.distanceBetweenPage) + 2.5f, thisObject.gameObject.transform.position.y - 1.0f, thisObject.transform.position.z + 0.5f);
                 for(int r = 0; r < this._row; r++) {
                     for(int c = 0; c < this._col; c++) {
 #if UNITY_EDITOR

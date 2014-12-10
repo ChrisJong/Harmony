@@ -25,6 +25,7 @@
         public GameObject fireworkParticle;
         public GameObject endAnimation;
         public GameObject warningTexture;
+        public GameObject mainMenuPlane;
 
         public GameObject endGameToken;
 
