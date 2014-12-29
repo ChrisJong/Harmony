@@ -18,6 +18,7 @@
         public List<AudioClip> blockMovement;
         public List<AudioClip> playerMovement;
         public List<AudioClip> playerCollision;
+		public List<AudioClip> playerStunned;
 
         public List<AudioClip> fireworkEmit;
         public List<AudioClip> fireworkExplosion;
@@ -106,6 +107,14 @@
                         return SoundController.instance.playerCollision[random];
                     }
                     break;
+					
+				case SoundInfo.SoundTypes.PLAYER_STUNNED:
+                    count = SoundController.instance.playerStunned.Count;
+					if(count > 0){
+						int random = Random.Range(0, count);
+						return SoundController.instance.playerStunned[random];
+					}
+					break;
 
                 case SoundInfo.SoundTypes.FIREWORK_EMIT:
                     count = SoundController.instance.fireworkEmit.Count;

@@ -13,6 +13,7 @@
 
         private AudioSource _collisionAudioSource;
         private AudioSource _movementAudioSource;
+        private AudioSource _miscAudioSource;
 
         void Awake() {
             instance = this;
@@ -36,12 +37,24 @@
             this._collisionAudioSource.Play();
         }
 
+        public void PlayMisc() {
+            if(this._miscAudioSource.isPlaying)
+                this._miscAudioSource.Stop();
+
+            this._miscAudioSource.clip = SoundController.GetAudioType(SoundInfo.SoundTypes.PLAYER_STUNNED);
+            this._miscAudioSource.Play();
+        }
+
         public void StopMovement() {
             this._movementAudioSource.Stop();
         }
 
         public void StopCollision() {
             this._collisionAudioSource.Stop();
+        }
+
+        public void StopMisc() {
+            this._miscAudioSource.Stop();
         }
 
         private void AddAudioSource() {
@@ -54,6 +67,11 @@
             this._collisionAudioSource.rolloffMode = AudioRolloffMode.Linear;
             this._collisionAudioSource.volume = 0.2f;
             this._collisionAudioSource.playOnAwake = false;
+
+            this._miscAudioSource = this.gameObject.AddComponent<AudioSource>() as AudioSource;
+            this._miscAudioSource.rolloffMode = AudioRolloffMode.Linear;
+            this._miscAudioSource.volume = 0.35f;
+            this._miscAudioSource.playOnAwake = false;
         }
     }
 }

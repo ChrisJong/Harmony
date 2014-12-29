@@ -18,7 +18,7 @@
         public bool isEnabled = false;
 
         private float _timer = 0.0f;
-        private float _maxTimer = 1.0f;
+        private float _maxTimer = 0.5f;
 
         void Update() {
             if(this.isEnabled) {

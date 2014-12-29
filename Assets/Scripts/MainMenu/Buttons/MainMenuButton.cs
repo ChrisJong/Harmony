@@ -133,10 +133,10 @@
                 this._blockMaterials[1] = this.iconExit;
                 this._renderer.materials = this._blockMaterials;
                 
-                if(LevelSelectController.instance.currentPage >= LevelSelectController.instance.totalPages) {
+                if(LevelSelectController.instance.currentPage < LevelSelectController.instance.totalPages) {
                     LevelSelectController.instance.currentPage += 1;
                 } else {
-                    LevelSelectController.instance.currentPage = 1;
+                    LevelSelectController.instance.currentPage = LevelSelectController.instance.totalPages - 1;
                 }
                 break;
 
@@ -314,10 +314,10 @@
                     this._blockMaterials[1] = this.iconExit;
                     this._renderer.materials = this._blockMaterials;
 
-                    if(LevelSelectController.instance.currentPage >= LevelSelectController.instance.totalPages) {
+                    if(LevelSelectController.instance.currentPage < LevelSelectController.instance.totalPages) {
                         LevelSelectController.instance.currentPage += 1;
                     } else {
-                        LevelSelectController.instance.currentPage = 1;
+                        LevelSelectController.instance.currentPage = LevelSelectController.instance.totalPages - 1;
                     }
                     break;
 

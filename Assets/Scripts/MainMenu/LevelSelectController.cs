@@ -27,16 +27,20 @@
         private int _totalBlocks = 48;
         private int _blocksPerPage = 24;
         private int _count = 0;
+        private GameObject[] _aLevelBlocks;
         private List<GameObject> _levelBlocks;
 
         void Awake() {
             instance = this;
             thisObject = this.transform.gameObject;
             this._count = 0;
-            this._totalBlocks = this._row * this._col;
-            this._blocksPerPage = (this._row * this._col) / 2;
+            //this._totalBlocks = this._row * this._col;
+            //this._blocksPerPage = (this._row * this._col) / 2;
+            this._blocksPerPage = this._row * this._col;
+            this._totalBlocks = MazeInfo.MaxMazeLength;
             this.totalPages = this._totalBlocks / this._blocksPerPage;
             this.currentPage = 0;
+            this._aLevelBlocks = new GameObject[this._totalBlocks];
             this._levelBlocks = new List<GameObject>();
         }
 
@@ -45,18 +49,19 @@
         }
 
         void LateUpdate() {
-            if(this.currentPage == 0) {
+
+             if(this.currentPage == 0) {
                 this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(-2.5f, this.transform.position.y, this.transform.position.z), 6.0f * Time.deltaTime);
-            } else if(this.currentPage == 1) {
-                this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(-this.distanceBetweenPage + -2.5f, this.transform.position.y, this.transform.position.z), 6.0f * Time.deltaTime);
-            }
+             } else {
+                 this.transform.position = Vector3.Lerp(this.transform.position, new Vector3((-this.distanceBetweenPage * this.currentPage) + -2.5f, this.transform.position.y, this.transform.position.z), 6.0f * Time.deltaTime);
+             }
 
             if(this.currentPage <= 0) {
                 this.previousButton.GetComponent<MeshRenderer>().enabled = false;
                 this.previousButton.GetComponent<BoxCollider>().enabled = false;
                 this.nextButton.GetComponent<MeshRenderer>().enabled = true;
                 this.nextButton.GetComponent<BoxCollider>().enabled = true;
-            } else if(this.currentPage >= (totalPages - 1)) {
+            } else if(this.currentPage >= this.totalPages - 1) {
                 this.previousButton.GetComponent<MeshRenderer>().enabled = true;
                 this.previousButton.GetComponent<BoxCollider>().enabled = true;
                 this.nextButton.GetComponent<MeshRenderer>().enabled = false;
@@ -72,7 +77,7 @@
         private void SetupLevelBlocks() {
             GameObject block = null;
 
-            for(int i = 0; i < this.totalPages; i++) {
+            for(int i = 0; i < 3; i++) {
                 GameObject temp = Instantiate(ResourceManager.instance.mainMenuPlane) as GameObject;
                 temp.transform.parent = this.transform;
                 temp.transform.position = new Vector3(thisObject.transform.position.x + (i * this.distanceBetweenPage) + 2.5f, thisObject.gameObject.transform.position.y - 1.0f, thisObject.transform.position.z + 0.5f);
@@ -90,6 +95,7 @@
                             block.transform.position = new Vector3(thisObject.transform.position.x + c * 1, thisObject.gameObject.transform.position.y - r, thisObject.transform.position.z);
                         
                         block.transform.parent = thisObject.transform;
+                        this._aLevelBlocks[this._count] = block;
                         this._levelBlocks.Add(block);
 
                         this._count++;

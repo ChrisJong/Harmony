@@ -11,7 +11,7 @@ namespace GameInfo {
 
         public static Dictionary<int, MazeData> MazeMoveValue;
 
-        public static int MaxMazeLength = 48;
+        public static int MaxMazeLength = 72;
 
         public const string MazeName = "Maze";
         public static string PreviousMaze;
@@ -183,6 +183,7 @@ namespace GameInfo {
             BLOCK_MOVEMENT,
             PLAYER_COLLISION,
             PLAYER_MOVEMENT,
+			PLAYER_STUNNED,
             FIREWORK_EMIT,
             FIREWORK_EXPLOSION
         }

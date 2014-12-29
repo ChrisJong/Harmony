@@ -18,11 +18,13 @@
                 this.parentNode.isEnabled = true;
                 this.parentNode.blockMaterials[1] = this.parentNode.stunUpMaterial;
                 this.parentNode.blockRenderer.materials = this.parentNode.blockMaterials;
+                PlayerAudio.instance.PlayMisc();
             } else if(obj.tag == "AI") {
                 obj.GetComponent<AIController>().isStunned = true;
                 this.parentNode.isEnabled = true;
                 this.parentNode.blockMaterials[1] = this.parentNode.stunUpMaterial;
                 this.parentNode.blockRenderer.materials = this.parentNode.blockMaterials;
+                AIAudio.instance.PlayMisc();
             }
         }
 

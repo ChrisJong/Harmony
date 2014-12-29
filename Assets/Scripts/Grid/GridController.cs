@@ -153,7 +153,7 @@
             if(PlayerController.instance.isStunned || AIController.instance.isStunned){
                 this._stunTimer += Time.deltaTime;
 
-                if(this._stunTimer > 4.0f) {
+                if(this._stunTimer > 2.0f) {
                     PlayerController.instance.isStunned = false;
                     AIController.instance.isStunned = false;
                     this._moveCount++;
