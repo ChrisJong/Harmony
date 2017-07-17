@@ -145,7 +145,7 @@
             for(int i = 0; i < 4; i++) {
                 if(i == 0) {
                     GameObject wall = new GameObject("Wall");
-                    wall.AddComponent("BoxCollider");
+                    wall.AddComponent<BoxCollider>();
                     wall.transform.position = Vector3.zero;
                     wall.transform.parent = this.wallOrigin.transform;
                     wall.transform.localPosition = new Vector3(0, this._blockHeight * 0.5f, -zPos);
@@ -155,7 +155,7 @@
 
                 if(i == 1) {
                     GameObject wall = new GameObject("Wall");
-                    wall.AddComponent("BoxCollider");
+                    wall.AddComponent<BoxCollider>();
                     wall.transform.position = Vector3.zero;
                     wall.transform.parent = this.wallOrigin.transform;
                     wall.transform.localPosition = new Vector3(0, this._blockHeight * 0.5f, zPos);
@@ -165,7 +165,7 @@
 
                 if(i == 2) {
                     GameObject wall = new GameObject("Wall");
-                    wall.AddComponent("BoxCollider");
+                    wall.AddComponent<BoxCollider>();
                     wall.transform.position = Vector3.zero;
                     wall.transform.parent = this.wallOrigin.transform;
                     wall.transform.localPosition = new Vector3(xPos, this._blockHeight * 0.5f, 0);
@@ -175,7 +175,7 @@
 
                 if(i == 3) {
                     GameObject wall = new GameObject("Wall");
-                    wall.AddComponent("BoxCollider");
+                    wall.AddComponent<BoxCollider>();
                     wall.transform.position = Vector3.zero;
                     wall.transform.parent = this.wallOrigin.transform;
                     wall.transform.localPosition = new Vector3(-xPos, this._blockHeight * 0.5f, 0);

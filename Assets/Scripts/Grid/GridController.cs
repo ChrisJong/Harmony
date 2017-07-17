@@ -505,8 +505,8 @@
                 Collider[] colliders = Physics.OverlapSphere(this._explosionPosition, this._explosionRadius);
 
                 foreach(Collider hit in colliders) {
-                    if(hit && hit.rigidbody)
-                        hit.rigidbody.AddExplosionForce(50.0f, this._explosionPosition, this._explosionRadius, 3.0f);
+                    if(hit && hit.GetComponent<Rigidbody>())
+                        hit.GetComponent<Rigidbody>().AddExplosionForce(50.0f, this._explosionPosition, this._explosionRadius, 3.0f);
                 }
                 this._startDestruction = false;
             }

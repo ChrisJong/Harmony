@@ -24,7 +24,7 @@
             this._disableTouch = true;
 #endif
 
-            this._objectTexture = this.transform.guiTexture;
+            this._objectTexture = this.transform.GetComponent<GUITexture>();
             this.transform.position = new Vector3(0.0f, 0.0f, 0.1f);
             this._objectTexture.texture = this.buttonExit;
 

@@ -20,11 +20,11 @@
         private Material _materialCopy = null;
 
         void Start() {
-            this._materialCopy = new Material(this.renderer.sharedMaterial);
-            this.renderer.sharedMaterial = this._materialCopy;
+            this._materialCopy = new Material(this.GetComponent<Renderer>().sharedMaterial);
+            this.GetComponent<Renderer>().sharedMaterial = this._materialCopy;
 
             Vector2 size = new Vector2(1.0f / this.columns, 1.0f / this.rows);
-            this.renderer.sharedMaterial.SetTextureScale("_MainTex", size);
+            this.GetComponent<Renderer>().sharedMaterial.SetTextureScale("_MainTex", size);
         }
 
         void OnEnable() {
@@ -64,7 +64,7 @@
 
                         offset.Set(x, y);
 
-                        this.renderer.sharedMaterial.SetTextureOffset("_MainTex", offset);
+                        this.GetComponent<Renderer>().sharedMaterial.SetTextureOffset("_MainTex", offset);
                         yield return new WaitForSeconds(1.0f / this.framesPerSecond);
                     }
                 }

@@ -34,7 +34,7 @@
         void Awake() {
             this._blockText = this.transform.GetChild(0).GetComponent<TextMesh>() as TextMesh;
             this._blockMaterials = new Material[2];
-            this._renderer = this.renderer as MeshRenderer;
+            this._renderer = this.GetComponent<Renderer>() as MeshRenderer;
         }
 
         public void SetupSkin() {

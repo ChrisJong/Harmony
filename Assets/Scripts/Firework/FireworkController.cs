@@ -21,7 +21,7 @@
         }
 
         void Update() {
-            this._count = particleSystem.particleCount;
+            this._count = GetComponent<ParticleSystem>().particleCount;
 
             if(this._count < this._numberOfParticles) {
                 this.PlayExplosionAudio();

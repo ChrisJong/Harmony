@@ -39,8 +39,8 @@
             this.buttonStateText.text = "";
             this.billboardText.pixelOffset = new Vector2(GameMenuInfo.EndMainMenuButtonRect.x + 55.0f, GameMenuInfo.EndBillboardRect.y + (GameMenuInfo.EndBillboardHeight));
 
-            this.starAnimation.transform.guiTexture.pixelInset = GameMenuInfo.StarAnimationRect;
-            this.noStar.transform.guiTexture.pixelInset = GameMenuInfo.NoStarRect;
+            this.starAnimation.transform.GetComponent<GUITexture>().pixelInset = GameMenuInfo.StarAnimationRect;
+            this.noStar.transform.GetComponent<GUITexture>().pixelInset = GameMenuInfo.NoStarRect;
 
             this.menu.SetActive(true);
             this.endMenu.SetActive(false);

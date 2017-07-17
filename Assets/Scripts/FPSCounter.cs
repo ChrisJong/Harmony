@@ -11,7 +11,7 @@ public class FPSCounter : MonoBehaviour {
     private float timeLeft;
 
 	void Start () {
-        if(!guiText) {
+        if(!GetComponent<GUIText>()) {
             Debug.Log("framesPerSecond needs a GUIText component!");
             enabled = false;
             return;
@@ -26,7 +26,7 @@ public class FPSCounter : MonoBehaviour {
         ++frames;
 
         if(timeLeft <= 0.0f) {
-            guiText.text = "" + (accumlatedOverTime / frames).ToString("f2");
+            GetComponent<GUIText>().text = "" + (accumlatedOverTime / frames).ToString("f2");
             timeLeft = updateInterval;
             accumlatedOverTime = 0.0f;
             frames = 0;

@@ -15,7 +15,7 @@
                 foreach(Touch touch in Input.touches) {
                     curTouchID = touch.fingerId;
 
-                    if(this.guiTexture != null && (this.guiTexture.HitTest(touch.position))) {
+                    if(this.GetComponent<GUITexture>() != null && (this.GetComponent<GUITexture>().HitTest(touch.position))) {
                         if(touch.phase == TouchPhase.Began) {
                             this.OnTouchBegan();
                             this.touchID = curTouchID;

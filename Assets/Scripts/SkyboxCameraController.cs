@@ -15,7 +15,7 @@ public class SkyboxCameraController : MonoBehaviour {
         if(GameController.instance.gameState == GlobalInfo.GameState.INGAME)
             gridMapScript = GameObject.FindGameObjectWithTag("GridMap").GetComponent<GridMap>();
 
-        this._skyboxCamera = this.transform.camera;
+        this._skyboxCamera = this.transform.GetComponent<Camera>();
     }
 
     void Start() {
@@ -53,8 +53,8 @@ public class SkyboxCameraController : MonoBehaviour {
 
         transform.position = new Vector3(posX, posY, posZ);;
         transform.rotation = CameraInfo.CameraRotation;
-        camera.fieldOfView = fov;
-        camera.backgroundColor = CameraInfo.BackgroundColor;
+        GetComponent<Camera>().fieldOfView = fov;
+        GetComponent<Camera>().backgroundColor = CameraInfo.BackgroundColor;
     }
 
     private IEnumerator StartCamera() {
@@ -74,10 +74,10 @@ public class SkyboxCameraController : MonoBehaviour {
 
         tempSkyboxCamera = new GameObject("Skybox Camera");
         tempSkyboxCamera.AddComponent<Camera>();
-        tempSkyboxCamera.camera.clearFlags = CameraClearFlags.Skybox;
-        tempSkyboxCamera.camera.cullingMask = 0;
-        tempSkyboxCamera.camera.depth = Camera.main.depth - 1;
-        tempSkyboxCamera.camera.fieldOfView = 60.0f;
+        tempSkyboxCamera.GetComponent<Camera>().clearFlags = CameraClearFlags.Skybox;
+        tempSkyboxCamera.GetComponent<Camera>().cullingMask = 0;
+        tempSkyboxCamera.GetComponent<Camera>().depth = Camera.main.depth - 1;
+        tempSkyboxCamera.GetComponent<Camera>().fieldOfView = 60.0f;
         tempSkyboxCamera.tag = "SkyboxCamera";
         tempSkyboxCamera.AddComponent<Skybox>();
         tempSkyboxCamera.GetComponent<Skybox>().material = ResourceManager.instance.skyBox;

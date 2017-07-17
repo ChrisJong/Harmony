@@ -39,8 +39,8 @@
             namePos = credName.transform.position;
             roleTextMesh = credRole.transform.GetComponent<TextMesh>() as TextMesh;
             nameTextMesh = credName.transform.GetComponent<TextMesh>() as TextMesh;
-            credColor = credRole.renderer.material.color;
-            teamLogoColor = teamLogo.renderer.material.color;
+            credColor = credRole.GetComponent<Renderer>().material.color;
+            teamLogoColor = teamLogo.GetComponent<Renderer>().material.color;
 
             this.restartCredits();
         }
@@ -60,10 +60,10 @@
 		private void logoShow(){
 			if ((timer > 0.25f) && timer < 2.75f) {
 				teamLogoColor.a += 0.01f;
-				teamLogo.renderer.material.color = teamLogoColor;
+				teamLogo.GetComponent<Renderer>().material.color = teamLogoColor;
 			} else {
 				teamLogoColor.a -= 0.01f;
-				teamLogo.renderer.material.color = teamLogoColor;
+				teamLogo.GetComponent<Renderer>().material.color = teamLogoColor;
 			}
 		}
 
@@ -80,8 +80,8 @@
 				credColor.a += 0.02f;
 			}
 
-			credRole.renderer.material.color = credColor;
-			credName.renderer.material.color = credColor;
+			credRole.GetComponent<Renderer>().material.color = credColor;
+			credName.GetComponent<Renderer>().material.color = credColor;
 
 			if (rolePos == roleEndPos) {
 				rolePos = roleStartPos;
@@ -104,8 +104,8 @@
 			namePos = nameStartPos;
 			credName.transform.position = namePos;
 			credColor.a = 0.0f;
-			credRole.renderer.material.color = credColor;
-			credName.renderer.material.color = credColor;
+			credRole.GetComponent<Renderer>().material.color = credColor;
+			credName.GetComponent<Renderer>().material.color = credColor;
 			teamLogoColor.a = 0.0f;
 			timer = 0;
 		}

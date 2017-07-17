@@ -19,7 +19,7 @@ public class MainCameraController : MonoBehaviour {
         if(GameController.instance.gameState == GlobalInfo.GameState.INGAME)
             gridMapScript = GameObject.FindGameObjectWithTag("GridMap").GetComponent<GridMap>();
 
-        this._mainCamera = this.transform.camera;
+        this._mainCamera = this.transform.GetComponent<Camera>();
         this._mainCamera.fieldOfView = CameraInfo.MaxFOV;
     }
 
@@ -49,8 +49,8 @@ public class MainCameraController : MonoBehaviour {
         _position = new Vector3(posX, posY, posZ);
         transform.position = _position;
         transform.rotation = CameraInfo.CameraRotation;
-        camera.fieldOfView = fov;
-        camera.backgroundColor = CameraInfo.BackgroundColor;
+        GetComponent<Camera>().fieldOfView = fov;
+        GetComponent<Camera>().backgroundColor = CameraInfo.BackgroundColor;
     }
 
     private IEnumerator StartCamera(){
@@ -74,7 +74,7 @@ public class MainCameraController : MonoBehaviour {
 
         if(Camera.main != null) {
             tempMainCamera = Camera.main.gameObject;
-            tempMainCamera.camera.clearFlags = CameraClearFlags.Depth;
+            tempMainCamera.GetComponent<Camera>().clearFlags = CameraClearFlags.Depth;
             if(GameController.instance.gameState == GlobalInfo.GameState.MENU)
                 tempMainCamera.AddComponent<MainMenuCameraController>();
         } else {
@@ -101,7 +101,7 @@ public class MainCameraController : MonoBehaviour {
             lightDetails.shadowSoftness = 5.0f;
             lightDetails.shadowSoftnessFade = 2.0f;
 
-            tempMainCamera.camera.clearFlags = CameraClearFlags.Depth;
+            tempMainCamera.GetComponent<Camera>().clearFlags = CameraClearFlags.Depth;
             tempMainCamera.AddComponent<MainCameraController>();
         }
     }

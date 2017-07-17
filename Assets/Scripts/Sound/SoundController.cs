@@ -51,7 +51,7 @@
         }
 
         private void MusicPlayer() {
-            if(_currentSong.time >= audio.clip.length) {
+            if(_currentSong.time >= GetComponent<AudioSource>().clip.length) {
                 this.StartMusic(GameController.instance.gameState);
             } else
                 return;
